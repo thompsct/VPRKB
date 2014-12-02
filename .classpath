@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="SemSim"/>
+	<classpathentry kind="src" path="SemSimKB"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="resource/jdom.jar"/>
+	<classpathentry kind="lib" path="resource/libsbmlj.jar"/>
+	<classpathentry kind="lib" path="resource/owlapi-bin.jar"/>
+	<classpathentry kind="lib" path="resource/javax.xml.rpc-3.1.1.jar"/>
+	<classpathentry kind="lib" path="resource/axis-1.2.1.jar"/>
+	<classpathentry kind="lib" path="resource/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="resource/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="resource/jackson-annotations-2.2.3.jar"/>
+	<classpathentry kind="lib" path="resource/xercesImpl-2.11.0.jar"/>
+	<classpathentry kind="lib" path="resource/jcl-over-slf4j-1.6.4.jar"/>
+	<classpathentry kind="lib" path="resource/JENA/jena-arq-2.11.1.jar" sourcepath="C:/Users/chthompson/.m2/repository/org/apache/jena/jena-arq/2.11.1/jena-arq-2.11.1-sources.jar"/>
+	<classpathentry kind="lib" path="resource/JENA/jena-core-2.11.1.jar" sourcepath="C:/Users/chthompson/.m2/repository/org/apache/jena/jena-core/2.11.1/jena-core-2.11.1-sources.jar"/>
+	<classpathentry kind="lib" path="resource/JENA/jena-iri-1.0.1.jar"/>
+	<classpathentry kind="lib" path="resource/JENA/jena-sdb-1.4.1.jar"/>
+	<classpathentry kind="lib" path="resource/JENA/jena-tdb-1.0.1.jar"/>
+	<classpathentry kind="lib" path="resource/httpclient-4.2.3.jar"/>
+	<classpathentry kind="lib" path="resource/httpcore-4.2.2.jar"/>
+	<classpathentry kind="lib" path="resource/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="resource/JSim/JSimClient.jar"/>
+	<classpathentry kind="lib" path="resource/JSim/JSimServer.jar"/>
+	<classpathentry kind="lib" path="resource/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="resource/mysql-connector-java-5.1.29-bin.jar"/>
+	<classpathentry kind="lib" path="resource/slf4j/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="resource/slf4j/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="resource/slf4j/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

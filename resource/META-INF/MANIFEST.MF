@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Title: Apache Jena - IRI
+Implementation-Version: 1.0.1
+Implementation-Vendor-Id: org.apache.jena
+Built-By: afs
+Build-Jdk: 1.7.0_25
+Specification-Vendor: The Apache Software Foundation
+Specification-Title: Apache Jena - IRI
+Created-By: Apache Maven 3.1.1
+Specification-Version: 1.0.1
+Archiver-Version: Plexus Archiver
+

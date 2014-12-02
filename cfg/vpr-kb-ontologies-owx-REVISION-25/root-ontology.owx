@@ -1,0 +1,678 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.bhi.washington.edu/SemSim"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.bhi.washington.edu/SemSim">
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/creator"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">system</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Project to connect models and datasets using  semantic annotation.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/date"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#dateTime">Jan 30, 2014 8:37:54 AM</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/creator"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">CThompson</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://protege.stanford.edu/webprotege/revision"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">25</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">This ontology was generated from an ontology revision in WebProtégé http://webprotege.stanford.edu</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="http://webprotege.stanford.edu/R74fLkQoDvZhIKUKag4Jf8L"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://webprotege.stanford.edu/R7lSZydP88nh1zyLWCtdZYM"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://webprotege.stanford.edu/RDUOwG281ViJIMeVOVecKh"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://webprotege.stanford.edu/Rmil7QHRTWHK10qseAV1ui"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Composite_physical_entity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Custom_physical_dependency"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Custom_physical_process"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical_dependency"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical_entity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical_model_component"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical_process"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical_property"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Reference_physical_dependency"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Reference_physical_entity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Reference_physical_process"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SemSim_component"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#MMLDerivativeOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#component_in"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#composed_of"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#determines"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasComputationalComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasIndexEntity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasInput"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasMMLDerivative"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasOutput"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasParticipant"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPhysicalProperty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRolePlayer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSolutionDomain"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasUnit"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isComputationalComponentFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDeterminedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIndexEntityFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isInputFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isOutputFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#physicalPropertyOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#rolePlayerIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#solutionDomainFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#unitFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contained_in"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contains"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#has_part"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#part_of"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasComputationalCode"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCustomDeclaration"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#humanReadableName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#importedFrom"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#isDeclared"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#isDiscrete"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#isFundamentalUnit"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nonCompositeAnnotationHumanReadableName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nonCompositeAnnotationReferenceOntologyURI"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nonCompositeAnnotationRefersTo"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#referenceOntologyURI"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#referencePublication"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#refersTo"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="http://webprotege.stanford.edu/R74fLkQoDvZhIKUKag4Jf8L"/>
+        <Class IRI="http://webprotege.stanford.edu/R7lSZydP88nh1zyLWCtdZYM"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://webprotege.stanford.edu/R7lSZydP88nh1zyLWCtdZYM"/>
+        <Class IRI="#Physical_model_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://webprotege.stanford.edu/RDUOwG281ViJIMeVOVecKh"/>
+        <Class IRI="http://webprotege.stanford.edu/R7lSZydP88nh1zyLWCtdZYM"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://webprotege.stanford.edu/Rmil7QHRTWHK10qseAV1ui"/>
+        <Class IRI="#SemSim_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Composite_physical_entity"/>
+        <Class IRI="#Physical_entity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Custom_physical_dependency"/>
+        <Class IRI="#Physical_dependency"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Custom_physical_process"/>
+        <Class IRI="#Physical_process"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical_dependency"/>
+        <Class IRI="#Physical_model_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical_entity"/>
+        <Class IRI="#Physical_model_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical_model_component"/>
+        <Class IRI="#SemSim_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical_process"/>
+        <Class IRI="#Physical_model_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical_property"/>
+        <Class IRI="#Physical_model_component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Reference_physical_dependency"/>
+        <Class IRI="#Physical_dependency"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Reference_physical_entity"/>
+        <Class IRI="#Physical_entity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Reference_physical_process"/>
+        <Class IRI="#Physical_process"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Composite_physical_entity"/>
+        <Class IRI="#Reference_physical_entity"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Custom_physical_dependency"/>
+        <Class IRI="#Reference_physical_dependency"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Custom_physical_process"/>
+        <Class IRI="#Reference_physical_process"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_dependency"/>
+        <Class IRI="#Physical_entity"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_dependency"/>
+        <Class IRI="#Physical_process"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_dependency"/>
+        <Class IRI="#Physical_property"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_entity"/>
+        <Class IRI="#Physical_process"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_entity"/>
+        <Class IRI="#Physical_property"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Physical_process"/>
+        <Class IRI="#Physical_property"/>
+    </DisjointClasses>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasMMLDerivative"/>
+        <ObjectProperty IRI="#MMLDerivativeOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#composed_of"/>
+        <ObjectProperty IRI="#component_in"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isDeterminedBy"/>
+        <ObjectProperty IRI="#determines"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasComputationalComponent"/>
+        <ObjectProperty IRI="#isComputationalComponentFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIndexEntityFor"/>
+        <ObjectProperty IRI="#hasIndexEntity"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isInputFor"/>
+        <ObjectProperty IRI="#hasInput"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isOutputFor"/>
+        <ObjectProperty IRI="#hasOutput"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPhysicalProperty"/>
+        <ObjectProperty IRI="#physicalPropertyOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#rolePlayerIn"/>
+        <ObjectProperty IRI="#hasRolePlayer"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#solutionDomainFor"/>
+        <ObjectProperty IRI="#hasSolutionDomain"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#unitFor"/>
+        <ObjectProperty IRI="#hasUnit"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contained_in"/>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contains"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#part_of"/>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#has_part"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#MMLDerivativeOf"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasIndexEntity"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasUnit"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isIndexEntityFor"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#hasIndexEntity"/>
+    </InverseFunctionalObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+    </SymmetricObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#determines"/>
+        <Class IRI="#Physical_dependency"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasComputationalComponent"/>
+        <ObjectUnionOf>
+            <Class IRI="#Physical_dependency"/>
+            <Class IRI="#Physical_property"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasIndexEntity"/>
+        <Class IRI="#Composite_physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasParticipant"/>
+        <Class IRI="#Physical_process"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPhysicalProperty"/>
+        <ObjectUnionOf>
+            <Class IRI="#Physical_entity"/>
+            <Class IRI="#Physical_process"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRolePlayer"/>
+        <Class IRI="#Physical_dependency"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDeterminedBy"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#physicalPropertyOf"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#rolePlayerIn"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contained_in"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contains"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#has_part"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#part_of"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#determines"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasParticipant"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPhysicalProperty"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRolePlayer"/>
+        <Class IRI="#Physical_property"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isComputationalComponentFor"/>
+        <ObjectUnionOf>
+            <Class IRI="#Physical_dependency"/>
+            <Class IRI="#Physical_property"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDeterminedBy"/>
+        <Class IRI="#Physical_dependency"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIndexEntityFor"/>
+        <Class IRI="#Composite_physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#physicalPropertyOf"/>
+        <ObjectUnionOf>
+            <Class IRI="#Physical_entity"/>
+            <Class IRI="#Physical_process"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#rolePlayerIn"/>
+        <Class IRI="#Physical_dependency"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contained_in"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#contains"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#has_part"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.obofoundry.org/ro/ro.owl#part_of"/>
+        <Class IRI="#Physical_entity"/>
+    </ObjectPropertyRange>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasComputationalCode"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasCustomDeclaration"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#humanReadableName"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#isDeclared"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#isDiscrete"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nonCompositeAnnotationHumanReadableName"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nonCompositeAnnotationReferenceOntologyURI"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nonCompositeAnnotationRefersTo"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#referenceOntologyURI"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#referencePublication"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#refersTo"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#referenceOntologyURI"/>
+        <Class IRI="#Physical_model_component"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#refersTo"/>
+        <Class IRI="#Physical_model_component"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasComputationalCode"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCustomDeclaration"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#humanReadableName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#importedFrom"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#isDeclared"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#isDiscrete"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#isFundamentalUnit"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nonCompositeAnnotationHumanReadableName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nonCompositeAnnotationReferenceOntologyURI"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nonCompositeAnnotationRefersTo"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#referenceOntologyURI"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#referencePublication"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#refersTo"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://webprotege.stanford.edu/R74fLkQoDvZhIKUKag4Jf8L</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">DB_Physical_Entity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://webprotege.stanford.edu/R7lSZydP88nh1zyLWCtdZYM</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">DB_Physical_Component</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://webprotege.stanford.edu/RDUOwG281ViJIMeVOVecKh</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">DB_Physical_Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://webprotege.stanford.edu/Rmil7QHRTWHK10qseAV1ui</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Database entry for a computational biology model.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://webprotege.stanford.edu/Rmil7QHRTWHK10qseAV1ui</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Computational_Biology_Model</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Composite_physical_entity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical entity that is defined by linking multiple physical entity terms with structural relations (part_of, contained_in).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Custom_physical_dependency</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical dependency defined in a specific SemSim model.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Custom_physical_process</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical process defined in a specific SemSim model.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Physical_dependency</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A quantitative relation between values of physical properties that occurs over a span of time and that determines the time-course of a physical process.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Physical_model_component</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A SemSim model element used to represent, in whole or in part, the physical meaning of a computational element.  </Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Physical_property</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">An attribute of an instance of a physical entity or process that has a quantitative value that could be measured by a physical device, or computed from such measures.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Reference_physical_dependency</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical dependency that is defined using a term in an external reference ontology.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Reference_physical_entity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical entity that is defined using a term in an external reference ontology.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Reference_physical_process</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A physical process that is defined using a term in an external reference ontology.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SemSim_component</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A computational or physical element of a SemSim model.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.8) http://owlapi.sourceforge.net -->
+

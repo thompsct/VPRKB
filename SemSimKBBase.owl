@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.virtualrat.org/vprkb#"
+     xml:base="http://www.virtualrat.org/vprkb"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:webprotege="http://protege.stanford.edu/webprotege/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.virtualrat.org/vprkb">
+        <webprotege:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</webprotege:revision>
+        <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">Apr 9, 2014 2:31:16 PM</dc:date>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Base types for vpr kb</rdfs:comment>
+        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CThompson</dc:creator>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This ontology was generated from an ontology revision in WebProtégé http://webprotege.stanford.edu</rdfs:comment>
+        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">system</dc:creator>
+        <owl:versionIRI rdf:resource="http://www.virtualrat.org/vprkb/1.0.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#component_in -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#component_in"/>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#composed_of -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#composed_of">
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#component_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#determines -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#determines">
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_dependency"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasInput -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasInput"/>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasOutput -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasOutput"/>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasParticipant -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasParticipant">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasPhysicalProperty -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasPhysicalProperty">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#physicalPropertyOf"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+                    <rdf:Description rdf:about="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasRolePlayer -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasRolePlayer">
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_dependency"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#hasUnit -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#hasUnit">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#isDeterminedBy -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#isDeterminedBy">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_dependency"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#determines"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#isInputFor -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#isInputFor">
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#hasInput"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#isOutputFor -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#isOutputFor">
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#hasOutput"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#physicalPropertyOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#physicalPropertyOf">
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+                    <rdf:Description rdf:about="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#rolePlayerIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#rolePlayerIn">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_dependency"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#hasRolePlayer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#unitFor -->
+
+    <owl:ObjectProperty rdf:about="http://www.bhi.washington.edu/SemSim#unitFor">
+        <owl:inverseOf rdf:resource="http://www.bhi.washington.edu/SemSim#hasUnit"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.obofoundry.org/ro/ro.owl#adjacent_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#adjacent_to">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <owl:inverseOf rdf:resource="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.obofoundry.org/ro/ro.owl#contained_in -->
+
+    <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#contained_in">
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <owl:inverseOf rdf:resource="http://www.obofoundry.org/ro/ro.owl#contains"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.obofoundry.org/ro/ro.owl#contains -->
+
+    <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#contains">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.obofoundry.org/ro/ro.owl#has_part -->
+
+    <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#has_part">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.obofoundry.org/ro/ro.owl#part_of -->
+
+    <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#part_of">
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <owl:inverseOf rdf:resource="http://www.obofoundry.org/ro/ro.owl#has_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#humanReadableName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#humanReadableName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#isDeclared -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#isDeclared">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#isDiscrete -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#isDiscrete">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationHumanReadableName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationHumanReadableName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationReferenceOntologyURI -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationReferenceOntologyURI">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationRefersTo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#nonCompositeAnnotationRefersTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#referenceOntologyURI -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#referenceOntologyURI">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#referencePublication -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#referencePublication">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#refersTo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.bhi.washington.edu/SemSim#refersTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Composite_physical_entity -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Composite_physical_entity">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_entity"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical entity that is defined by linking multiple physical entity terms with structural relations (part_of, contained_in).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Custom_physical_process -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Custom_physical_process">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_process"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical process defined in a specific SemSim model.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Physical_dependency -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Physical_dependency">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A quantitative relation between values of physical properties that occurs over a span of time and that determines the time-course of a physical process.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Physical_entity -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Physical_entity">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Physical_model_component -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Physical_model_component">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#SemSim_component"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A SemSim model element used to represent, in whole or in part, the physical meaning of a computational element.  </rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Physical_process -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Physical_process">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <owl:disjointWith rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Physical_property -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Physical_property">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An attribute of an instance of a physical entity or process that has a quantitative value that could be measured by a physical device, or computed from such measures.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Reference_physical_dependency -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Reference_physical_dependency">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_dependency"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical dependency that is defined using a term in an external reference ontology.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Reference_physical_entity -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Reference_physical_entity">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical entity that is defined using a term in an external reference ontology.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Reference_physical_process -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Reference_physical_process">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_process"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical process that is defined using a term in an external reference ontology.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#Reference_physical_property -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#Reference_physical_property">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A physical property that is defined using a term in an external reference ontology.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim#SemSim_component -->
+
+    <owl:Class rdf:about="http://www.bhi.washington.edu/SemSim#SemSim_component">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A computational or physical element of a SemSim model.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.virtualrat.org/vprkb#Computational_Biology_Model -->
+
+    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#Computational_Biology_Model">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#SemSim_component"/>
+        <rdfs:comment>An entry in the knowledge base representing a unique computational model.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Entity -->
+
+    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Entity">
+        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component"/>
+        <owl:disjointWith rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Model_Component -->
+
+    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Process -->
+
+    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Process">
+        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.virtualrat.org/vprkb#Knowledge_Base -->
+
+    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#Knowledge_Base">
+        <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#SemSim_component"/>
+        <rdfs:comment>A relational database for computational models and associated datasets annotated with semantic annotations.</rdfs:comment>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0-SNAPSHOT) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Apache Jena
+Implementation-Title: Apache Jena - Fuseki (SPARQL 1.1 Server)
+Implementation-Version: 1.0.1
+Implementation-Vendor-Id: org.apache.jena
+Specification-Vendor: Apache Jena
+Build-Jdk: 1.7.0_25
+Built-By: afs
+Created-By: Apache Maven 3.1.1
+Specification-Title: Apache Jena - Fuseki (SPARQL 1.1 Server)
+Specification-Version: 1.0.1
+Main-Class: org.apache.jena.fuseki.FusekiCmd
+Archiver-Version: Plexus Archiver
+
