@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.jdom.JDOMException;
 
-import semsim.Annotatable;
+import semsimKB.Annotatable;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;

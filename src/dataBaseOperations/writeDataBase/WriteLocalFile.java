@@ -8,8 +8,8 @@ import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.model.KnowledgeBase;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBPhysicalComponent;
+import vprExplorer.buffer.KBBufferOperations;
 import vprExplorer.common.fileio;
-import vprKBExplorer.Buffer.KBBufferOperations;
 
 public class WriteLocalFile {
 	KnowledgeBase localKB;

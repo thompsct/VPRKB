@@ -8,10 +8,10 @@ import javax.swing.*;
 
 import org.apache.jena.atlas.logging.Log;
 
-import vprKBDataSetTab.DatasetTab;
-import vprKBEditorTab.EditorTab;
-import vprKBModelTab.VPRKBAddModelPane;
-import vprKBUtilitiesTab.UtilitiesTab;
+import vprExplorer.datasettab.DatasetTab;
+import vprExplorer.editortab.EditorTab;
+import vprExplorer.modeltab.VPRKBAddModelPane;
+import vprExplorer.utilitiestab.UtilitiesTab;
 
 import java.io.*;
 

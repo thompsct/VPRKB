@@ -13,13 +13,13 @@ import java.util.Set;
 
 import javax.swing.DefaultListModel;
 
-import semsim.Annotatable;
 import semsim.model.physical.CustomPhysicalEntity;
 import semsim.model.physical.CustomPhysicalProcess;
 import semsim.model.physical.PhysicalEntity;
 import semsim.model.physical.PhysicalModelComponent;
 import semsim.model.physical.PhysicalProcess;
 import semsim.model.physical.ReferencePhysicalProcess;
+import semsimKB.Annotatable;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;

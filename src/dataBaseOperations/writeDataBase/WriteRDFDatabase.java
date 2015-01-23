@@ -9,7 +9,7 @@ import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.webservices.VPRSPARQLWrite;
 import vprExplorer.Globals;
-import vprKBExplorer.Buffer.KBBufferOperations;
+import vprExplorer.buffer.KBBufferOperations;
 
 public class WriteRDFDatabase {
 	Globals globals;
