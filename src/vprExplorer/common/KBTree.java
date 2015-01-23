@@ -10,7 +10,6 @@ import javax.swing.tree.DefaultTreeModel;
 import dataBaseOperations.readDataBase.ReadRDFDatabase;
 import semsimKB.SemSimKBConstants;
 import vprExplorer.Globals;
-import vprKB.webserverices.vprSPARQL;
 
 public class KBTree extends DefaultTreeModel {
 	private static final long serialVersionUID = 1L;

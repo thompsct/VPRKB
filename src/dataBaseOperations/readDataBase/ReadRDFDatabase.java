@@ -3,6 +3,9 @@ package dataBaseOperations.readDataBase;
 import java.net.URI;
 import java.util.LinkedList;
 
+
+
+
 import semsimKB.SemSimKBConstants;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
@@ -10,8 +13,8 @@ import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
+import semsimKB.webservices.vprSPARQL;
 import vprExplorer.Globals;
-import vprKB.webserverices.vprSPARQL;
 
 public class ReadRDFDatabase extends KBReader {
 	Globals globals;

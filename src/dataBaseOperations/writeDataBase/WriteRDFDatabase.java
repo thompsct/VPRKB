@@ -7,8 +7,8 @@ import semsimKB.SemSimKBConstants;
 import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBPhysicalComponent;
+import semsimKB.webservices.VPRSPARQLWrite;
 import vprExplorer.Globals;
-import vprKB.webserverices.VPRSPARQLWrite;
 import vprKBExplorer.Buffer.KBBufferOperations;
 
 public class WriteRDFDatabase {

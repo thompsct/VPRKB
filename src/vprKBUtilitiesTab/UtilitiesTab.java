@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import semsimKB.webservices.VPRSPARQLWrite;
 import vprExplorer.Globals;
-import vprKB.webserverices.VPRSPARQLWrite;
 
 public class UtilitiesTab extends JPanel implements ActionListener {
 
