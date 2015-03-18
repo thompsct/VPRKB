@@ -8,6 +8,12 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import org.apache.commons.httpclient.Credentials;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
+
 import vprExplorer.Globals;
 
 import com.hp.hpl.jena.query.Query;
@@ -24,27 +30,32 @@ import com.hp.hpl.jena.shared.impl.PrefixMappingImpl;
 
 
 public class vprSPARQL {
-	 String host;
-	 String server = "http://localhost:3030/VPRKB/";
-	 PrefixMappingImpl pmap = new PrefixMappingImpl();
-	 LinkedList<String> prefixes = new LinkedList<String>();
+	protected HttpClient client = new HttpClient();
+	 protected String host;
+	 protected String server = "http://141.214.24.101:80/vprkb/";
+	 protected PrefixMappingImpl pmap = new PrefixMappingImpl();
+	 protected LinkedList<String> prefixes = new LinkedList<String>();
 	 protected Globals globals;
 	 protected QueryExecution qef;
 	 protected Model base, model;
 	 protected static SPARQLConstants cons = new SPARQLConstants();
 	 protected ResultSet results;
+	 protected SimpleAuthenticator auth = new SimpleAuthenticator("vprkbuser", "virtual@rat".toCharArray());
 
 	 public vprSPARQL(Globals global) {
 		 globals = global;
 		 host = server + "query";
 		 if (TestServerConnection()==0) {
+			 provideCredentials();
 			 loadPrefixes();
 		 }
 	 }
 	 
+	 
+	 
 	 public int TestServerConnection() {
 		
-		try (Socket s = new Socket("localhost", 3030)) {
+		try (Socket s = new Socket("141.214.24.101", 80)) {
 			System.out.println("Server Connection Verified");
 			return 0;
 		}
@@ -54,6 +65,12 @@ public class vprSPARQL {
 		
 	 	return -1;
 	}
+	 
+	protected void provideCredentials() {
+		 client.getParams().setAuthenticationPreemptive(true);
+		 Credentials cred = new UsernamePasswordCredentials("vprkbuser", "virtual@rat");
+		 client.getState().setCredentials(new AuthScope("141.214.24.101", 80, AuthScope.ANY_REALM), cred);
+	 }
 	
 	protected int loadPrefixes() {
 		File prefixtxt = new File("cfg/SPARQLHeader.txt");
@@ -88,7 +105,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		if (qef.execAsk())	return true;
 		return false;
@@ -106,8 +123,8 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
-		
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
+
 		results = qef.execSelect();
 		return 0;
 	}
@@ -124,7 +141,7 @@ public class vprSPARQL {
 		
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query, auth);
 
 		ResultSet result = qef.execSelect();
 		
@@ -139,7 +156,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		model = qef.execDescribe();
 		return 0;
@@ -158,7 +175,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		ResultSet result = qef.execSelect();
 		String request;
@@ -199,7 +216,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		ResultSet result = qef.execSelect();
 		LinkedList<String> request;
@@ -237,7 +254,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		ResultSet result = qef.execSelect();
 		String cnt = parseLiteral("?count", result);
@@ -253,7 +270,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		ResultSet result = qef.execSelect();
 		return getResultsasStrings("?property", result);
@@ -269,7 +286,7 @@ public class vprSPARQL {
 		Query query = QueryFactory.create(qs);
 		query.setPrefixMapping(pmap);
 		
-		qef = QueryExecutionFactory.sparqlService(host, query);
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 		
 		ResultSet result = qef.execSelect();
 		return getResultsasStrings("?model", result);

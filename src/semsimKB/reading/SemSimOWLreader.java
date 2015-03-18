@@ -38,17 +38,25 @@ import semsimKB.owl.SemSimOWLFactory;
 
 public class SemSimOWLreader {
 	private ModelLite KBModel;
+	private OWLOntology ont;
 	private OWLDataFactory factory;
 	private Map<URI, PhysicalModelComponent> URIandPMCmap = new HashMap<URI, PhysicalModelComponent>();	
 	private Map<URI, PhysicalProperty> ppmap = new HashMap<URI, PhysicalProperty>();
+	
 	public ModelLite readFromFile(File file, ModelLite model) throws OWLException, CloneNotSupportedException{
 		KBModel = model;
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
-		OWLOntology ont = manager.loadOntologyFromOntologyDocument(file);
+		ont = manager.loadOntologyFromOntologyDocument(file);
 
 		KBModel.setName(file.getName().substring(0, file.getName().lastIndexOf(".")));
 		KBModel.setURI(URI.create(SemSimKBConstants.SEMSIM_NAMESPACE + KBModel.getName()));
+		
+		OWLClass topclass = factory.getOWLClass(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "SemSim_component"));
+		if(!ont.getClassesInSignature().contains(topclass)){
+			KBModel.addError("Source file does not appear to be a valid SemSim model");
+			return KBModel;
+		}
 		// Get model-level annotations
 		for(OWLAnnotation ann : ont.getAnnotations()){
 			URI propertyuri = ann.getProperty().getIRI().toURI();
@@ -61,11 +69,7 @@ public class SemSimOWLreader {
 				}
 				else if((ann.getValue() instanceof IRI) || (ann.getValue() instanceof OWLAnonymousIndividual)) continue;
 		}
-		OWLClass topclass = factory.getOWLClass(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "SemSim_component"));
-		if(!ont.getClassesInSignature().contains(topclass)){
-			KBModel.addError("Source file does not appear to be a valid SemSim model");
-			return KBModel;
-		}
+
 		
 		for(String dsind : SemSimOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.DATA_STRUCTURE_CLASS_URI.toString())){
 			String propind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, dsind, SemSimKBConstants.IS_COMPUTATIONAL_COMPONENT_FOR_URI.toString());

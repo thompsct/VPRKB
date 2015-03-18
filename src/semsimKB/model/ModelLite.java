@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.DefaultListModel;
 
 import semsim.model.physical.CustomPhysicalEntity;
 import semsim.model.physical.CustomPhysicalProcess;
@@ -441,14 +438,13 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 		return null;
 	}
 	
-	public void getCompositeNames(DefaultListModel<String> listModel) {
-		Set<CompositePhysicalEntity> comps = getCompositePhysicalEntities();
+	public ArrayList<String> getCompositeNames() {
+		ArrayList<String> compnames = new ArrayList<String>();
 		
-		for (Iterator<CompositePhysicalEntity> it = comps.iterator(); it.hasNext();) {
-			CompositePhysicalEntity comp = it.next();
-			listModel.addElement(comp.getName());
-
+		for (CompositePhysicalEntity cpe : getCompositePhysicalEntities()) {
+			compnames.add(cpe.getName());
 		}
+		return compnames;
 	}		
 	
 		

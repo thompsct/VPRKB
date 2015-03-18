@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 
 import dataBaseOperations.readDataBase.KBReader;
@@ -38,8 +37,8 @@ public class VPRKBModelCallBack {
 
 	Globals globals;
 	KBBufferOperations KBBuffer;
-	ModelLite curmodel = new ModelLite();;
-	ModelList ModelCompList;
+	ModelLite curmodel = new ModelLite();
+	ModelList ModelCompList = new ModelList();
 	KBModelList dbListModel;
 	SemSimModelTable ssmodtable;
 	KBModelTable kbmodtable;
@@ -66,7 +65,6 @@ public class VPRKBModelCallBack {
 	}
 	
 	public ModelList initSemSimListModel() {
-		ModelCompList = new ModelList();
 		updateList(ModelCompList);
 		return ModelCompList;
 	}
@@ -177,8 +175,7 @@ public class VPRKBModelCallBack {
 
 		public void DisplayComponents() {
 			if (getSize()==0) {
-				DefaultListModel<String> compositelist = new DefaultListModel<String>();
-			    curmodel.getCompositeNames(compositelist);
+				ArrayList<String> compositelist = curmodel.getCompositeNames();
 			    for (Object cname : compositelist.toArray()) {
 			    	addElement(new Object[]{cname});		    	
 			    }
@@ -460,7 +457,7 @@ public class VPRKBModelCallBack {
 			
 			private static final long serialVersionUID = 1L;
 
-				public kbComposites(String[] colnames, List<Object[]> table) {
+			public kbComposites(String[] colnames, List<Object[]> table) {
 				super(colnames, table);
 			}
 

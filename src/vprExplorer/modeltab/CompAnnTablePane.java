@@ -22,11 +22,11 @@ public class CompAnnTablePane extends JPanel {
 	//Composite table panel initialization
 	public CompAnnTablePane(Dimension prefsize, VPRKBModelCallBack cb) {
 		super(new BorderLayout());
+		callback = cb;
 		setPreferredSize(prefsize);
 		setBorder(BorderFactory.createLoweredBevelBorder());
 		
 		Dimension tableDim = new Dimension(getPreferredSize().width/2,getPreferredSize().height);
-		callback = cb;
 		
 		compAnnTable = new KBTable(callback.initSemSimCompTable(), tableDim, false);				
 		kbcompAnnTable = new KBTable(callback.initKBComponentTable(), tableDim, true);

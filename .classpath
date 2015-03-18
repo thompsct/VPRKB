@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="resource/DJNativeSwing-SWT.jar"/>
 	<classpathentry kind="lib" path="resource/DJNativeSwing.jar"/>
 	<classpathentry kind="lib" path="resource/commons-lang3-3.3.2.jar"/>
+	<classpathentry kind="lib" path="resource/commons-codec-1.10/commons-codec-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

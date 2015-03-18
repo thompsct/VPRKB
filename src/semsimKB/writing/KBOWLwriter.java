@@ -34,7 +34,7 @@ public class KBOWLwriter {
 	
 	protected KnowledgeBase kb;
 	private File destination;
-	public OWLOntologyManager manager;
+	private OWLOntologyManager manager;
 	protected OWLOntology ont;
 	public OWLDataFactory factory;
 	public Hashtable<PhysicalProperty,URI> propertiesandprocessuris = new Hashtable<PhysicalProperty,URI>(); 
@@ -46,8 +46,6 @@ public class KBOWLwriter {
 	public KBOWLwriter(KnowledgeBase masterKB, File localkb) {kb = masterKB; destination = localkb;}
 	
 	public OWLOntology createOWLOntologyFromModel() throws OWLException{
-		String namespace = vprbase;
-		
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 				
@@ -55,7 +53,7 @@ public class KBOWLwriter {
 		Set<OWLAxiom> allbaseaxioms = manager.loadOntologyFromOntologyDocument(new File("cfg/SemSimKBBase.owl")).getAxioms();
 		
 		
-		IRI ontiri = IRI.create(namespace.substring(0, namespace.length()-1));  // Gets rid of '#' at end of namespace
+		IRI ontiri = IRI.create(vprbase.substring(0, vprbase.length()-1));  // Gets rid of '#' at end of namespace
 		ont = manager.createOntology(allbaseaxioms, ontiri);
 
 		//First add the models

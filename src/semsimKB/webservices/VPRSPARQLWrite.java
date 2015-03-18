@@ -158,7 +158,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		UpdateRequest request = UpdateFactory.create();
 		request.setPrefixMapping(pmap);
 		request.add(ui);
-		UpdateProcessRemote upr = new UpdateProcessRemote(request, host, new Context());
+		UpdateProcessRemote upr = new UpdateProcessRemote(request, host, new Context(), auth);
 		upr.execute();
 	}
 	

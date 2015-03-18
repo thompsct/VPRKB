@@ -13,7 +13,7 @@ public class VPRKBAddModelPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JDialog mainDialog;
 	protected Dimension panedim;
-	private ModelTabLeft utilitiesTab;
+	private ModelTabLeft utilitiesTab = new ModelTabLeft();
 	private ModelTabRight adderTab;
 	Globals globals;
 
@@ -27,10 +27,8 @@ public class VPRKBAddModelPane extends JPanel {
 		setLayout(new BorderLayout());
 		
 		callback = new VPRKBModelCallBack(globals);
-		
-		utilitiesTab = new ModelTabLeft();		
-		//Right Panel	
 		adderTab = new ModelTabRight();
+		//Right Panel	
 			
 		this.add(utilitiesTab, BorderLayout.WEST);
 		this.add(adderTab, BorderLayout.CENTER);
@@ -66,37 +64,35 @@ public class VPRKBAddModelPane extends JPanel {
 	//Utilities Panel Layout - left side
 	private class ModelTabLeft extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
-		JPanel openPanel;
-		JLabel NSlabel;
-		JButton load;
+		JPanel openPanel = new JPanel();
+		JLabel NSlabel = new JLabel("No Model Loaded");
+		JButton load = new JButton("Load Model");
 		
 		public ModelTabLeft() {
 			super(new BorderLayout());
 			//Search Panel
-			openpanel(openPanel = new JPanel());
+			openpanel();
 			
 			setVisible(true);
 		}
 		
-		private void openpanel(JPanel openpane) {
+		private void openpanel() {
 			
-			openpane.setLayout(new GridBagLayout());
-			openpane.setPreferredSize(new Dimension(200, 200));
+			openPanel.setLayout(new GridBagLayout());
+			openPanel.setPreferredSize(new Dimension(200, 200));
 			
 			GridBagConstraints gbl = new GridBagConstraints();
 			
 			//Load Model Status Label
-			NSlabel = new JLabel("No Model Loaded");
 			NSlabel.setVisible(true);
 			gbl.fill = GridBagConstraints.HORIZONTAL;
 			gbl.weightx = 0.5;
 			gbl.gridx = 0;
 			gbl.gridy = 1;
 			gbl.anchor = GridBagConstraints.LINE_START;
-			openpane.add(NSlabel, gbl);
+			openPanel.add(NSlabel, gbl);
 			
 			//Open Button
-			load = new JButton("Load Model");
 			load.addActionListener(this);
 			load.setVisible(true);
 			gbl.fill = GridBagConstraints.HORIZONTAL;
@@ -104,7 +100,7 @@ public class VPRKBAddModelPane extends JPanel {
 			gbl.gridx = 0;
 			gbl.gridy = 0;
 			gbl.anchor = GridBagConstraints.FIRST_LINE_END;
-			openpane.add(load, gbl);
+			openPanel.add(load, gbl);
 					
 			add(openPanel, BorderLayout.NORTH);
 			setBorder(BorderFactory.createRaisedBevelBorder());

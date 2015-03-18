@@ -34,23 +34,20 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		GridBagConstraints gbl = new GridBagConstraints();
 		
 		//Model List Label
-		JLabel modcomplstlbl = new JLabel("Model Composite List");
-		modcomplstlbl.setVisible(true);
 		gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.5;
 		gbl.gridx = 0;
 		gbl.gridy = 0;
 		gbl.anchor = GridBagConstraints.FIRST_LINE_START;
-		add(modcomplstlbl, gbl);
+		add(new JLabel("Model Composite List"), gbl);
 		//DB Composite List
-		JLabel kbcomplstlbl = new JLabel("KB Composite List");
-		kbcomplstlbl.setVisible(true);
+
 		gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.5;
 		gbl.gridx = 2;
 		gbl.gridy = 0;
 		gbl.anchor = GridBagConstraints.FIRST_LINE_END;
-		add(kbcomplstlbl, gbl);
+		add(new JLabel("KB Composite List"), gbl);
 		
 		//Actions for adding elements of a model to the KB
 		JPanel modelActions = new JPanel();
