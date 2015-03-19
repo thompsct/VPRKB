@@ -7,8 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,12 +22,11 @@ import vprExplorer.common.KBTree;
 
 public class EditorTab extends JPanel {
 	private static final long serialVersionUID = 1L;
-	protected Dimension panedim;
-	Settings globals;
+	private Settings settings;
 	
-	public EditorTab(Dimension dim, Settings global) {
-		globals = global;
-		panedim = dim;
+	public EditorTab(Settings global) {
+		settings = global;
+		
 		setOpaque(false);
 		setLayout(new BorderLayout());
 		setVisible(true);
@@ -44,7 +41,7 @@ public class EditorTab extends JPanel {
 		protected JTree kbt; 
 		public EditTabLeft() {
 			super(new BorderLayout());
-			setPreferredSize(new Dimension(panedim.width/5, panedim.height));
+			setPreferredSize(new Dimension(settings.getScreenWidth()/5, settings.getScreenHeight()));
 			//Search Panel
 			searchPanel();
 			treeView();
@@ -53,14 +50,14 @@ public class EditorTab extends JPanel {
 		}
 
 		private void treeView() {
-			kbt = new JTree(new KBTree(globals));
+			kbt = new JTree(new KBTree(settings));
 			kbt.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			kbt.addTreeSelectionListener(this);
 			
 			JScrollPane treeView = new JScrollPane(kbt);
 			
 			JPanel treePane = new JPanel();
-			treePane.setPreferredSize(new Dimension(panedim.width, 5*panedim.height/6));
+			treePane.setPreferredSize(new Dimension(settings.getScreenWidth(), 5*settings.getScreenHeight()/6));
 			treePane.setBorder(BorderFactory.createEtchedBorder());
 			treePane.add(treeView);
 			add(treePane, BorderLayout.CENTER);
@@ -68,7 +65,7 @@ public class EditorTab extends JPanel {
 
 		private void searchPanel() {
 			JPanel srchPane = new JPanel(new GridBagLayout());
-			srchPane.setPreferredSize(new Dimension(panedim.width, panedim.height/6));
+			srchPane.setPreferredSize(new Dimension(settings.getScreenWidth(), settings.getScreenHeight()/6));
 						
 			GridBagConstraints gbl = new GridBagConstraints();
 			//Search Button

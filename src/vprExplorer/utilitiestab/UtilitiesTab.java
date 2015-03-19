@@ -1,7 +1,6 @@
 package vprExplorer.utilitiestab;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,15 +13,13 @@ import vprExplorer.Settings;
 public class UtilitiesTab extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	protected Dimension panedim;
-	protected JButton purge = new JButton("Purge KB");
-	Settings globals;
+	private JButton purge = new JButton("Purge KB");
+	private Settings settings;
 	
-	VPRSPARQLWrite sparql = new VPRSPARQLWrite(globals);
+	private VPRSPARQLWrite sparql = new VPRSPARQLWrite(settings);
 	
-	public UtilitiesTab(Dimension dim, Settings global) {
-		globals = global;
-		panedim = dim;
+	public UtilitiesTab(Settings global) {
+		settings = global;
 		setOpaque(false);
 		setLayout(new BorderLayout());
 		this.setVisible(true);

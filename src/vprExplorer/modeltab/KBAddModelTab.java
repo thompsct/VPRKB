@@ -7,22 +7,17 @@ import javax.swing.*;
 
 import vprExplorer.Settings;
 
-public class VPRKBAddModelPane extends JPanel {
+public class KBAddModelTab extends JPanel {
 
 	private VPRKBModelCallBack callback;
 	private static final long serialVersionUID = 1L;
-	public JDialog mainDialog;
-	protected Dimension panedim;
 	private ModelTabLeft utilitiesTab = new ModelTabLeft();
 	private ModelTabRight adderTab;
-	Settings settings;
-
-	public static int initwidth = 900;
-	public static int initheight = 720;
+	private Settings settings;
 	
-	public VPRKBAddModelPane(Dimension dim, Settings global) {
+	public KBAddModelTab(Settings global) {
 		settings = global;
-		panedim = dim;
+		
 		setOpaque(false);
 		setLayout(new BorderLayout());
 		
@@ -32,6 +27,7 @@ public class VPRKBAddModelPane extends JPanel {
 			
 		this.add(utilitiesTab, BorderLayout.WEST);
 		this.add(adderTab, BorderLayout.CENTER);
+		validate();
 		this.setVisible(true);
 		
 	}
@@ -44,7 +40,7 @@ public class VPRKBAddModelPane extends JPanel {
 		
 		public ModelTabRight() {
 			super(new BorderLayout());
-			setPreferredSize(panedim);
+			setPreferredSize(settings.getScreenDimensions());
 			Dimension subpanelsize = new Dimension(getPreferredSize().width, getPreferredSize().height/3);
 			
 			complistpanel = new ComponentListsPane(callback);	

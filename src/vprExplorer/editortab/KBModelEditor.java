@@ -1,4 +1,4 @@
-package vprExplorer.editorviews;
+package vprExplorer.editortab;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
