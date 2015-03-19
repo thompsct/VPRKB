@@ -30,7 +30,7 @@ import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class KBBufferOperations {
 	private KnowledgeBase buffer = new KnowledgeBase();
@@ -39,9 +39,9 @@ public class KBBufferOperations {
 	protected HashMap<URI, kbcomponentstatus> statusmap = new HashMap<>();
 	protected HashMap<URI, HashMap<URI, kbcomponentstatus>> dbcstatusmap = new HashMap<>();
 	protected URI curBioModelURI;
-	protected Globals globals;
+	protected Settings globals;
 		
-	public KBBufferOperations(KBReader ldb, Globals global) {
+	public KBBufferOperations(KBReader ldb, Settings global) {
 		kbsource = ldb; 
 		globals = global;
 	}
@@ -351,8 +351,8 @@ public class KBBufferOperations {
 	}	
 	
 	public void pushtoDatabase() {
-		Globals.service ser = globals.getService();
-		if (ser == Globals.service._FILE) {
+		Settings.service ser = globals.getService();
+		if (ser == Settings.service._FILE) {
 			WriteLocalFile writer = new WriteLocalFile(((ReadLocalFile)kbsource).getKB());
 			writer.pushChangestoDatabase(this);
 		}

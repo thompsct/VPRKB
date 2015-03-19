@@ -14,13 +14,13 @@ import semsimKB.model.physical.DBPhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.webservices.vprSPARQL;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class ReadRDFDatabase extends KBReader {
-	Globals globals;
+	Settings globals;
 	vprSPARQL sparql;
 	
-	public ReadRDFDatabase(Globals global) {
+	public ReadRDFDatabase(Settings global) {
 		globals = global;
 		sparql = new vprSPARQL(globals);
 	}

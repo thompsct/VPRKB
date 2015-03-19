@@ -14,7 +14,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -35,14 +35,14 @@ public class vprSPARQL {
 	 protected String server = "http://141.214.24.101:80/vprkb/";
 	 protected PrefixMappingImpl pmap = new PrefixMappingImpl();
 	 protected LinkedList<String> prefixes = new LinkedList<String>();
-	 protected Globals globals;
+	 protected Settings globals;
 	 protected QueryExecution qef;
 	 protected Model base, model;
 	 protected static SPARQLConstants cons = new SPARQLConstants();
 	 protected ResultSet results;
 	 protected SimpleAuthenticator auth = new SimpleAuthenticator("vprkbuser", "virtual@rat".toCharArray());
 
-	 public vprSPARQL(Globals global) {
+	 public vprSPARQL(Settings global) {
 		 globals = global;
 		 host = server + "query";
 		 if (TestServerConnection()==0) {

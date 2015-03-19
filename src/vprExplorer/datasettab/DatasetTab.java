@@ -5,15 +5,15 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class DatasetTab extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	protected Dimension panedim;
-	Globals globals;
+	Settings globals;
 	
-	public DatasetTab(Dimension dim, Globals global) {
+	public DatasetTab(Dimension dim, Settings global) {
 		globals = global;
 		panedim = dim;
 		setOpaque(false);

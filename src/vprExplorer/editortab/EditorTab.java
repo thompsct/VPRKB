@@ -19,15 +19,15 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 import vprExplorer.common.KBTree;
 
 public class EditorTab extends JPanel {
 	private static final long serialVersionUID = 1L;
 	protected Dimension panedim;
-	Globals globals;
+	Settings globals;
 	
-	public EditorTab(Dimension dim, Globals global) {
+	public EditorTab(Dimension dim, Settings global) {
 		globals = global;
 		panedim = dim;
 		setOpaque(false);

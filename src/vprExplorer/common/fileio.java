@@ -32,18 +32,19 @@ public class fileio {
 		return false;
 	}
 	
-	public int loadSemSimModel(ModelLite semsimmodel) {
+	public ModelLite loadSemSimModel() {
+		ModelLite semsimmodel = new ModelLite();
 		SemSimOWLreader ssReader = new SemSimOWLreader();
 		try {
 			ssReader.readFromFile(owlfile, semsimmodel);
-			if (log!=null) log.setText("Loaded: " + owlfile.getName());
-			return 0;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 			if (!log.equals(null)) log.setText("Failed to load OWL file");
-			}
-		return 0;
+			return null;
+		}
+		if (log!=null) log.setText("Loaded: " + owlfile.getName());
+		return semsimmodel;
 	}
 	
 	public KnowledgeBase loadKnowledgeBase() {

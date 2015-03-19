@@ -9,18 +9,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import semsimKB.webservices.VPRSPARQLWrite;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class UtilitiesTab extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	protected Dimension panedim;
 	protected JButton purge = new JButton("Purge KB");
-	Globals globals;
+	Settings globals;
 	
 	VPRSPARQLWrite sparql = new VPRSPARQLWrite(globals);
 	
-	public UtilitiesTab(Dimension dim, Globals global) {
+	public UtilitiesTab(Dimension dim, Settings global) {
 		globals = global;
 		panedim = dim;
 		setOpaque(false);

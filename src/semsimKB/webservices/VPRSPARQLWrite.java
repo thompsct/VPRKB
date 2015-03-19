@@ -12,7 +12,7 @@ import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 import com.hp.hpl.jena.sparql.modify.UpdateProcessRemote;
 import com.hp.hpl.jena.sparql.util.Context;
@@ -36,7 +36,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 			+ "FILTER NOT EXISTS {?Axiom model-qualifiers:isDescribedBy <%m>}}";
 	
 	
-	public VPRSPARQLWrite(Globals global) {
+	public VPRSPARQLWrite(Settings global) {
 		super(global);
 	}
 	//Add a named individual with properties	

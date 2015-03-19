@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class VPRKBAddModelPane extends JPanel {
 
@@ -15,18 +15,18 @@ public class VPRKBAddModelPane extends JPanel {
 	protected Dimension panedim;
 	private ModelTabLeft utilitiesTab = new ModelTabLeft();
 	private ModelTabRight adderTab;
-	Globals globals;
+	Settings settings;
 
 	public static int initwidth = 900;
 	public static int initheight = 720;
 	
-	public VPRKBAddModelPane(Dimension dim, Globals global) {
-		globals = global;
+	public VPRKBAddModelPane(Dimension dim, Settings global) {
+		settings = global;
 		panedim = dim;
 		setOpaque(false);
 		setLayout(new BorderLayout());
 		
-		callback = new VPRKBModelCallBack(globals);
+		callback = new VPRKBModelCallBack(settings);
 		adderTab = new ModelTabRight();
 		//Right Panel	
 			
@@ -109,8 +109,8 @@ public class VPRKBAddModelPane extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-				Object obj = e.getSource();
-				if (obj==load) {
+			Object obj = e.getSource();
+			if (obj==load) {
 				callback.openButton(getParent(), NSlabel);
 			}
 		}

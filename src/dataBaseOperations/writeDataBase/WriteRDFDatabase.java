@@ -8,14 +8,14 @@ import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.webservices.VPRSPARQLWrite;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 import vprExplorer.buffer.KBBufferOperations;
 
 public class WriteRDFDatabase {
-	Globals globals;
+	Settings globals;
 	VPRSPARQLWrite kbw = new VPRSPARQLWrite(globals);
 	
-	public WriteRDFDatabase(Globals global) {
+	public WriteRDFDatabase(Settings global) {
 		globals=global;
 	}
 	

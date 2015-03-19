@@ -27,7 +27,7 @@ import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.PhysicalProperty;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 import vprExplorer.buffer.KBBufferOperations;
 import vprExplorer.buffer.StatusPair;
 import vprExplorer.common.KBListModel;
@@ -35,11 +35,11 @@ import vprExplorer.common.KBTableModel;
 import vprExplorer.common.fileio;
 public class VPRKBModelCallBack {
 
-	Globals globals;
+	Settings globals;
 	KBBufferOperations KBBuffer;
-	ModelLite curmodel = new ModelLite();
+	ModelLite curmodel;
 	ModelList ModelCompList = new ModelList();
-	KBModelList dbListModel;
+	KBModelList dbListModel= new KBModelList();
 	SemSimModelTable ssmodtable;
 	KBModelTable kbmodtable;
 	modelComposites sscomptable;
@@ -47,7 +47,7 @@ public class VPRKBModelCallBack {
 		
 	//Set local knowledge base buffer to be used
 	
-	public VPRKBModelCallBack(Globals global) {
+	public VPRKBModelCallBack(Settings global) {
 		globals = global;
 		initalize();
 	}
@@ -56,7 +56,7 @@ public class VPRKBModelCallBack {
 	public void initalize() {
 		KBReader rmeth;
 		
-		if (globals.getService()==Globals.service._FILE) {
+		if (globals.getService()==Settings.service._FILE) {
 			rmeth = new ReadLocalFile();
 		}
 		else rmeth = new ReadRDFDatabase(globals);
@@ -65,13 +65,10 @@ public class VPRKBModelCallBack {
 	}
 	
 	public ModelList initSemSimListModel() {
-		updateList(ModelCompList);
 		return ModelCompList;
 	}
 	
 	public KBModelList initKBListModel() {
-		dbListModel = new KBModelList();
-		updateList(dbListModel);
 		return dbListModel;
 	}
 	
@@ -207,9 +204,8 @@ public class VPRKBModelCallBack {
 	protected void loadNewModel(fileio newfile) {	
 		ModelCompList.clear();
 		dbListModel.clear();
-		curmodel.clear();
 		
-		newfile.loadSemSimModel(curmodel);
+		curmodel = newfile.loadSemSimModel();
 		updateBuffer();	
 	}
 	//**********************************Initializers**********************

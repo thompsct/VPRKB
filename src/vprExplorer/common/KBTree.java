@@ -9,18 +9,18 @@ import javax.swing.tree.DefaultTreeModel;
 
 import dataBaseOperations.readDataBase.ReadRDFDatabase;
 import semsimKB.SemSimKBConstants;
-import vprExplorer.Globals;
+import vprExplorer.Settings;
 
 public class KBTree extends DefaultTreeModel {
 	private static final long serialVersionUID = 1L;
-	Globals globals;
+	Settings globals;
 	DefaultMutableTreeNode modelNode, dataSetNode, processNode,	compEntNode, 
 		refEntNode, ppNode;
 	    
 	HashMap<DefaultMutableTreeNode, URI> classmap = new HashMap<DefaultMutableTreeNode, URI>();
 	HashMap<DefaultMutableTreeNode, URI> urimap = new HashMap<DefaultMutableTreeNode, URI>();
 	
-	public KBTree(Globals global) {
+	public KBTree(Settings global) {
 		super(null);
 		globals = global;
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("VPR KB");

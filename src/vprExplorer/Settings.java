@@ -1,6 +1,6 @@
 package vprExplorer;
 
-public final class Globals {
+public final class Settings {
 	public static enum service { _REMOTE, _LOCAL_SERVER, _FILE};
 	
 	service servicetype;
