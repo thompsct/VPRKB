@@ -37,14 +37,13 @@ import semsim.model.physical.PhysicalProcess;
 import semsimKB.owl.SemSimOWLFactory;
 
 public class SemSimOWLreader {
-	private ModelLite KBModel;
+	private ModelLite KBModel = new ModelLite();
 	private OWLOntology ont;
 	private OWLDataFactory factory;
 	private Map<URI, PhysicalModelComponent> URIandPMCmap = new HashMap<URI, PhysicalModelComponent>();	
 	private Map<URI, PhysicalProperty> ppmap = new HashMap<URI, PhysicalProperty>();
 	
-	public ModelLite readFromFile(File file, ModelLite model) throws OWLException, CloneNotSupportedException{
-		KBModel = model;
+	public ModelLite readFromFile(File file) throws OWLException, CloneNotSupportedException{
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 		ont = manager.loadOntologyFromOntologyDocument(file);

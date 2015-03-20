@@ -18,17 +18,17 @@ import javax.swing.event.ListSelectionListener;
 
 import vprExplorer.common.KBList;
 import vprExplorer.common.KBListModel;
-import vprExplorer.modeltab.VPRKBModelCallBack.KBModelList;
+import vprExplorer.modeltab.AddModelWorkbench.KBModelList;
 
 public class ComponentListsPane extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -1356526802629136570L;
 	
-	VPRKBModelCallBack callback;
+	AddModelWorkbench callback;
 	public KBList modelComposites, vprDB;
 	public JButton NewEntry, removeElement, confirm, addComposite, addAll;
 	JScrollPane modelcompScroller, kbcompScroller;
 	
-	public ComponentListsPane(VPRKBModelCallBack call) {
+	public ComponentListsPane(AddModelWorkbench call) {
 		super(new GridBagLayout());
 		callback = call;
 		GridBagConstraints gbl = new GridBagConstraints();
@@ -142,7 +142,7 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		}
 		if (obj==confirm) {
 			vprDB.clearSelection();
-			callback.pushtoDBButton();
+			callback.pushtoDatabase();
 			vprDB.setSelectedIndex(lstmodel.indexOf(lstmodel.lastElement()));
 		}
 		vprDB.setValueIsAdjusting(false);	

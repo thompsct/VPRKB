@@ -2,16 +2,16 @@ package vprExplorer.modeltab;
 //Methods for KB Model Adder User Interface
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import vprExplorer.Settings;
 
 public class KBAddModelTab extends JPanel {
 
-	private VPRKBModelCallBack callback;
+	private AddModelWorkbench callback;
 	private static final long serialVersionUID = 1L;
-	private ModelTabLeft utilitiesTab = new ModelTabLeft();
+	private ModelTabSidebar utilitiesTab = new ModelTabSidebar();
 	private ModelTabRight adderTab;
 	private Settings settings;
 	
@@ -21,7 +21,7 @@ public class KBAddModelTab extends JPanel {
 		setOpaque(false);
 		setLayout(new BorderLayout());
 		
-		callback = new VPRKBModelCallBack(settings);
+		callback = new AddModelWorkbench(settings);
 		adderTab = new ModelTabRight();
 		//Right Panel	
 			
@@ -58,13 +58,13 @@ public class KBAddModelTab extends JPanel {
 	}	
 	
 	//Utilities Panel Layout - left side
-	private class ModelTabLeft extends JPanel implements ActionListener {
+	private class ModelTabSidebar extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		JPanel openPanel = new JPanel();
 		JLabel NSlabel = new JLabel("No Model Loaded");
 		JButton load = new JButton("Load Model");
 		
-		public ModelTabLeft() {
+		public ModelTabSidebar() {
 			super(new BorderLayout());
 			//Search Panel
 			openpanel();
@@ -107,7 +107,20 @@ public class KBAddModelTab extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			Object obj = e.getSource();
 			if (obj==load) {
-				callback.openButton(getParent(), NSlabel);
+				openNewModel();
+			}
+		}
+		
+		public void openNewModel() {
+			final JFileChooser ofd = new JFileChooser();
+
+			ofd.setFileFilter(new FileNameExtensionFilter("OWL file", "owl"));
+			ofd.setAcceptAllFileFilterUsed(false);
+			int returnVal = ofd.showOpenDialog(this);
+			
+			if (returnVal==JFileChooser.APPROVE_OPTION) {
+				String result = callback.loadSemSimModel(ofd.getSelectedFile());
+				NSlabel.setText(result);
 			}
 		}
 	}

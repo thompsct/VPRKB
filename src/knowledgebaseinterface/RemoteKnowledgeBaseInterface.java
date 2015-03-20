@@ -1,28 +1,29 @@
-package dataBaseOperations.readDataBase;
+package knowledgebaseinterface;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.LinkedList;
 
-
-
-
 import semsimKB.SemSimKBConstants;
+import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBCompositeEntity;
+import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
-import semsimKB.webservices.vprSPARQL;
+import semsimKB.webservices.VPRSPARQLWrite;
 import vprExplorer.Settings;
+import vprExplorer.buffer.KBBufferOperations;
 
-public class ReadRDFDatabase extends KBReader {
+public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	Settings globals;
-	vprSPARQL sparql;
+	VPRSPARQLWrite sparql;
 	
-	public ReadRDFDatabase(Settings global) {
+	public RemoteKnowledgeBaseInterface(Settings global) {
 		globals = global;
-		sparql = new vprSPARQL(globals);
+		sparql = new VPRSPARQLWrite(globals);
 	}
 
 	public LinkedList<String> getAllClassMemberNames(URI seluri) {
@@ -132,4 +133,54 @@ public class ReadRDFDatabase extends KBReader {
 	}
 	
 	private void makeType(SemSimComponent ssc) {}
+	
+	public int pushChangestoDatabase(KBBufferOperations kbbuffer) {
+		//Check for and add models first
+		for (SemSimComponent cbm : kbbuffer.getComponentSet(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI)) {
+			switch(kbbuffer.getComponentStatus(cbm)) {
+				case MISSING: 
+					sparql.addIndividual(cbm, SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI);
+					break;
+				default: 
+					break;
+			}	
+		}
+		URI muri = kbbuffer.getCurrentModelURI();
+		//Add or modify Physical Components
+		for (SemSimComponent ssc : kbbuffer.getComponentSet(SemSimKBConstants.PHYSICAL_MODEL_COMPONENT_CLASS_URI)) {
+			kbcomponentstatus stat = kbbuffer.getComponentStatus(ssc);
+			if (stat==kbcomponentstatus.EXACT_MATCH) continue;
+			switch(stat) {
+					case MISSING: 
+						sparql.addIndividual(ssc, ssc.getClassURI());
+						break;
+					case NEW_INSTANCE_MODEL:
+						sparql.addModeltoIndividual(ssc.getURI(), muri);
+						break;
+					default:
+						break;
+			}	
+			if  (ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) 
+					|| ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) ) {						
+				DBPhysicalComponent dbpc = (DBPhysicalComponent)ssc;
+				HashMap<URI, kbcomponentstatus> smap = kbbuffer.getPhysCompStatusList(dbpc);
+				if (smap!=null) {
+					for (URI key : smap.keySet()) {
+						switch (kbbuffer.getPhysComptStatus(dbpc, key)) {
+							case NEW_ASSOCIATED_PHYS_PROPERTY:
+								sparql.addPropertyModelLinks(dbpc);
+								break;
+							case NEW_INSTANCE_PHYS_PROPERTY:
+								sparql.addModeltoAxiom(dbpc.getURI(), key, kbbuffer.getCurrentModelURI());
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		
+		return 0;
+	}
 }

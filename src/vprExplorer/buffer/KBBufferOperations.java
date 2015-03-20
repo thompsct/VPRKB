@@ -10,10 +10,7 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.net.URI;
 
-import dataBaseOperations.readDataBase.KBReader;
-import dataBaseOperations.readDataBase.ReadLocalFile;
-import dataBaseOperations.writeDataBase.WriteLocalFile;
-import dataBaseOperations.writeDataBase.WriteRDFDatabase;
+import knowledgebaseinterface.KnowledgeBaseInterface;
 import semsim.model.physical.PhysicalEntity;
 import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.SemSimKBConstants;
@@ -30,20 +27,17 @@ import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
-import vprExplorer.Settings;
 
 public class KBBufferOperations {
 	private KnowledgeBase buffer = new KnowledgeBase();
-	private KBReader kbsource;
+	private KnowledgeBaseInterface kbsource;
 	protected HashSet<URI> modset = new HashSet<>(); //Set of individuals to be changed
 	protected HashMap<URI, kbcomponentstatus> statusmap = new HashMap<>();
 	protected HashMap<URI, HashMap<URI, kbcomponentstatus>> dbcstatusmap = new HashMap<>();
 	protected URI curBioModelURI;
-	protected Settings globals;
 		
-	public KBBufferOperations(KBReader ldb, Settings global) {
+	public KBBufferOperations(KnowledgeBaseInterface ldb) {
 		kbsource = ldb; 
-		globals = global;
 	}
 	
 	public void CompareModeltoKB(ModelLite model) {
@@ -349,18 +343,6 @@ public class KBBufferOperations {
 		
 		dbcstatusmap.get(comp).put(associatedComp, status);
 	}	
-	
-	public void pushtoDatabase() {
-		Settings.service ser = globals.getService();
-		if (ser == Settings.service._FILE) {
-			WriteLocalFile writer = new WriteLocalFile(((ReadLocalFile)kbsource).getKB());
-			writer.pushChangestoDatabase(this);
-		}
-		else  {
-			WriteRDFDatabase writer = new WriteRDFDatabase(globals);
-			writer.writeBuffertoDatabase(this);
-		}
-	}
 	
 	public int addPropertiestoKB(Set<PhysicalProperty> pps) {
 		for (PhysicalProperty pp : pps) {

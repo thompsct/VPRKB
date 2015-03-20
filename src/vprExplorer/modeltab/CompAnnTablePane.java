@@ -17,10 +17,10 @@ public class CompAnnTablePane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private KBTable compAnnTable, kbcompAnnTable;
 	KBTableModel compTableObj, kbcompTableObj;
-	private VPRKBModelCallBack callback;
+	private AddModelWorkbench callback;
 
 	//Composite table panel initialization
-	public CompAnnTablePane(Dimension prefsize, VPRKBModelCallBack cb) {
+	public CompAnnTablePane(Dimension prefsize, AddModelWorkbench cb) {
 		super(new BorderLayout());
 		callback = cb;
 		setPreferredSize(prefsize);

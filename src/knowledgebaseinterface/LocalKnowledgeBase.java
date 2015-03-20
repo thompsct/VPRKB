@@ -1,5 +1,7 @@
-package dataBaseOperations.writeDataBase;
+//Class for requesting and pulling data from database
+package knowledgebaseinterface;
 
+import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
 
@@ -8,18 +10,75 @@ import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.model.KnowledgeBase;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.DBPhysicalComponent;
+import semsimKB.reading.KBOWLreader;
+import semsimKB.writing.KBOWLwriter;
 import vprExplorer.buffer.KBBufferOperations;
-import vprExplorer.common.fileio;
 
-public class WriteLocalFile {
-	KnowledgeBase localKB;
-	fileio dbfile = new fileio("VPRMasterOntology.owl", null);
+public class LocalKnowledgeBase extends KnowledgeBaseInterface {
+	//Temporary local database for testing
+	private KnowledgeBase localKB;
+	private File kbfile = new File("VPRMasterOntology.owl");
 	
-	public WriteLocalFile(KnowledgeBase lKB) {localKB = lKB; }
+	public LocalKnowledgeBase() {
+		KBOWLreader kbReader = new KBOWLreader();
+		try {
+			localKB = kbReader.readFromFile(kbfile);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public SemSimComponent getElementwithName(SemSimComponent ele) {
+		return getElementwithName(ele.getName());
+	}
+	
+	@Override
+	public SemSimComponent getElementwithName(String elename) {
+		SemSimComponent eletortn = localKB.getCompBioModelbyName(elename);
+		if (eletortn!=null) return eletortn; 
+		eletortn =localKB.getPhysicalComponentbyName(elename);
+		if (eletortn!=null) return eletortn; 
+		return null;
+	}
+		
+	public KnowledgeBase getKB() {
+		return localKB;
+	}
+	
+	@Override
+	public SemSimComponent getElementwithURI(SemSimComponent ele) {
+		return getElementwithURI(ele.getURI());
+	}
+	
+	public SemSimComponent getElementwithURI(URI eleuri) {
+		if (localKB.getModelbyURI(eleuri) != null) 
+			return localKB.getModelbyURI(eleuri);
+		if (localKB.getPropertybyURI(eleuri) != null) 
+			return localKB.getPropertybyURI(eleuri);
+		if (localKB.getRefEntitybyURI(eleuri) != null) 
+			return localKB.getRefEntitybyURI(eleuri);
+		if (localKB.getComponentbyURI(eleuri) != null) 
+			return localKB.getComponentbyURI(eleuri);
+		else return null;
+	}
+	
+	public int writeKnowledgeBase(KnowledgeBase kbbuffer) {
+		if (!kbfile.canWrite()) System.out.println("Write Failed");
+		KBOWLwriter kbWriter = new KBOWLwriter(kbbuffer, kbfile);
+		try {
+			kbWriter.writeToFile();
+			return 0;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			}
+		return -1;
+	}
 	
 	public int pushChangestoDatabase(KBBufferOperations kbbuffer) {
 		writeBuffertoDatabase(kbbuffer);
-		dbfile.writeKnowledgeBase(localKB);
+		writeKnowledgeBase(localKB);
 		return 0;
 	}
 	
@@ -71,5 +130,4 @@ public class WriteLocalFile {
 		
 		return 0;
 	}
-	
 }

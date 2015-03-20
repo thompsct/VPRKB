@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import dataBaseOperations.readDataBase.ReadRDFDatabase;
+import knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 import semsimKB.SemSimKBConstants;
 import vprExplorer.Settings;
 
@@ -57,7 +57,7 @@ public class KBTree extends DefaultTreeModel {
 	
 	public void loadLeaves(DefaultMutableTreeNode sel) {
 		URI seluri = classmap.get(sel);
-		ReadRDFDatabase query = new ReadRDFDatabase(globals);
+		RemoteKnowledgeBaseInterface query = new RemoteKnowledgeBaseInterface(globals);
 		
 		LinkedList<String> rslts = query.getAllClassMemberNames(seluri);
 		

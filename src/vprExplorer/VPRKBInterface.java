@@ -21,7 +21,7 @@ public class VPRKBInterface extends JFrame implements Observer{
 		FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		//Log.setCmdLogging(); 
-		System.out.println("Loading VPR KB Interface...");	
+		System.out.println("Loading VPR KB Client...");	
 		
 		 SwingUtilities.invokeLater(new Runnable() {
 		     public void run() {

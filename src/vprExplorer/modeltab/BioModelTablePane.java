@@ -12,9 +12,9 @@ import vprExplorer.common.KBTable;
 public class BioModelTablePane extends JPanel  {
 	private static final long serialVersionUID = 1L;
 	KBTable modelAnnTable, kbmodAnnTable;
-	VPRKBModelCallBack callback;
+	AddModelWorkbench callback;
 	
-	public BioModelTablePane(Dimension prefsize, VPRKBModelCallBack cb){
+	public BioModelTablePane(Dimension prefsize, AddModelWorkbench cb){
 		super(new BorderLayout());
 		setPreferredSize(prefsize);
 		
