@@ -10,12 +10,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import semsim.model.physical.CustomPhysicalEntity;
-import semsim.model.physical.CustomPhysicalProcess;
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalModelComponent;
-import semsim.model.physical.PhysicalProcess;
-import semsim.model.physical.ReferencePhysicalProcess;
 import semsimKB.Annotatable;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
@@ -23,8 +17,14 @@ import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.annotation.SemSimRelation;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.physical.CompositePhysicalEntity;
+import semsimKB.model.physical.CustomPhysicalEntity;
+import semsimKB.model.physical.CustomPhysicalProcess;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalModelComponent;
+import semsimKB.model.physical.PhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
+import semsimKB.model.physical.ReferencePhysicalProcess;
 
 public class ModelLite extends SemSimComponent implements Cloneable, Annotatable {	
 	//Physical Model Components

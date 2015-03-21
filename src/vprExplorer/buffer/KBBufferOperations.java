@@ -10,9 +10,6 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.net.URI;
 
-import knowledgebaseinterface.KnowledgeBaseInterface;
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.SemSimKBConstants;
 import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.SemSimKBConstants.kbcomptype;
@@ -25,8 +22,11 @@ import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBCompositeEntity;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
+import vprExplorer.knowledgebaseinterface.KnowledgeBaseInterface;
 
 public class KBBufferOperations {
 	private KnowledgeBase buffer = new KnowledgeBase();

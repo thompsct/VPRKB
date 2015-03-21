@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 import semsimKB.SemSimKBConstants;
 import vprExplorer.Settings;
+import vprExplorer.knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 
 public class KBTree extends DefaultTreeModel {
 	private static final long serialVersionUID = 1L;

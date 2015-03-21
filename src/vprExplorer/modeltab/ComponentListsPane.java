@@ -23,11 +23,13 @@ import vprExplorer.modeltab.AddModelWorkbench.KBModelList;
 public class ComponentListsPane extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -1356526802629136570L;
 	
-	AddModelWorkbench callback;
-	public KBList modelComposites, vprDB;
-	public JButton NewEntry, removeElement, confirm, addComposite, addAll;
-	JScrollPane modelcompScroller, kbcompScroller;
-	
+	private AddModelWorkbench callback;
+	private KBList modelComposites, vprDB;
+	private JButton removeElement = new JButton("Remove Element"); 
+	private JButton confirm = new JButton("Push Changes to Database");
+	private JButton addComposite = new JButton("Add Element");
+	private JButton addAll = new JButton("Add All");
+
 	public ComponentListsPane(AddModelWorkbench call) {
 		super(new GridBagLayout());
 		callback = call;
@@ -57,10 +59,6 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		gbl.anchor = GridBagConstraints.LAST_LINE_START;
 		
 		modelActions.setLayout(new BoxLayout(modelActions, BoxLayout.LINE_AXIS));
-		addComposite = new JButton("Add Element");
-		addAll = new JButton("Add All");
-		removeElement = new JButton("Remove Element");
-		confirm = new JButton("Push Changes to Database");
 		
 		JButton[] btnlist = {addComposite, addAll, removeElement,confirm};
 		for (JButton btn : btnlist) {
@@ -89,8 +87,8 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		modelComposites.addListSelectionListener(selectionlistener);
 		modelComposites.getModel().addListDataListener(datalistener);
 		
-		modelcompScroller = new JScrollPane(modelComposites);
-	    modelcompScroller.setPreferredSize(new Dimension(300, 200));
+		JScrollPane modelcompScroller = new JScrollPane(modelComposites);
+	    modelcompScroller.setMinimumSize(new Dimension(300, 200));
 
 	    gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.333;
@@ -103,14 +101,15 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		vprDB.addListSelectionListener(selectionlistener);
 		vprDB.getModel().addListDataListener(datalistener);
 		
-	    kbcompScroller = new JScrollPane(vprDB);
-	    kbcompScroller.setPreferredSize(new Dimension(300, 200));
+		JScrollPane kbcompScroller = new JScrollPane(vprDB);
+	    kbcompScroller.setMinimumSize(new Dimension(300, 200));
 	    gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.333;
 		gbl.gridx = 2;
 		gbl.gridy = 1;
 		gbl.anchor = GridBagConstraints.FIRST_LINE_END;
 		add(kbcompScroller, gbl);
+		validate();
 	}
 	
 	@Override

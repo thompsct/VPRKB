@@ -58,11 +58,11 @@ import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import semsimKB.SemSimKBConstants;
-import semsim.model.physical.PhysicalModelComponent;
-import semsim.model.physical.ReferencePhysicalProcess;
 import semsimKB.model.ModelLite;
+import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
+import semsimKB.model.physical.ReferencePhysicalProcess;
 
 import java.util.Collections;
 import java.util.Iterator;

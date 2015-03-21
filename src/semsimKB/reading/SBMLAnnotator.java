@@ -26,8 +26,8 @@ import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.model.ModelLite;
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalProcess;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalProcess;
 
 public class SBMLAnnotator {
 

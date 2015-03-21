@@ -30,10 +30,10 @@ import semsimKB.annotation.Annotation;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.ModelLite;
 import semsimKB.model.physical.CompositePhysicalEntity;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalModelComponent;
+import semsimKB.model.physical.PhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalModelComponent;
-import semsim.model.physical.PhysicalProcess;
 import semsimKB.owl.SemSimOWLFactory;
 
 public class SemSimOWLreader {

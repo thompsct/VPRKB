@@ -18,9 +18,9 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalProcess;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.owl.SemSimOWLFactory;
 

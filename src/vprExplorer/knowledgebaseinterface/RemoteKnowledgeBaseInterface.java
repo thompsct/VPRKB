@@ -1,4 +1,4 @@
-package knowledgebaseinterface;
+package vprExplorer.knowledgebaseinterface;
 
 import java.net.URI;
 import java.util.HashMap;

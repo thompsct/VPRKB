@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.model.CompBioModel;
 import semsimKB.SemSimKBConstants;
 

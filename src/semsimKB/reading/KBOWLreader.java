@@ -26,9 +26,9 @@ import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
+import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.owl.KBOWLFactory;
 
 public class KBOWLreader {

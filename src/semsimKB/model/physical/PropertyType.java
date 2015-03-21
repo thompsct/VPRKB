@@ -5,8 +5,6 @@ public enum PropertyType {
 	PropertyOfPhysicalEntity (1, "State"),
 	PropertyOfPhysicalProcess (2, "Rate");
 	
-	private static int _intCounter = 0;
-	
 	private final String _name;
 	private final int _index;
 

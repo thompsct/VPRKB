@@ -10,11 +10,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 
-import knowledgebaseinterface.KnowledgeBaseInterface;
-import knowledgebaseinterface.LocalKnowledgeBase;
-import knowledgebaseinterface.RemoteKnowledgeBaseInterface;
-import semsim.model.physical.PhysicalEntity;
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.SemSimKBConstants;
 import semsimKB.SemSimKBConstants.kbcomponentstatus;
 import semsimKB.SemSimKBConstants.modelAnnotations;
@@ -25,6 +20,8 @@ import semsimKB.model.SemSimComponent;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
+import semsimKB.model.physical.PhysicalEntity;
+import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.reading.SemSimOWLreader;
 import vprExplorer.Settings;
@@ -32,6 +29,9 @@ import vprExplorer.buffer.KBBufferOperations;
 import vprExplorer.buffer.StatusPair;
 import vprExplorer.common.KBListModel;
 import vprExplorer.common.KBTableModel;
+import vprExplorer.knowledgebaseinterface.KnowledgeBaseInterface;
+import vprExplorer.knowledgebaseinterface.LocalKnowledgeBase;
+import vprExplorer.knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 public class AddModelWorkbench extends Observable {
 	Settings globals;
 	KnowledgeBaseInterface kboperator;
@@ -54,7 +54,7 @@ public class AddModelWorkbench extends Observable {
 	}
 	
 	//***************************Initializers*********************//
-	public void initalize() {
+	private void initalize() {
 		if (globals.getService()==Settings.service._FILE) {
 			kboperator = new LocalKnowledgeBase();
 		}

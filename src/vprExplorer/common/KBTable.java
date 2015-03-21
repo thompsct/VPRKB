@@ -14,15 +14,15 @@ public class KBTable extends JTable {
 	private boolean ColorRenderEnabled;
 	Font bolded = new Font("arial", Font.BOLD, 12);
 	
-	public KBTable(KBTableModel model, Dimension tableDim, boolean colorRenderEnabled) {
+	public KBTable(KBTableModel model, boolean colorRenderEnabled) {
 		super(model);
 		setColorRenderEnabled(colorRenderEnabled);
 		setColumnSelectionAllowed(false);
 		setRowSelectionAllowed(false); 
-		setPreferredSize(tableDim);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
 		putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+		validate();
 	}
 	
 	public KBTableModel getModel() {

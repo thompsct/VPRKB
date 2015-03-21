@@ -2,7 +2,6 @@ package semsimKB.model.physical;
 
 import java.net.URI;
 
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.SemSimKBConstants;
 
 public class PhysicalProperty extends PhysicalModelComponent{

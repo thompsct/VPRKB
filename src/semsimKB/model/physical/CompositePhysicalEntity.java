@@ -3,7 +3,6 @@ package semsimKB.model.physical;
 import java.net.URI;
 import java.util.ArrayList;
 
-import semsim.model.physical.PhysicalEntity;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
 

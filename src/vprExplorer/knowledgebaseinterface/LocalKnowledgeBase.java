@@ -1,5 +1,5 @@
 //Class for requesting and pulling data from database
-package knowledgebaseinterface;
+package vprExplorer.knowledgebaseinterface;
 
 import java.io.File;
 import java.net.URI;

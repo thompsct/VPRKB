@@ -1,4 +1,4 @@
-package semsim.model.physical;
+package semsimKB.model.physical;
 
 public class PhysicalEntity extends PhysicalModelComponent{
 

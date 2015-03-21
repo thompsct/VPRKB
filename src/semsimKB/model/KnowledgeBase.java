@@ -9,11 +9,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import semsim.model.physical.PhysicalModelComponent;
 import semsimKB.SemSimKBConstants;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
+import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 

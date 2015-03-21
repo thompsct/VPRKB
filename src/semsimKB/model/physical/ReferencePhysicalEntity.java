@@ -2,7 +2,6 @@ package semsimKB.model.physical;
 
 import java.net.URI;
 
-import semsim.model.physical.PhysicalEntity;
 import semsimKB.SemSimKBConstants;
 
 public class ReferencePhysicalEntity extends PhysicalEntity {

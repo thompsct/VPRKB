@@ -1,4 +1,4 @@
-package semsim.model.physical;
+package semsimKB.model.physical;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -10,7 +10,6 @@ import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.annotation.SemSimRelation;
 import semsimKB.model.SemSimComponent;
-import semsimKB.model.physical.PhysicalProperty;
 
 public class PhysicalModelComponent extends SemSimComponent implements Annotatable, Cloneable{
 	private Set<Annotation> annotations = new HashSet<Annotation>();
