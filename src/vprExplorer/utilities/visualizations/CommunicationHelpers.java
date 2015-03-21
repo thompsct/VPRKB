@@ -1,4 +1,4 @@
-package visualizations;
+package vprExplorer.utilities.visualizations;
 
 import org.apache.commons.lang3.text.WordUtils;
 

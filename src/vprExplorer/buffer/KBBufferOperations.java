@@ -200,6 +200,7 @@ public class KBBufferOperations {
 	}
 	
 	public URI convertComponentURItoVPRNamespace(SemSimComponent pmc) {
+		pmc.setName(pmc.getName().trim());
 		URI uri = URI.create(SemSimKBConstants.VPR_NAMESPACE.replace("#", "/")+pmc.getName().replace(" ", "_"));
 		return uri;
 	}	

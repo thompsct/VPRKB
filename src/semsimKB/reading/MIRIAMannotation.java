@@ -2,15 +2,13 @@ package semsimKB.reading;
 
 import java.net.URI;
 
-import semsimKB.owl.KBOWLFactory;
+import semsimKB.owl.SemSimOWLFactory;
 
 public class MIRIAMannotation {
-	int qualifier;
 	public String rdflabel;
 	public URI fulluri;
 	
-	public MIRIAMannotation(int qualifier, String uristring, String rdflabel){
-		this.qualifier = qualifier;
+	public MIRIAMannotation(String uristring, String rdflabel){
 		this.rdflabel = rdflabel;
 		fulluri = URI.create(uristring);
 	}
@@ -56,6 +54,6 @@ public class MIRIAMannotation {
 		else if(urn.startsWith("urn:miriam:uniprot")){
 			ns = "http://identifiers.org/uniprot/";
 		}
-		return ns + KBOWLFactory.getURIdecodedFragmentFromIRI(urn);
+		return ns + SemSimOWLFactory.getURIdecodedFragmentFromIRI(urn);
 	}
 }

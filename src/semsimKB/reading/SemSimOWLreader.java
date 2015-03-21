@@ -56,19 +56,8 @@ public class SemSimOWLreader {
 			KBModel.addError("Source file does not appear to be a valid SemSim model");
 			return KBModel;
 		}
-		// Get model-level annotations
-		for(OWLAnnotation ann : ont.getAnnotations()){
-			URI propertyuri = ann.getProperty().getIRI().toURI();
-			
-			if(SemSimKBConstants.URIS_AND_SEMSIM_RELATIONS.containsKey(propertyuri)){
-				if(ann.getValue() instanceof OWLLiteral){
-					
-					OWLLiteral val = (OWLLiteral) ann.getValue();
-					KBModel.addAnnotation(new Annotation(SemSimKBConstants.getRelationFromURI(propertyuri), val.getLiteral()));
-				}
-				else if((ann.getValue() instanceof IRI) || (ann.getValue() instanceof OWLAnonymousIndividual)) continue;
-		}
 
+		getModelAnnotations();
 		
 		for(String dsind : SemSimOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.DATA_STRUCTURE_CLASS_URI.toString())){
 			String propind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, dsind, SemSimKBConstants.IS_COMPUTATIONAL_COMPONENT_FOR_URI.toString());
@@ -78,7 +67,6 @@ public class SemSimOWLreader {
 				if(!referstoval.equals("")) {
 				 	if (!ppmap.containsKey(referstoval)) {
 						// If the property is annotated, store annotation
-						
 							String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(propind)))[0];
 							pp.addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, referstoval, label);
 							pp.setName(label);
@@ -93,7 +81,9 @@ public class SemSimOWLreader {
 						// If it's a property of a physical entity, get the entity. Follow composite, if present
 						if(SemSimOWLFactory.indExistsInTree(propofind, SemSimKBConstants.PHYSICAL_ENTITY_CLASS_URI.toString(), ont)){
 							PhysicalEntity ent = getPhysicalEntityFromURI(ont, URI.create(propofind));					
-							ent.addPhysicalProperty(pp);
+							if (ent!=null) {
+								ent.addPhysicalProperty(pp);
+							}
 					}
 				}
 			}
@@ -123,8 +113,8 @@ public class SemSimOWLreader {
 					// Create a new physical property associated with the process and data structure
 					PhysicalProperty pp = new PhysicalProperty();
 					pp.addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, URI.create(referstoval), propertylabel);
-					String uri = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()-1) + referstoval.substring(referstoval.lastIndexOf('/'), referstoval.length());
-					pp.setURI(URI.create(uri));
+					//String uri = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()-1) + referstoval.substring(referstoval.lastIndexOf('/'), referstoval.length());
+					pp.setURI(URI.create(referstoval));
 					pproc.addPhysicalProperty(pp);
 				}
 				else  pproc = KBModel.addCustomPhysicalProcess(label, description);  // if equivalent process is available, will return it
@@ -204,13 +194,28 @@ public class SemSimOWLreader {
 				}
 			}
 		}
-		}
 			Set<PhysicalProperty> pps = new HashSet<PhysicalProperty>(ppmap.values());
 			KBModel.setPhysicalProperties(pps);
 
 		return KBModel;
 	}
 	
+	
+	// Get model-level annotations
+	private void getModelAnnotations() {
+		for(OWLAnnotation ann : ont.getAnnotations()){
+			URI propertyuri = ann.getProperty().getIRI().toURI();
+			
+			if(SemSimKBConstants.URIS_AND_SEMSIM_RELATIONS.containsKey(propertyuri)){
+				if(ann.getValue() instanceof OWLLiteral){
+					
+					OWLLiteral val = (OWLLiteral) ann.getValue();
+					KBModel.addAnnotation(new Annotation(SemSimKBConstants.getRelationFromURI(propertyuri), val.getLiteral()));
+				}
+				else if((ann.getValue() instanceof IRI) || (ann.getValue() instanceof OWLAnonymousIndividual)) continue;
+			}
+		}
+	}
 	
 	// Get the URI of the object of a triple that uses a structural relation as its predicate
 	private CompositePhysicalEntity getURIofObjectofPhysicalEntityStructuralRelation(OWLOntology ont, CompositePhysicalEntity cpe, 
@@ -236,14 +241,15 @@ public class SemSimOWLreader {
 				URI refuri = URI.create(SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, nextind, SemSimKBConstants.REFERS_TO_URI.toString()));
 				if(!refuri.toString().startsWith("http://www.bhi.washington.edu/SemSim/")){  // Account for older models that used refersTo pointers to custom annotations
 					pmc = KBModel.addReferencePhysicalEntity(refuri, label);
+					if (pmc==null) return null;
 					cpe.getArrayListOfEntities().add(pmc);	
 				}
 
 			}
+			else return null;
 			
 			cpe = getURIofObjectofPhysicalEntityStructuralRelation(ont, cpe, nextinduri);
-			String uri = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()-1) + nextind.substring(nextind.lastIndexOf('#'), nextind.length());
-					pmc.setURI(URI.create(uri));
+			pmc.setURI(nextinduri);
 			if(!URIandPMCmap.containsKey(nextinduri)){
 				URIandPMCmap.put(nextinduri, pmc);
 			}
@@ -257,19 +263,19 @@ public class SemSimOWLreader {
 	}
 	
 	// Retrieve or generate a physical entity from its URI in the OWL-encoded SemSim model 
-	private PhysicalEntity getPhysicalEntityFromURI(OWLOntology ont, URI uri) throws OWLException{
-		PhysicalEntity ent = null;
+	private PhysicalEntity getPhysicalEntityFromURI(OWLOntology ont, URI uri) throws OWLException{	
 		String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(uri)))[0];
 		
 		if(URIandPMCmap.containsKey(uri))
-			ent = (PhysicalEntity) URIandPMCmap.get(uri);
+			return (PhysicalEntity) URIandPMCmap.get(uri);
 		else{
+			PhysicalEntity ent = null;
 			if(isReferencedIndividual(ont, uri)){
 				String refersto = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, uri.toString(), SemSimKBConstants.REFERS_TO_URI.toString());
 				ent = KBModel.addReferencePhysicalEntity(URI.create(refersto), label);
 				
-				String curi = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()) + refersto.substring(refersto.lastIndexOf('/')+1, refersto.length());
-				ent.setURI(URI.create(curi));
+				//String curi = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()) + refersto.substring(refersto.lastIndexOf('/')+1, refersto.length());
+				ent.setURI(URI.create(refersto));
 			}
 			else
 				return null; //ignore custom entities and any composites containing them
@@ -282,15 +288,15 @@ public class SemSimOWLreader {
 				ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
 				CompositePhysicalEntity cent = new CompositePhysicalEntity(ents, rels);
 				cent = getURIofObjectofPhysicalEntityStructuralRelation(ont, cent, uri);
+				if (cent==null) return null;
 				ent = KBModel.addCompositePhysicalEntity(cent.getArrayListOfEntities(), cent.getArrayListOfStructuralRelations());
-				
-				String curi = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()) + cent.getName();
-				ent.setURI(URI.create(curi.replace(" ", "_")));
+				cent.setName(cent.getName().trim());
+				ent.setURI(URI.create(cent.getName().replace(" ", "_")));
 
 			}
 			URIandPMCmap.put(uri, ent);
+			return ent;
 		}
-		return ent;
 	}
 	
 	// Get the multiplier for a process participant

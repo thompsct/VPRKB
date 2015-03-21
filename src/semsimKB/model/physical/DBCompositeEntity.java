@@ -41,7 +41,7 @@ public class DBCompositeEntity extends DBPhysicalComponent {
 					setName(cpe.getName());
 				}
 					
-				name = name + '/' + getName().replace(' ', '_');
+				name = name + '/' + getName().trim().replace(' ', '_');
 				setURI(URI.create(name));
 			}
 		}

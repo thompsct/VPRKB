@@ -1,4 +1,4 @@
-package visualizations;
+package vprExplorer.utilities.visualizations;
 
 /**
  * Contact for sending commands between java and javascript

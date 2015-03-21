@@ -197,9 +197,9 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	 * Otherwise a new ReferencePhysicalProcess with the URI and description specified is returned.
 	 */
 	public ReferencePhysicalProcess addReferencePhysicalProcess(URI uri, String description){
-		ReferencePhysicalProcess rpp = null;
-		if(getPhysicalProcessByReferenceURI(uri)!=null) rpp = getPhysicalProcessByReferenceURI(uri);
-			else physicalprocesses.add(new ReferencePhysicalProcess(uri, description));
+		if(getPhysicalProcessByReferenceURI(uri)!=null) return getPhysicalProcessByReferenceURI(uri);
+		ReferencePhysicalProcess rpp = new ReferencePhysicalProcess(uri, description);
+		physicalprocesses.add(rpp);
 		return rpp;
 	}
 	

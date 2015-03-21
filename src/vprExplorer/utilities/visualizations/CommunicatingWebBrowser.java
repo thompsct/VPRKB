@@ -1,4 +1,4 @@
-package visualizations;
+package vprExplorer.utilities.visualizations;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import chrriis.dj.nativeswing.swtimpl.components.WebBrowserAdapter;

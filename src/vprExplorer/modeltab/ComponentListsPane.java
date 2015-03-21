@@ -88,7 +88,7 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		modelComposites.getModel().addListDataListener(datalistener);
 		
 		JScrollPane modelcompScroller = new JScrollPane(modelComposites);
-	    modelcompScroller.setMinimumSize(new Dimension(300, 200));
+	    modelcompScroller.setMinimumSize(new Dimension(300, 100));
 
 	    gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.333;
@@ -102,7 +102,7 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		vprDB.getModel().addListDataListener(datalistener);
 		
 		JScrollPane kbcompScroller = new JScrollPane(vprDB);
-	    kbcompScroller.setMinimumSize(new Dimension(300, 200));
+	    kbcompScroller.setMinimumSize(new Dimension(300, 100));
 	    gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.333;
 		gbl.gridx = 2;
@@ -148,7 +148,6 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 	}
 	
 	private ListSelectionListener selectionlistener = new ListSelectionListener() {
-
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {
 					if (e.getSource().equals(modelComposites) && (modelComposites.getSelectedIndex()!=-1)) {

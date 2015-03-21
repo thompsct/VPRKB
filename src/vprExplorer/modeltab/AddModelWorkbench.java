@@ -33,18 +33,18 @@ import vprExplorer.knowledgebaseinterface.KnowledgeBaseInterface;
 import vprExplorer.knowledgebaseinterface.LocalKnowledgeBase;
 import vprExplorer.knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 public class AddModelWorkbench extends Observable {
-	Settings globals;
-	KnowledgeBaseInterface kboperator;
-	KBBufferOperations kbbuffer;
+	private Settings globals;
+	private KnowledgeBaseInterface kboperator;
+	private KBBufferOperations kbbuffer;
 	
-	ModelLite curmodel;
+	private ModelLite curmodel;
 	
-	ModelList ModelCompList = new ModelList();
-	KBModelList dbListModel= new KBModelList();
-	SemSimModelTable ssmodtable;
-	KBModelTable kbmodtable;
-	modelComposites sscomptable;
-	kbComposites kbcomptable;
+	private ModelList ModelCompList = new ModelList();
+	private KBModelList dbListModel= new KBModelList();
+	private SemSimModelTable ssmodtable;
+	private KBModelTable kbmodtable;
+	private modelComposites sscomptable;
+	private kbComposites kbcomptable;
 		
 	//Set local knowledge base buffer to be used
 	

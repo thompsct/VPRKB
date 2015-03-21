@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://www.virtualrat.edu/VPRKB#"
      xml:base="http://www.virtualrat.edu/VPRKB"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:VPRKB="http://www.virtualrat.edu/VPRKB#"
-     xmlns:ro="http://www.obofoundry.org/ro/ro.owl#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:model-qualifiers="http://biomodels.net/model-qualifiers/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:SemSim="http://www.bhi.washington.edu/SemSim#"
-     xmlns:model-qualifiers="http://biomodels.net/model-qualifiers/">
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ro="http://www.obofoundry.org/ro/ro.owl#"
+     xmlns:VPRKB="http://www.virtualrat.edu/VPRKB#">
     <owl:Ontology rdf:about="http://www.virtualrat.edu/VPRKB">
         <SemSim:modelName xml:lang="en">Virtual Physiological Rat Knowledge Base</SemSim:modelName>
     </owl:Ontology>
@@ -197,8 +197,8 @@
 
     <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#adjacent_to">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
-        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
         <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
         <owl:inverseOf rdf:resource="http://www.obofoundry.org/ro/ro.owl#adjacent_to"/>
     </owl:ObjectProperty>
     
@@ -226,8 +226,8 @@
     <!-- http://www.obofoundry.org/ro/ro.owl#has_part -->
 
     <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#has_part">
-        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
         <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
     </owl:ObjectProperty>
     
 
@@ -235,8 +235,8 @@
     <!-- http://www.obofoundry.org/ro/ro.owl#part_of -->
 
     <owl:ObjectProperty rdf:about="http://www.obofoundry.org/ro/ro.owl#part_of">
-        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
         <rdfs:domain rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
+        <rdfs:range rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_entity"/>
         <owl:inverseOf rdf:resource="http://www.obofoundry.org/ro/ro.owl#has_part"/>
     </owl:ObjectProperty>
     
@@ -548,6 +548,26 @@
     
 
 
+    <!-- http://bhi.washington.edu/OPB#OPB_01581 -->
+
+    <owl:NamedIndividual rdf:about="http://bhi.washington.edu/OPB#OPB_01581">
+        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <rdfs:label xml:lang="en">Nernst potential</rdfs:label>
+        <SemSim:refersTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://bhi.washington.edu/OPB#OPB_01581</SemSim:refersTo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_29108 -->
+
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/CHEBI_29108">
+        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_entity"/>
+        <rdfs:label xml:lang="en">calcium(2+)</rdfs:label>
+        <SemSim:refersTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.obolibrary.org/obo/CHEBI_29108</SemSim:refersTo>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.bhi.washington.edu/SemSim#CHEBI_16526 -->
 
     <owl:NamedIndividual rdf:about="http://www.bhi.washington.edu/SemSim#CHEBI_16526">
@@ -588,11 +608,52 @@
     
 
 
+    <!-- http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma14067 -->
+
+    <owl:NamedIndividual rdf:about="http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma14067">
+        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_entity"/>
+        <rdfs:label xml:lang="en">Cardiac myocyte</rdfs:label>
+        <SemSim:refersTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.org/sig/ont/fma/fma14067</SemSim:refersTo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma63841 -->
+
+    <owl:NamedIndividual rdf:about="http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma63841">
+        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_entity"/>
+        <rdfs:label xml:lang="en">Plasma membrane</rdfs:label>
+        <SemSim:refersTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://purl.org/sig/ont/fma/fma63841</SemSim:refersTo>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.virtualrat.edu/VPRKB#Spronck -->
 
     <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB#Spronck">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB#KB_Bio_Model"/>
         <rdfs:label xml:lang="en">Spronck</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.virtualrat.edu/VPRKB#pandit_hinch -->
+
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB#pandit_hinch">
+        <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB#KB_Bio_Model"/>
+        <rdfs:label xml:lang="en">pandit_hinch</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.virtualrat.edu/VPRKB/Plasma_membrane_in_Cardiac_myocyte -->
+
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/Plasma_membrane_in_Cardiac_myocyte">
+        <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB#KB_Physical_Entity"/>
+        <rdfs:label xml:lang="en">Plasma membrane in Cardiac myocyte</rdfs:label>
+        <Entity_Complexity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BASE</Entity_Complexity>
+        <ro:part_of rdf:resource="http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma14067"/>
+        <Has_Subcomponent rdf:resource="http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma63841"/>
     </owl:NamedIndividual>
     
 
@@ -606,6 +667,38 @@
         <Has_Subcomponent rdf:resource="http://www.bhi.washington.edu/SemSim#MA_0000059"/>
         <ro:contained_in rdf:resource="http://www.bhi.washington.edu/SemSim#MA_0002022"/>
     </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane -->
+
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane">
+        <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB#KB_Physical_Entity"/>
+        <rdfs:label xml:lang="en">calcium(2+) in Plasma membrane</rdfs:label>
+        <Entity_Complexity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BASE</Entity_Complexity>
+        <Has_Subcomponent rdf:resource="http://purl.obolibrary.org/obo/CHEBI_29108"/>
+        <ro:part_of rdf:resource="http://www.bhi.washington.edu/SemSim/20032015142204023m0400#fma63841"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane_in_Cardiac_myocyte -->
+
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane_in_Cardiac_myocyte">
+        <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB#KB_Physical_Entity"/>
+        <rdfs:label xml:lang="en">calcium(2+) in Plasma membrane in Cardiac myocyte</rdfs:label>
+        <Entity_Complexity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">COMPLEX</Entity_Complexity>
+        <SemSim:hasPhysicalProperty rdf:resource="http://bhi.washington.edu/OPB#OPB_01581"/>
+        <model-qualifiers:isDerivedFrom rdf:resource="http://www.virtualrat.edu/VPRKB#pandit_hinch"/>
+        <ro:part_of rdf:resource="http://www.virtualrat.edu/VPRKB/Plasma_membrane_in_Cardiac_myocyte"/>
+        <Has_Subcomponent rdf:resource="http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedTarget rdf:resource="http://bhi.washington.edu/OPB#OPB_01581"/>
+        <owl:annotatedProperty rdf:resource="http://www.bhi.washington.edu/SemSim#hasPhysicalProperty"/>
+        <model-qualifiers:isDescribedBy rdf:resource="http://www.virtualrat.edu/VPRKB#pandit_hinch"/>
+        <owl:annotatedSource rdf:resource="http://www.virtualrat.edu/VPRKB/calcium(2+)_in_Plasma_membrane_in_Cardiac_myocyte"/>
+    </owl:Axiom>
     
 
 

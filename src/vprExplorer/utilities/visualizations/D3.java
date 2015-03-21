@@ -1,4 +1,4 @@
-package visualizations;
+package vprExplorer.utilities.visualizations;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
