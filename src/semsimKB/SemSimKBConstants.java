@@ -89,10 +89,10 @@ public class SemSimKBConstants {
 	
 	public static final URI KNOWLEDGE_BASE_CLASS_URI = URI.create(VPR_NAMESPACE + "Knowledge_Base");
 	public static final URI KB_PHYSICAL_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Model_Component");
-	public static final URI KB_PHYSICAL_ENTITY_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Entity");
+	public static final URI KB_COMPOSITE_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Entity");
 	public static final URI KB_DATASET_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Data_Set");
-	public static final URI KB_PHYSICAL_PROCESS_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Process");
-	public static final URI KB_COMPUTATIONAL_BIOMODEL_URI = URI.create(VPR_NAMESPACE+"KB_Bio_Model");
+	public static final URI KB_PROCESS_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Process");
+	public static final URI KB_MODEL_URI = URI.create(VPR_NAMESPACE+"KB_Bio_Model");
 	
 	public static final URI KB_HAS_SUBCOMPONENT_URI = URI.create(VPR_NAMESPACE + "Has_Subcomponent");
 	public static final URI KB_ENTITY_COMPLEXITY_URI = URI.create(VPR_NAMESPACE + "Entity_Complexity");

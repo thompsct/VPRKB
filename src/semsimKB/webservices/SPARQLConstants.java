@@ -30,10 +30,10 @@ public class SPARQLConstants extends SemSimKBConstants {
 		Map<URI, String> aMap = new HashMap<URI, String>();
 		aMap.put(PHYSICAL_PROPERTY_CLASS_URI,"SemSim:Physical_property");
 		aMap.put(REFERENCE_PHYSICAL_ENTITY_CLASS_URI,"SemSim:Reference_physical_entity");
-		aMap.put(KB_PHYSICAL_ENTITY_CLASS_URI,"VPRKB:KB_Physical_Entity");
-		aMap.put(KB_COMPUTATIONAL_BIOMODEL_URI,"VPRKB:KB_Bio_Model");
+		aMap.put(KB_COMPOSITE_CLASS_URI,"VPRKB:KB_Physical_Entity");
+		aMap.put(KB_MODEL_URI,"VPRKB:KB_Bio_Model");
 		aMap.put(KB_DATASET_CLASS_URI,"VPRKB:KB_Data_Set");
-		aMap.put(KB_PHYSICAL_PROCESS_CLASS_URI,"VPRKB:KB_Physical_Process");
+		aMap.put(KB_PROCESS_CLASS_URI,"VPRKB:KB_Physical_Process");
 		classmap = Collections.unmodifiableMap(aMap);
 	}
 	

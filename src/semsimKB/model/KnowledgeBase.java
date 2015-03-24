@@ -38,10 +38,10 @@ public class KnowledgeBase extends SemSimComponent {
 	protected HashMap<URI, Set<? extends SemSimComponent>> setmap = new HashMap<>();
 	
 	public KnowledgeBase() {
-		setmap.put(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI, BioModels);
-		setmap.put(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI, physicalCompositeEntities);
+		setmap.put(SemSimKBConstants.KB_MODEL_URI, BioModels);
+		setmap.put(SemSimKBConstants.KB_COMPOSITE_CLASS_URI, physicalCompositeEntities);
 		setmap.put(SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI, physicalCompositeEntities);
-		setmap.put(SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI, PhysicalComponentProcesses);
+		setmap.put(SemSimKBConstants.KB_PROCESS_CLASS_URI, PhysicalComponentProcesses);
 		setmap.put(SemSimKBConstants.CUSTOM_PHYSICAL_PROCESS_CLASS_URI, PhysicalComponentProcesses);
 		setmap.put(SemSimKBConstants.REFERENCE_PHYSICAL_PROCESS_CLASS_URI, PhysicalComponentProcesses);
 		setmap.put(SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI, PhysicalReferenceEntities);
@@ -117,15 +117,15 @@ public Set<DBPhysicalComponent> getKBPhysicalModelComponents() {
 	public boolean addComponent(SemSimComponent ElementtoAdd) {
 		if (kbHasComponent(ElementtoAdd)) return true;
 		URI compURI = ElementtoAdd.getClassURI();
-		if (compURI==SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) {
+		if (compURI==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) {
 			physicalCompositeEntities.add((DBCompositeEntity) ElementtoAdd);	
 			URIandDBCmap.put(ElementtoAdd.getURI(), (DBCompositeEntity)ElementtoAdd);
 		}
-		else if (compURI==SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) {
+		else if (compURI==SemSimKBConstants.KB_PROCESS_CLASS_URI) {
 			PhysicalComponentProcesses.add((DBPhysicalProcess)ElementtoAdd);
 			URIandDBCmap.put(ElementtoAdd.getURI(), (DBPhysicalProcess)ElementtoAdd);
 		}
-		else if (compURI==SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI) {
+		else if (compURI==SemSimKBConstants.KB_MODEL_URI) {
 			BioModels.add((CompBioModel)ElementtoAdd);		
 			URIandCBMmap.put(ElementtoAdd.getURI(), (CompBioModel)ElementtoAdd);
 		}
@@ -184,16 +184,16 @@ public Set<DBPhysicalComponent> getKBPhysicalModelComponents() {
 	public void removeComponent(SemSimComponent component) {
 		URI compURI = component.getClassURI();
 		URI curi = component.getURI();
-		if (compURI==SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) {
+		if (compURI==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) {
 			URIandDBCmap.remove(curi);
 			physicalCompositeEntities.remove(getComponentbyURI(curi));
 		}
-		else if (compURI==SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) {
+		else if (compURI==SemSimKBConstants.KB_PROCESS_CLASS_URI) {
 			URIandDBCmap.remove(component.getURI());
 			physicalCompositeEntities.remove((DBCompositeEntity) component);
 		}
 			
-		else if (compURI==SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI) {
+		else if (compURI==SemSimKBConstants.KB_MODEL_URI) {
 			URIandPPmap.remove(component.getURI());
 			PhysicalComponentProcesses.remove((DBPhysicalProcess) component);
 		}

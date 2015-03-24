@@ -1,7 +1,4 @@
-/semsimKB/
-/vprExplorer/
-/dataBaseOperations/
-/utilities/
-/knowledgebaseinterface/
-/semsim/
-/visualizations/
+/.project
+/jena-log4j.properties
+/resources
+/semsimKB

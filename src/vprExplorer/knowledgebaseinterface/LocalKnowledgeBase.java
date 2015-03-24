@@ -84,7 +84,7 @@ public class LocalKnowledgeBase extends KnowledgeBaseInterface {
 	
 	public int writeBuffertoDatabase(KBBufferOperations kbbuffer) {
 		//Check for and add models first
-		for (SemSimComponent cbm : kbbuffer.getComponentSet(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI)) {
+		for (SemSimComponent cbm : kbbuffer.getComponentSet(SemSimKBConstants.KB_MODEL_URI)) {
 			switch(kbbuffer.getComponentStatus(cbm)) {
 				case MISSING: 
 					localKB.addComponent(cbm);
@@ -106,8 +106,8 @@ public class LocalKnowledgeBase extends KnowledgeBaseInterface {
 				default:
 					break;
 			}	
-			if  (ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) 
-					|| ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) ) {
+			if  (ssc.getClassURI().equals(SemSimKBConstants.KB_COMPOSITE_CLASS_URI) 
+					|| ssc.getClassURI().equals(SemSimKBConstants.KB_PROCESS_CLASS_URI) ) {
 				
 				DBPhysicalComponent dbpc = (DBPhysicalComponent)ssc;
 				HashMap<URI, kbcomponentstatus> smap = kbbuffer.getPhysCompStatusList(dbpc);

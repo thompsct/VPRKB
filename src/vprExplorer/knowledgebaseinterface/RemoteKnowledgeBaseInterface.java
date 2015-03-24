@@ -59,15 +59,15 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
-		if (type.matches(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI.toString())) {
+		if (type.matches(SemSimKBConstants.KB_COMPOSITE_CLASS_URI.toString())) {
 			String complexity = sparql.getSingModelProperty("VPRKB:Entity_Complexity",eleuri, true);	
 			cmpt = new DBCompositeEntity(eleuri, SemSimKBConstants.KNOWLEDGE_BASE_ENTITY_TYPES.get(complexity));
 			makeType((DBCompositeEntity)cmpt);
 		}
-		else if (type.matches(SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI.toString())) {
+		else if (type.matches(SemSimKBConstants.KB_PROCESS_CLASS_URI.toString())) {
 			makeType((DBPhysicalProcess)cmpt);
 		}
-		else if (type.matches(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI.toString())) {
+		else if (type.matches(SemSimKBConstants.KB_MODEL_URI.toString())) {
 			cmpt = new CompBioModel(label);
 			makeType((CompBioModel)cmpt);
 		}			
@@ -136,10 +136,10 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	
 	public int pushChangestoDatabase(KBBufferOperations kbbuffer) {
 		//Check for and add models first
-		for (SemSimComponent cbm : kbbuffer.getComponentSet(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI)) {
+		for (SemSimComponent cbm : kbbuffer.getComponentSet(SemSimKBConstants.KB_MODEL_URI)) {
 			switch(kbbuffer.getComponentStatus(cbm)) {
 				case MISSING: 
-					sparql.addIndividual(cbm, SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI);
+					sparql.addIndividual(cbm, SemSimKBConstants.KB_MODEL_URI);
 					break;
 				default: 
 					break;
@@ -160,8 +160,8 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 					default:
 						break;
 			}	
-			if  (ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) 
-					|| ssc.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) ) {						
+			if  (ssc.getClassURI().equals(SemSimKBConstants.KB_COMPOSITE_CLASS_URI) 
+					|| ssc.getClassURI().equals(SemSimKBConstants.KB_PROCESS_CLASS_URI) ) {						
 				DBPhysicalComponent dbpc = (DBPhysicalComponent)ssc;
 				HashMap<URI, kbcomponentstatus> smap = kbbuffer.getPhysCompStatusList(dbpc);
 				if (smap!=null) {

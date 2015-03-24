@@ -71,6 +71,6 @@ public class CompBioModel extends SemSimComponent {
 	
 	@Override
 	public  URI getClassURI() {
-		return SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI;
+		return SemSimKBConstants.KB_MODEL_URI;
 	}
 }

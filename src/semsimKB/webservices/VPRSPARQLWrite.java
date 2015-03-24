@@ -49,13 +49,13 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		String data = "<" + iuri + "> a " + typeid + " .\n";
 		data = data + "<" + iuri + "> rdfs:label '" + ind.getName() + "' .\n";
 		
-		if (type==SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) {
+		if (type==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) {
 			data = buildEntry((DBCompositeEntity)ind, data);
 		}
-		else if (type==SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI) {
+		else if (type==SemSimKBConstants.KB_PROCESS_CLASS_URI) {
 			buildEntry((DBPhysicalProcess)ind, data);
 		}
-		else if (type==SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI) {
+		else if (type==SemSimKBConstants.KB_MODEL_URI) {
 			buildEntry((CompBioModel)ind, data);
 		}
 		else if (type==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
@@ -68,7 +68,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		
 		updateRemote(ui);
 		
-		if ((type==SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI) || (type==SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI)) {
+		if ((type==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) || (type==SemSimKBConstants.KB_PROCESS_CLASS_URI)) {
 			if (!((DBPhysicalComponent)ind).getPropertyList().isEmpty()) {
 				addPropertyModelLinks((DBPhysicalComponent)ind);
 			}

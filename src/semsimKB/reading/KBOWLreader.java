@@ -52,7 +52,7 @@ public class KBOWLreader {
 				return KBModel;
 			}
 			//Get models
-			for (String modelind : KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI.toString())){
+			for (String modelind : KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.KB_MODEL_URI.toString())){
 				CompBioModel cbm= new CompBioModel(KBOWLFactory.getURIdecodedFragmentFromIRI(modelind));
 				cbm.setURI(URI.create(modelind));
 				KBModel.addComponent(cbm);
@@ -68,7 +68,7 @@ public class KBOWLreader {
 			}
 			
 			//Get Composite Physical Entities
-			for (String cpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI.toString())) {
+			for (String cpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.KB_COMPOSITE_CLASS_URI.toString())) {
 				getCompositeEntityFromURI(ont, URI.create(cpes));
 			}
 

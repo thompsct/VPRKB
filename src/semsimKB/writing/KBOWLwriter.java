@@ -57,11 +57,11 @@ public class KBOWLwriter {
 		ont = manager.createOntology(allbaseaxioms, ontiri);
 
 		//First add the models
-		for (SemSimComponent cbm : kb.getSet(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI)) {
+		for (SemSimComponent cbm : kb.getSet(SemSimKBConstants.KB_MODEL_URI)) {
 		
 			String modeluri = cbm.getURI().toString();
 			KBOWLFactory.createSemSimIndividual(ont, modeluri, 
-					factory.getOWLClass(IRI.create(SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI.toString())), "", manager);
+					factory.getOWLClass(IRI.create(SemSimKBConstants.KB_MODEL_URI.toString())), "", manager);
 			KBOWLFactory.setRDFLabel(ont, factory.getOWLNamedIndividual(IRI.create(modeluri)), cbm.getName(), manager);	
 		}
 		//Get information for reference physical entities
@@ -80,7 +80,7 @@ public class KBOWLwriter {
 		singularphysentinds = KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI.toString());
 		
 		//Composites
-		for (SemSimComponent pce : kb.getSet(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI)) {
+		for (SemSimComponent pce : kb.getSet(SemSimKBConstants.KB_COMPOSITE_CLASS_URI)) {
 			processCompositePhysicalEntity((DBCompositeEntity)pce);
 		}
 				
@@ -113,7 +113,7 @@ public class KBOWLwriter {
 		if(!compositeEntitiesAndIndexes.containsKey(cpe)){
 
 			KBOWLFactory.createSemSimIndividual(ont, compuri.toString(), 
-					factory.getOWLClass(IRI.create(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI)), "", manager);
+					factory.getOWLClass(IRI.create(SemSimKBConstants.KB_COMPOSITE_CLASS_URI)), "", manager);
 						
 			compositeEntitiesAndIndexes.put(cpe, compuri);
 			KBOWLFactory.setRDFLabel(ont, factory.getOWLNamedIndividual(IRI.create(compuri)), label, manager); 

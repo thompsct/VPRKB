@@ -47,10 +47,10 @@ public class KBTree extends DefaultTreeModel {
 	    ppNode = new DefaultMutableTreeNode("Physical Properties");
 	    top.add(ppNode);
 	    
-	    classmap.put(modelNode, SemSimKBConstants.KB_COMPUTATIONAL_BIOMODEL_URI);
+	    classmap.put(modelNode, SemSimKBConstants.KB_MODEL_URI);
 		classmap.put(dataSetNode, SemSimKBConstants.KB_DATASET_CLASS_URI);
-		classmap.put(processNode, SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI);
-		classmap.put(compEntNode, SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI);
+		classmap.put(processNode, SemSimKBConstants.KB_PROCESS_CLASS_URI);
+		classmap.put(compEntNode, SemSimKBConstants.KB_COMPOSITE_CLASS_URI);
 		classmap.put(refEntNode, SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI);
 		classmap.put(ppNode, SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI);
 	}

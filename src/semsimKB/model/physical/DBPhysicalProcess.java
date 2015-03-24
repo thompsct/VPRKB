@@ -20,6 +20,6 @@ public class DBPhysicalProcess extends DBPhysicalComponent {
 	}
 	@Override
 	public  URI getClassURI() {
-		return SemSimKBConstants.KB_PHYSICAL_PROCESS_CLASS_URI;
+		return SemSimKBConstants.KB_PROCESS_CLASS_URI;
 	}
 }

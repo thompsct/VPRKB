@@ -72,7 +72,7 @@ public class DBCompositeEntity extends DBPhysicalComponent {
 
 		@Override
 		public  URI getClassURI() {
-			return SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI;
+			return SemSimKBConstants.KB_COMPOSITE_CLASS_URI;
 		}
 
 }

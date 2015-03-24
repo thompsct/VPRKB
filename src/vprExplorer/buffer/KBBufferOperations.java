@@ -121,7 +121,7 @@ public class KBBufferOperations {
 				for (URI scuri : complexent.getComponents() ) {
 					if (!statusmap.containsKey(scuri)) {
 						SemSimComponent scp = kbsource.getElementwithURI(scuri);
-						if (scp.getClassURI().equals(SemSimKBConstants.KB_PHYSICAL_ENTITY_CLASS_URI)) {
+						if (scp.getClassURI().equals(SemSimKBConstants.KB_COMPOSITE_CLASS_URI)) {
 								statusmap.put(scuri, kbcomponentstatus.EXTERNAL_TO_MODEL);
 						}
 					}	
