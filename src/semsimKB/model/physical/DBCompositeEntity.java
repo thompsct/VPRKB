@@ -1,73 +1,83 @@
 package semsimKB.model.physical;
 
 import java.net.URI;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
-import semsimKB.SemSimKBConstants.kbcomptype;
 import semsimKB.annotation.StructuralRelation;
 
-public class DBCompositeEntity extends DBPhysicalComponent {
-		protected LinkedList<StructuralRelation> rels;
-		protected SemSimKBConstants.kbcomptype type;
+public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEntity{
+		private Pair<PhysicalEntity, PhysicalEntity> componententities = null;
+		protected StructuralRelation relation  = SemSimKBConstants.PART_OF_RELATION;
 		
-		public DBCompositeEntity(PhysicalModelComponent entitytoAdd, kbcomptype t) {
-			super(entitytoAdd);
-			
-			rels=new LinkedList<StructuralRelation>();
-			type = t;
-			if (type.equals(kbcomptype.SINGULAR)) {
-				addComponent(entitytoAdd);
-				setURI(entitytoAdd.getURI());
-			}
-			else {
-				CompositePhysicalEntity cpe = (CompositePhysicalEntity)entitytoAdd;
-				LinkedList<PhysicalEntity> complist = new LinkedList<PhysicalEntity>();
-				for (StructuralRelation rel : cpe.getArrayListOfStructuralRelations() ) {
-					rels.add(rel);
-				}
-				for (PhysicalEntity rpe : cpe.getArrayListOfEntities()) {
-					addComponent(rpe.getURI());	
-					complist.add(rpe);
-				}
-				//Create name from components
-				String name = (String)SemSimKBConstants.VPR_NAMESPACE.subSequence(0, SemSimKBConstants.VPR_NAMESPACE.length()-1);
-				if (type.equals(kbcomptype.COMPLEX)) {
-					
-					String first = complist.getFirst().getName();
-					String last = complist.getLast().getName();
-					String toignore = ((CompositePhysicalEntity)complist.getFirst()).getArrayListOfEntities().get(1).getName();
-					cpe.setName(first + last.replace(toignore, ""));
-					setName(cpe.getName());
-				}
-					
-				name = name + '/' + getName().trim().replace(' ', '_');
-				setURI(URI.create(name));
-			}
+		public DBCompositeEntity(Pair<PhysicalEntity,PhysicalEntity> entitiestoadd, StructuralRelation rel) {
+			componententities = entitiestoadd;
+			relation = rel;
+			createName();
 		}
 
-		
-		public DBCompositeEntity(URI uri, kbcomptype t) {
+		public DBCompositeEntity(URI uri) {
 			super(uri);
-			type = t;
-			components=new LinkedList<URI>();
-			rels=new LinkedList<StructuralRelation>();
 		}
+		
+		private void createName() {
+				Pair<String, String> names =  getComponentNames();
+				String[] pe1name = names.getLeft().split(" ");
+				ArrayList<String> pe2name = new ArrayList<String>();
+				for (String s : names.getRight().split(" ")) {
+						pe2name.add(s);
+				}
 				
-		public SemSimKBConstants.kbcomptype getType() { 
-			return type;
+				for (int i = 1; i<pe1name.length; i++) {
+					if (pe1name[pe1name.length-i].equals(pe2name.get(i))) {
+						pe2name.remove(i);
+					}
+					else break;
+				}
+				String pe2 = "";
+				for (String s : pe2name) {
+					pe2 = pe2 + " " + s;
+				}
+				String rel = " part of";
+				if (getRelation()==SemSimKBConstants.CONTAINED_IN_RELATION) {
+					rel = " contained in";
+				}
+				setName(names.getLeft() + rel + pe2);
 		}
 		
-		public StructuralRelation getRelation(int i) {
-				return rels.get(i);
+		public Pair<URI, URI> getComponentURIs() {
+			return Pair.of(componententities.getLeft().getURI(), componententities.getRight().getURI());
 		}
 		
-		public LinkedList<StructuralRelation> getRelations() {
-			return rels;
+		public Pair<String, String> getComponentNames() {
+			return Pair.of(componententities.getLeft().getName(), componententities.getRight().getName());
 		}
 		
-		public void addRelation(StructuralRelation rel) {
-			rels.add(rel);
+		
+		public boolean equals(DBCompositeEntity dbc) {
+			return componentEntityListsMatch(dbc.componententities);
+		}
+		
+		public StructuralRelation getRelation() {
+				return relation;
+		}
+
+		public void setRelation(StructuralRelation r) {
+			relation = r;
+		}
+		
+		public boolean componentEntityListsMatch(Pair<PhysicalEntity, PhysicalEntity> components) {
+			return (components.getLeft().getURI().equals(componententities.getLeft().getURI()) &&
+					components.getRight().getURI().equals(componententities.getRight().getURI()));
+			
+		}
+		
+		public void setComponents(Pair<PhysicalEntity, PhysicalEntity> cmptpair) {
+			if (componententities == null) {
+				componententities = cmptpair;
+			}
 		}
 
 		@Override

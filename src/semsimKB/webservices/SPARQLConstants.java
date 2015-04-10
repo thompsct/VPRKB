@@ -10,10 +10,12 @@ import semsimKB.SemSimKBConstants;
 public class SPARQLConstants extends SemSimKBConstants {
 	//local server
 	public static final String local = "http://localhost:3030/cfg/SemSimKBBase.owl/";
+	public final String triple = "%s %p %o";
 	public final String ask = "ASK WHERE {%s %p %o}";
 	public final String describe = "DESCRIBE <%t>";
 	
 	public final String query = "SELECT %d %t WHERE {%s %p %o}";
+	public final String multselect = "SELECT %d %t WHERE {%q}";
 	public final String selfil = "SELECT ?s WHERE {?s %p ?o FILTER regex(?o, '^%f')}";
 	public final String sdescribe = "DESCRIBE %s WHERE {<%s> %p %o}";
 	

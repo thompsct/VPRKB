@@ -1,136 +1,116 @@
 package semsimKB.model.physical;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
 
 import semsimKB.model.CompBioModel;
+import semsimKB.model.SemSimComponent;
 import semsimKB.SemSimKBConstants;
 
-public class DBPhysicalComponent extends PhysicalModelComponent {
-	protected LinkedList<URI> components = new LinkedList<URI>();
-	protected Set<URI> BioModels = new HashSet<>();
-	protected Map<URI, Set<URI>> Properties = new HashMap<URI, Set<URI>>();
+public abstract class DBPhysicalComponent extends SemSimComponent {
+	protected ArrayList<CompBioModel> models = new ArrayList<CompBioModel>();
+	protected ArrayList<PhysicalProperty> proplist = new ArrayList<PhysicalProperty>();
+	protected ArrayList<ArrayList<CompBioModel>> propmodlist = new ArrayList<ArrayList<CompBioModel>>();
 	
-	public DBPhysicalComponent(PhysicalModelComponent entitytoAdd) {
-		setName(entitytoAdd.getName());
-		setDescription(entitytoAdd.getDescription());
-	}
+	public DBPhysicalComponent() {}
 	
 	public DBPhysicalComponent(URI uri) {
 		setURI(uri);
 	}
-		
-	public void setBioCompModels(Set<CompBioModel> bioModels) {
-		for (CompBioModel cbm : bioModels) {
-			BioModels.add(cbm.getURI());
-		}
+	
+	public void setBioCompModels(ArrayList<CompBioModel> biomod) {
+		models = biomod;
 	}
 	
-	public void setBioCompModelsbyURIs(Set<URI> bioModels) {
-			BioModels.addAll(bioModels);
-	}
-	
-	public Set<URI> getBioCompModels() {
-		return BioModels;
+	public ArrayList<CompBioModel> getBioCompModels() {
+		return models;
 	}
 	
 	public void addCompBioModel(CompBioModel model) {
-		BioModels.add(model.getURI());
+		models.add(model);
 	}
-	
-	public void addCompBioModel(URI model) {
-		BioModels.add(model);
-	}
-	
+
 	public void removeCompBioModel(CompBioModel model) {
-		BioModels.remove(model);
+		models.remove(model);
 	}
 	
 	public boolean containsCBModel(CompBioModel model) {
-		if (BioModels.contains(model)) return true;
-		else return false;
+		return models.contains(model);
 	}
+
 	public boolean containsCBModel(URI modeluri) {
-		for (URI cbm : BioModels) {
+		for (CompBioModel cbm : models) {
 			if (cbm.equals(modeluri)) return true;	
 		}
 		return false;
 	}
 	
-	public Set<URI> getPropertyModelList(PhysicalProperty key) {
-		return Properties.get(key.getURI());
+	public ArrayList<CompBioModel> getPropertyModelList(int key) {
+		return propmodlist.get(key);
 	}
 	
-	public Map<URI, Set<URI>> getPropertyMap() {
-		return Properties;
+	public ArrayList<CompBioModel> getPropertyModelList(PhysicalProperty pp) {
+		return propmodlist.get(proplist.indexOf(pp));
 	}
 	
-	public Set<URI> getPropertyList() {
-		return Properties.keySet();
+	public ArrayList<PhysicalProperty> getPropertyList() {
+		return proplist;
 	}
 	
-	public void addComponent(PhysicalModelComponent pmc) {
-		components.add(pmc.getURI());
-	}
-	
-	public void addComponent(URI pmc) {
-		components.add(pmc);
-	}
-	
-	public void ReplaceComponent(PhysicalModelComponent toreplace, PhysicalModelComponent replacer) {
-		components.set(components.indexOf(toreplace.getURI()), replacer.getURI());
-	}
-	
-	public void ReplaceComponent(URI toreplace, URI replacer) {
-		components.set(components.indexOf(toreplace), replacer);
-	}
-	
-	public LinkedList<URI> getComponents() {			
-		return components;
-	}
-	
-	public void addProperty(PhysicalProperty pptoadd, URI cbmuri) {
-		if (!Properties.containsKey(pptoadd.getURI())) {
-			Set<URI> cbms = new HashSet<URI>();
+	public int addProperty(PhysicalProperty pptoadd, CompBioModel cbmuri) {
+		if (!proplist.contains(pptoadd.getURI())) {
+			ArrayList<CompBioModel> cbms = new ArrayList<CompBioModel>();
 			cbms.add(cbmuri);
-			Properties.put(pptoadd.getURI(), cbms);
+			proplist.add(pptoadd);
+			propmodlist.add(cbms);
+			return proplist.size()-1;
 		}
-		else addModeltoProperty(pptoadd.getURI(), cbmuri);
+		if (addModeltoProperty(pptoadd, cbmuri)) return proplist.indexOf(pptoadd);
+		return -1;
 	}
-	
-	public void addProperty(URI pptoadd, URI cbmuri) {
-		if (!Properties.containsKey(pptoadd)) {
-			Set<URI> cbms = new HashSet<URI>();
-			cbms.add(cbmuri);
-			Properties.put(pptoadd, cbms);
+		
+	public boolean addModeltoProperty(PhysicalProperty ppURItoadd, CompBioModel cbmuri) {
+		if (propmodlist.get(proplist.indexOf(ppURItoadd)).contains(cbmuri)) {
+			propmodlist.get(proplist.indexOf(ppURItoadd)).add(cbmuri);
+			return true;
 		}
-		else addModeltoProperty(pptoadd, cbmuri);
-	}
-	
-	public void addModeltoProperty(URI ppURItoadd, URI cbmuri) {
-		Properties.get(ppURItoadd).add(cbmuri);
-	}
-	
-	public boolean containsProperty(PhysicalProperty pptocheck) {
-		if (Properties.containsKey(pptocheck.getURI())) return true;
 		return false;
 	}
 	
+	public boolean containsProperty(PhysicalProperty pptocheck) {
+		return proplist.contains(pptocheck);
+	}
+	
 	public boolean containsProperty(URI pptocheck) {
-		if (Properties.containsKey(pptocheck)) return true;
+		for (PhysicalProperty pp : proplist) {
+			if (pp.getURI().compareTo(pptocheck)==0) return true;
+		}
 		return false;
 	}
 	
 	public void removeProperty(PhysicalProperty pptoremove) {
-		Properties.remove(Properties.get(pptoremove.getURI()));
+		removeProperty(proplist.indexOf(pptoremove));
 	}
 	
-	public void removeProperty(URI pptoremove) {
-		Properties.remove(Properties.get(pptoremove));
+	public void removeProperty(int pptoremove) {
+		proplist.remove(pptoremove);
+		propmodlist.remove(pptoremove);
+	}
+	
+	public PhysicalProperty getPhysicalProperty(int pindex) {
+		return proplist.get(pindex);
+	}
+	
+	public ArrayList<CompBioModel> getPPModelAssociationList(int index) {
+		return propmodlist.get(index);
+	}
+	
+	public int getPropertyModelCount(int pindex) {
+		return propmodlist.get(pindex).size();
+	}
+	
+	public int getPropertyCount() {
+		return proplist.size();
 	}
 	
 	@Override

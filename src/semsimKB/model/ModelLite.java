@@ -5,19 +5,20 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import org.semanticweb.owlapi.model.IRI;
 
 import semsimKB.Annotatable;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
+import semsimKB.annotation.CurationalMetadata;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.annotation.SemSimRelation;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.physical.CompositePhysicalEntity;
-import semsimKB.model.physical.CustomPhysicalEntity;
 import semsimKB.model.physical.CustomPhysicalProcess;
 import semsimKB.model.physical.PhysicalEntity;
 import semsimKB.model.physical.PhysicalModelComponent;
@@ -27,9 +28,12 @@ import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.model.physical.ReferencePhysicalProcess;
 
 public class ModelLite extends SemSimComponent implements Cloneable, Annotatable {	
+	public static final IRI LEGACY_CODE_LOCATION_IRI = IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "legacyCodeURI");
+	private double semsimversion;
 	//Physical Model Components
-
-	protected Set<PhysicalEntity> physicalentities = new HashSet<PhysicalEntity>();
+	private CurationalMetadata metadata = new CurationalMetadata();
+	protected Set<ReferencePhysicalEntity> refentities = new HashSet<ReferencePhysicalEntity>();
+	protected Set<CompositePhysicalEntity> compentities = new HashSet<CompositePhysicalEntity>();
 	protected Set<PhysicalProcess> physicalprocesses = new HashSet<PhysicalProcess>();
 	protected Set<PhysicalProperty> physicalproperties = new HashSet<PhysicalProperty>();
 	protected Set<Annotation> annotations = new HashSet<Annotation>();
@@ -42,7 +46,7 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	protected static SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmssSSSZ");
 	protected double semSimVersion = SemSimKBConstants.SEMSIM_VERSION;
 	protected int sourceModelType;
-
+	private String sourcefilelocation;
 	
 	/**
 	 * Constructor without namespace
@@ -67,17 +71,30 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	public void addError(String error){
 		errors.add(error);
 	}
-	//Remove all data from model object	
-	public void clear() {
-		this.removeAllReferenceAnnotations();
-		
-		setURI(null); setName(""); namespace = ""; 
-		 physicalentities.clear(); physicalprocesses.clear();
-		 errors.clear(); annotations.clear();
-		 
+	
+	/**
+	 * @return The location of the raw computer source code associated with this model.
+	 */
+	
+	public String getLegacyCodeLocation() {
+		return sourcefilelocation;
+	}
+
+	public void setSourcefilelocation(String sourcefilelocation) {
+		this.sourcefilelocation = sourcefilelocation;
 	}
 	
+	public CurationalMetadata getCurationalMetadata() {
+		return metadata;
+	}
 	
+	public void addPhysicalProperty(PhysicalProperty pe) {
+		physicalproperties.add(pe);
+	}
+	
+	public void addReferencePhysicalEntity(ReferencePhysicalEntity rpe) {
+		refentities.add(rpe);
+	}
 	
 	/**
 	 * Add a new {@link CompositePhysicalEntity} to the model. 
@@ -105,47 +122,11 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 				return cpe;
 			}
 		}
-		physicalentities.add(newcpe);
+		compentities.add(newcpe);
 		
-		// If there are physical entities that are part of the composite but not yet added to the model, add them
-		// This comes into play when importing annotations from other models
-		for(PhysicalEntity ent : newcpe.getArrayListOfEntities()){
-			if(!getPhysicalEntities().contains(ent)){
-				if(ent.hasRefersToAnnotation()){
-					ReferenceOntologyAnnotation roa = ent.getFirstRefersToReferenceOntologyAnnotation();
-					URI roauri = roa.getReferenceURI();
-					addReferencePhysicalEntity(roauri, roa.getValueDescription());
-					
-					String curi = SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()) 
-							+ roauri.toString().substring(roauri.toString().lastIndexOf('/')+1, roauri.toString().length());
-					ent.setURI(URI.create(curi));
-				}
-				else addCustomPhysicalEntity(ent.getName(), ent.getDescription());
-			}
-		}
 		return newcpe;
 	}
-	
-	
-	/**
-	 * Add a new {@link CustomPhysicalEntity} to the model. 
-	 * 
-	 * @param name The name of the CustomPhysicalEntity to be added.
-	 * @param description A free-text description of the CustomPhysicalEntity
-	 * @return If the model already contains a CustomPhysicalEntity with the same name, it is returned.
-	 * Otherwise a new CustomPhysicalEntity with the name and description specified is returned.
-	 */
-	public CustomPhysicalEntity addCustomPhysicalEntity(String name, String description){
-		CustomPhysicalEntity custompe = null;
-		if(getCustomPhysicalEntityByName(name)!=null) custompe = getCustomPhysicalEntityByName(name);
-		else{
-			custompe = new CustomPhysicalEntity(name, description);
-			physicalentities.add(custompe);
-		}
-		return custompe;
-	}
-	
-	
+		
 	/**
 	 * Add a new {@link CustomPhysicalProcess} to the model. 
 	 * 
@@ -180,7 +161,7 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 		if(getPhysicalEntityByReferenceURI(uri)!=null) rpe = getPhysicalEntityByReferenceURI(uri);
 		else{
 			rpe = new ReferencePhysicalEntity(uri, description);
-			physicalentities.add(rpe);
+			refentities.add(rpe);
 		}
 		return rpe;
 	}
@@ -211,84 +192,23 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 		return namespace;
 	}
 	
-	
-	/**
-	 * @return A Map where the KeySet includes all PhysicalProperties in the model that are properties of 
-	 * CompositePhyiscalEntities. The value for each key is the CompositePhysicalEntity that possesses the property. 
-	 */
-	public Map <PhysicalProperty,CompositePhysicalEntity> getPropertyAndCompositePhysicalEntityMap(){
-		Map<PhysicalProperty,CompositePhysicalEntity> table = new HashMap<PhysicalProperty,CompositePhysicalEntity>();
-		for(PhysicalProperty pp: getPhysicalProperties()){
-			if(pp.getPhysicalPropertyOf() instanceof CompositePhysicalEntity){
-				CompositePhysicalEntity cpe = (CompositePhysicalEntity) pp.getPhysicalPropertyOf();
-				table.put(pp,cpe);
-			}
-		}
-		return table;
-	}
-	
-	
-	/**
-	 * @return A Map where the KeySet includes all PhysicalProperties in the model that are properties of 
-	 * PhysicalProcesses. The value for each key is the PhysicalProcess that possesses the property. 
-	 */
-	public Map <PhysicalProperty,PhysicalProcess> getPropertyAndPhysicalProcessTable(){
-		Map<PhysicalProperty,PhysicalProcess> table = new HashMap<PhysicalProperty,PhysicalProcess>();
-		for(PhysicalProperty pp: getPhysicalProperties()){
-			if(pp.getPhysicalPropertyOf() instanceof PhysicalProcess){
-				PhysicalProcess pproc = (PhysicalProcess) pp.getPhysicalPropertyOf();
-				table.put(pp,pproc);
-			}
-		}
-		return table;
-	}
-	
-	
-	/**
-	 * @return A Map where the KeySet includes all PhysicalProperties in the model that are properties of 
-	 * PhysicalEntities (composite or singular). The value for each key is the PhysicalEntity that possesses the property. 
-	 */
-	public Map <PhysicalProperty,PhysicalEntity> getPropertyAndPhysicalEntityMap(){
-		Map<PhysicalProperty,PhysicalEntity> table = new HashMap<PhysicalProperty,PhysicalEntity>();
-		for(PhysicalProperty pp: getPhysicalProperties()){
-			if(pp.getPhysicalPropertyOf() instanceof PhysicalEntity){
-				PhysicalEntity ent = (PhysicalEntity) pp.getPhysicalPropertyOf();
-				table.put(pp,ent);
-			}
-		}
-		return table;
-	}
-	
-	
 	/**
 	 * @return All PhysicalEntities in the model. 
 	 */
 	public Set<PhysicalEntity> getPhysicalEntities() {
-		return physicalentities;
+		Set<PhysicalEntity> peset = new HashSet<PhysicalEntity>();
+		peset.addAll(refentities);
+		peset.addAll(compentities);
+		return peset;
 	}
 	
-	
-	/**
-	 * @return All PhysicalEntities in the model, except those that either are, or use, a specifically excluded entity 
-	 */
-	public Set<PhysicalEntity> getPhysicalEntitiesAndExclude(PhysicalEntity entityToExclude) {
-		Set<PhysicalEntity> includedents = new HashSet<PhysicalEntity>();
-		
-		if(entityToExclude!=null){
-			for(PhysicalEntity pe : getPhysicalEntities()){
-				// If pe is a composite entity, check if it uses the entityToExclue, ignore if so
-				if(pe instanceof CompositePhysicalEntity){
-					if(!((CompositePhysicalEntity) pe).getArrayListOfEntities().contains(entityToExclude))
-						includedents.add(pe);
-				}
-				else if(pe!=entityToExclude) includedents.add(pe);
-			}
-		}
-		else return getPhysicalEntities();
-		
-		return includedents;
+	public Set<ReferencePhysicalEntity> getReferenceEntities() {
+		return refentities;
 	}
 	
+	public Set<CompositePhysicalEntity> getComposites() {
+		return compentities;
+	}
 	
 	/**
 	 * Specify the set of PhysicalEntities in the model. 
@@ -339,7 +259,8 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	public Set<PhysicalModelComponent> getPhysicalModelComponents(){
 		Set<PhysicalModelComponent> set = new HashSet<PhysicalModelComponent>();
 		set.addAll(getPhysicalProperties());
-		set.addAll(getPhysicalEntities());
+		set.addAll(refentities);
+		set.addAll(compentities);
 		set.addAll(getPhysicalProcesses());
 		return set;
 	}
@@ -385,33 +306,6 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 		}
 		return null;
 	}
-	
-	
-	/**
-	 * @return The set of all CustomPhysicalEntities in the model.
-	 */
-	public Set<CustomPhysicalEntity> getCustomPhysicalEntities(){
-		Set<CustomPhysicalEntity> custs = new HashSet<CustomPhysicalEntity>();
-		for(PhysicalEntity ent : getPhysicalEntities()){
-			if(ent instanceof CustomPhysicalEntity) custs.add((CustomPhysicalEntity) ent);
-		}
-		return custs;
-	}
-	
-	
-	/**
-	 * @param name The name of CustomPhysicalEntity to return
-	 * @return The CustomPhysicalEntity with the specified name or null if no match was found.
-	 */
-	public CustomPhysicalEntity getCustomPhysicalEntityByName(String name){
-		for(PhysicalModelComponent apmc : getPhysicalEntities()){
-			if(apmc instanceof CustomPhysicalEntity){
-				if(apmc.getName().equals(name)) return (CustomPhysicalEntity)apmc;
-			}
-		}
-		return null;
-	}
-	
 	
 	/**
 	 * @return The set of all CustomPhysicalProcesses in the model.
@@ -554,8 +448,8 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	 * @param ent The physical entity to remove
 	 */
 	public void removePhysicalEntityFromCache(PhysicalEntity ent){
-		if(physicalentities.contains(ent))
-			physicalentities.remove(ent);
+		if(refentities.contains(ent))
+			refentities.remove(ent);
 	}
 	
 	/**
@@ -714,4 +608,32 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 		annotations = new HashSet<Annotation>(newset);
 	}
 	// End of methods required by Annotatable interface
+	
+	/**
+	 * Add a SemSim {@link Annotation} to this object
+	 * @param ann The {@link Annotation} to add
+	 */
+	public void setModelAnnotation(Metadata metaID, String value) {
+		metadata.setAnnotationValue(metaID, value);
+	}
+	
+	@Override
+	public String getDescription() {
+		return metadata.getAnnotationValue(Metadata.description);
+	}
+	@Override
+	public void setDescription(String value) {
+		metadata.setAnnotationValue(Metadata.description, value);
+	}
+	public double getSemsimversion() {
+		return semsimversion;
+	}
+
+	public void setSemsimversion(double semsimversion) {
+		this.semsimversion = semsimversion;
+	}
+	
+	public void setSemsimversion(String semsimversion) {
+		this.semsimversion = Double.valueOf(semsimversion);
+	}
 }

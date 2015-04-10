@@ -1,5 +1,9 @@
 package semsimKB.model.physical;
 
-public class PhysicalEntity extends PhysicalModelComponent{
+import java.net.URI;
 
+public interface PhysicalEntity {
+	
+	public String getName();
+	public URI getURI();
 }

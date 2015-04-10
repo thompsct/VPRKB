@@ -1,8 +1,7 @@
 package semsimKB.webservices;
 
 import java.net.URI;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
 import semsimKB.model.CompBioModel;
@@ -40,7 +39,8 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		super(global);
 	}
 	//Add a named individual with properties	
-	public int addIndividual(SemSimComponent ind, URI type) {
+	public int addIndividual(SemSimComponent ind) {
+		URI type = ind.getClassURI();
 		String iuri = ind.getURI().toString();
 		
 		String typeid = SPARQLConstants.classmap.get(type);
@@ -69,8 +69,12 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		updateRemote(ui);
 		
 		if ((type==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) || (type==SemSimKBConstants.KB_PROCESS_CLASS_URI)) {
-			if (!((DBPhysicalComponent)ind).getPropertyList().isEmpty()) {
-				addPropertyModelLinks((DBPhysicalComponent)ind);
+			DBPhysicalComponent dbc = (DBPhysicalComponent)ind;
+			if (!dbc.getPropertyList().isEmpty()) {
+				for (int i=0; i<dbc.getPropertyCount(); i++) {
+					
+					addPropertyModelLinks(dbc.getURI(), dbc.getPhysicalProperty(i).getURI(), dbc.getPropertyModelList(i).get(0).getURI());
+				}
 			}
 		}
 		return 0;
@@ -90,15 +94,15 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	}
 	String buildEntry(DBCompositeEntity obj, String data) {
 		String ouri = obj.getURI().toString() ;
-		data = data + "<" + ouri + "> VPRKB:Entity_Complexity '" + obj.getType().toString() + "' .\n";
-		for (PhysicalProperty pp : obj.getPhysicalProperties()) {
+		for (PhysicalProperty pp : obj.getPropertyList()) {
 			data = data + "<" + ouri + "> SemSim:hasPhysicalProperty <" + pp.getURI().toString() + "> .\n";
 		}
-		for (URI cbm : obj.getBioCompModels()) {
-			data = data + "<" + ouri + "> model-qualifiers:isDerivedFrom <" + cbm + "> .\n";
+		for (CompBioModel cbm : obj.getBioCompModels()) {
+			data = data + "<" + ouri + "> model-qualifiers:isDerivedFrom <" + cbm.getURI().toString() + "> .\n";
 		}
-		data = data + "<" + ouri + "> <" + obj.getRelation(0).getURI().toString() + "> <" + obj.getComponents().get(0).toString() + "> .\n";
-		data = data + "<" + ouri + "> VPRKB:Has_Subcomponent <" +  obj.getComponents().get(1).toString() + "> .\n";
+		Pair<URI, URI> compuris = obj.getComponentURIs();
+		data = data + "<" + ouri + "> <" + obj.getRelation().getURI().toString() + "> <" + compuris.getLeft().toString() + "> .\n";
+		data = data + "<" + ouri + "> VPRKB:Has_Subcomponent <" +  compuris.getRight().toString() + "> .\n";
 		return data;
 	}
 	
@@ -120,7 +124,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	}
 	
 	//Annotate individual with property map
-	void addPropertyAxiom(URI dpc, URI puri) {
+	protected void addPropertyAxiom(URI dpc, URI puri) {
 		int n = countObj("owl:Axiom")+1;
 		
 		String ui = makePrefixString("owl") + sinsertax;
@@ -142,16 +146,11 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		updateRemote(ui);
 	}
 	
-	public void addPropertyModelLinks(DBPhysicalComponent dpc) {
-		URI dpcuri = dpc.getURI();
-		Map<URI, Set<URI>> pmmap = dpc.getPropertyMap();
-		URI muri = dpc.getBioCompModels().iterator().next();
-				
-		for (URI ppuri : pmmap.keySet()) {
+	public void addPropertyModelLinks(URI dpcuri, URI ppuri, URI muri) {				
 			addPropertyAxiom(dpcuri, ppuri);
-			addModeltoAxiom(dpcuri, ppuri, muri);			
-		}
+			addModeltoAxiom(dpcuri, ppuri, muri);		
 	}
+
 	//Make and execute update request
 	void updateRemote(String ui) {
 		host = server + "update";

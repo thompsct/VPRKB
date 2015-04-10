@@ -67,9 +67,6 @@ public class SemSimKBConstants {
 			SYSTEMS_BIOLOGY_ONTOLOGY_FULLNAME,
 			UNIPROT_FULLNAME
 	};
-	public static enum kbcomponentstatus {EXACT_MATCH, MISSING, NEW_INSTANCE_MODEL, NEW_INSTANCE_PHYS_PROPERTY, 
-		NEW_ASSOCIATED_PHYS_PROPERTY, EXTERNAL_TO_MODEL };
-	public static enum kbcomptype {BASE, COMPLEX, SINGULAR};
 	
 	// URIs
 	public static final URI SEMSIM_COMPONENT_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "SemSim_component");
@@ -200,6 +197,7 @@ public class SemSimKBConstants {
 	public static final StructuralRelation CONTAINED_IN_RELATION = new StructuralRelation("physical entity is contained in another physical entity", CONTAINED_IN_URI);
 	public static final StructuralRelation CONTAINS_RELATION = new StructuralRelation("physical entity contains another physical entity", CONTAINS_URI);
 	public static final StructuralRelation AdjacentToRelation = new StructuralRelation("physical entity is adjacent to another physical entity", AdjacentToURI);
+	public static final StructuralRelation SUBCOMPONENT_RELATION = new StructuralRelation("physical entity is subcomponent of another physical entity", KB_HAS_SUBCOMPONENT_URI);
 	public static final SemSimRelation HAS_SOURCE_RELATION = new SemSimRelation("physical process has thermodynamic source entity", HAS_SOURCE_URI);
 	public static final SemSimRelation HAS_SINK_RELATION = new SemSimRelation("physical process has thermodynamic sink entity", HAS_SINK_URI);
 	public static final SemSimRelation HAS_MEDIATOR_RELATION = new SemSimRelation("physical process has thermodynamic mediator entity", HAS_MEDIATOR_URI);
@@ -232,10 +230,6 @@ public class SemSimKBConstants {
 	
 	public static final double SEMSIM_VERSION = 0.1;
 	
-	public static final int UNKNOWN_PROPERTY_TYPE = 0;
-	public static final int PROPERTY_OF_PHYSICAL_ENTITY = 1;
-	public static final int PROPERTY_OF_PHYSICAL_PROCESS = 2;
-	
 	public static final int NOT_ONLINE_ERROR = 0;
 	public static final int IO_ERROR = 2;
 	
@@ -245,7 +239,6 @@ public class SemSimKBConstants {
 	public static final Map<URI,URI> INVERSE_STRUCTURAL_RELATIONS_MAP;
 	public static final Map<Integer, SemSimRelation> BIOLOGICAL_QUALIFIER_TYPES_AND_RELATIONS;
 	public static final Map<Integer, SemSimRelation> MODEL_QUALIFIER_TYPES_AND_RELATIONS;
-	public static final Map<String, kbcomptype> KNOWLEDGE_BASE_ENTITY_TYPES;
 	
 	public static final ObjectMapper JSON_OBJECT_MAPPER = new ObjectMapper();
 	
@@ -391,12 +384,6 @@ public class SemSimKBConstants {
 		aMap2.put(PART_OF_URI, HAS_PART_URI);
 		aMap2.put(CONTAINED_IN_URI, CONTAINS_URI);
 		INVERSE_STRUCTURAL_RELATIONS_MAP = Collections.unmodifiableMap(aMap2);
-		//Knowledge Base Entity Type Map
-		Map<String, kbcomptype> typemap = new HashMap<String, kbcomptype>();
-		typemap.put("SINGULAR", kbcomptype.SINGULAR);
-		typemap.put("BASE", kbcomptype.BASE);
-		typemap.put("COMPLEX", kbcomptype.COMPLEX);
-		KNOWLEDGE_BASE_ENTITY_TYPES = Collections.unmodifiableMap(typemap);
 
 		// BiologicalQualifierTypesAndRelations Map
 		Map<Integer, SemSimRelation> aMap4 = new HashMap<Integer, SemSimRelation>();

@@ -5,26 +5,27 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import vprExplorer.common.KBList;
-import vprExplorer.common.KBListModel;
-import vprExplorer.modeltab.AddModelWorkbench.KBModelList;
+import vprExplorer.modeltab.AddModelWorkbench.WBEvent;
+import vprExplorer.modeltab.lists.KBCompositeList;
 
-public class ComponentListsPane extends JPanel implements ActionListener {
+public class ComponentListsPane extends JPanel implements ActionListener, Observer {
 	private static final long serialVersionUID = -1356526802629136570L;
 	
-	private AddModelWorkbench callback;
-	private KBList modelComposites, vprDB;
+	private AddModelWorkbench workbench;
+	private JList<String> modelComposites = new JList<String>();
+	private KBCompositeList kblist;
 	private JButton removeElement = new JButton("Remove Element"); 
 	private JButton confirm = new JButton("Push Changes to Database");
 	private JButton addComposite = new JButton("Add Element");
@@ -32,7 +33,8 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 
 	public ComponentListsPane(AddModelWorkbench call) {
 		super(new GridBagLayout());
-		callback = call;
+		workbench = call;
+		workbench.addObserver(this);
 		GridBagConstraints gbl = new GridBagConstraints();
 		
 		//Model List Label
@@ -83,9 +85,7 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		add(kbActions, gbl);
 	    
 		//Lists of Model and KB elements
-		modelComposites = new KBList(callback.initSemSimListModel(), false);
-		modelComposites.addListSelectionListener(selectionlistener);
-		modelComposites.getModel().addListDataListener(datalistener);
+		modelComposites.addListSelectionListener(new ModelListSelectionListener(modelComposites));
 		
 		JScrollPane modelcompScroller = new JScrollPane(modelComposites);
 	    modelcompScroller.setMinimumSize(new Dimension(300, 100));
@@ -97,103 +97,56 @@ public class ComponentListsPane extends JPanel implements ActionListener {
 		gbl.anchor = GridBagConstraints.LINE_START;
 		add(modelcompScroller, gbl);
 
-		vprDB = new KBList(callback.initKBListModel(), true);
-		vprDB.addListSelectionListener(selectionlistener);
-		vprDB.getModel().addListDataListener(datalistener);
+		kblist = new KBCompositeList(workbench);
 		
-		JScrollPane kbcompScroller = new JScrollPane(vprDB);
-	    kbcompScroller.setMinimumSize(new Dimension(300, 100));
 	    gbl.fill = GridBagConstraints.HORIZONTAL;
 		gbl.weightx = 0.333;
 		gbl.gridx = 2;
 		gbl.gridy = 1;
 		gbl.anchor = GridBagConstraints.FIRST_LINE_END;
-		add(kbcompScroller, gbl);
+		add(kblist, gbl);
 		validate();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		KBModelList lstmodel = (KBModelList) vprDB.getModel();
 		//Add Button
-		vprDB.setValueIsAdjusting(true);
 		if (obj==addComposite) {
-			int index = callback.addButton(modelComposites.getSelectedValue()[0].toString());
-			if (index == -2) return;
-			vprDB.clearSelection();	
-			if (index == -1) {
-				vprDB.setSelectedIndex(lstmodel.indexOf(lstmodel.lastElement()));
-			} else {
-				vprDB.setSelectedIndex(0);
-			}
+			workbench.addSelectedComposite(modelComposites.getSelectedIndex());
 		}
 		if (obj==addAll) {
-			callback.addAllButton();
+			workbench.addAllComposites();
 		}
 		if (obj==removeElement) {	
-			if (vprDB.isSelectionEmpty()) return;
-			String rEle = vprDB.getSelectedValue()[0].toString();
-			int index = vprDB.getSelectedIndex();
-			vprDB.clearSelection();
-			callback.removefromKBButton(rEle, index);
 			
 		}
 		if (obj==confirm) {
-			vprDB.clearSelection();
-			callback.pushtoDatabase();
-			vprDB.setSelectedIndex(lstmodel.indexOf(lstmodel.lastElement()));
+			workbench.pushBuffertoDatabase();
 		}
-		vprDB.setValueIsAdjusting(false);	
 	}
 	
-	private ListSelectionListener selectionlistener = new ListSelectionListener() {
+	private class ModelListSelectionListener implements ListSelectionListener {
+		JList<String> target;
+		ModelListSelectionListener(JList<String> list) {
+			target = list;
+		}
+		
 		public void valueChanged(ListSelectionEvent e) {
-			if (!e.getValueIsAdjusting()) {
-					if (e.getSource().equals(modelComposites) && (modelComposites.getSelectedIndex()!=-1)) {
-						String selection = modelComposites.getSelectedValue()[0].toString();
-						callback.dispSelectedModCompositeInfo(selection);
-
-					}
-					if (e.getSource().equals(vprDB) && (vprDB.getSelectedIndex()!=-1)) {
-						callback.dispSelectedKBComponentInfo(vprDB.getSelectedValue()[0].toString());
-					}
-				}
-		}
-		
-	};
-	
-	private ListDataListener datalistener = new ListDataListener() {
-
-		@Override
-		public void contentsChanged(ListDataEvent e) {
-			KBListModel model;
-			if (e.getSource().equals(modelComposites.getModel())) {
-				model = modelComposites.getModel();
-				boolean enable = !model.isEmpty();
-				addComposite.setEnabled(enable); 
-				addAll.setEnabled(enable); 
+			if (!e.getValueIsAdjusting()) {			
+				workbench.getSelectedSemSimEntryInformation(target.getSelectedIndex());
 			}
-			if (e.getSource().equals(vprDB.getModel())) {
-				model = vprDB.getModel();
-				boolean enable = !model.isEmpty();
-				confirm.setEnabled(enable); 
-				removeElement.setEnabled(enable); 			
-			}
-		}
-
-		@Override
-		public void intervalAdded(ListDataEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void intervalRemoved(ListDataEvent arg0) {
-			// TODO Auto-generated method stub
-		}
-		
+		}		
 	};
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		if (arg1 == WBEvent.modelloaded) {
+			modelComposites.clearSelection();
+			modelComposites.removeAll();
+			modelComposites.setListData(workbench.getNamesofModelComposites().toArray(new String[]{}));
+		}
+	}
 	
 	
 	

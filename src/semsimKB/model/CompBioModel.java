@@ -19,8 +19,9 @@ public class CompBioModel extends SemSimComponent {
 	protected Set<DBPhysicalComponent> modelComponents = new HashSet<>();
 	protected Set<Annotations> annotations = new HashSet<>();
 	
-	public CompBioModel(String name) {
+	public CompBioModel(URI uri, String name) {
 		setName(name);
+		setURI(uri);
 	}
 	public CompBioModel(ModelLite model) {
 		setName(model.getName());

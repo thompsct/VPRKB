@@ -1,13 +1,14 @@
 package vprExplorer.modeltab;
 
 import java.awt.Color;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import vprExplorer.common.KBTable;
+import vprExplorer.modeltab.tables.KBModelAnnotationTable;
+import vprExplorer.modeltab.tables.ModelAnnotationTable;
 
 public class BioModelTablePane extends JPanel  {
 	private static final long serialVersionUID = 1L;
@@ -19,10 +20,15 @@ public class BioModelTablePane extends JPanel  {
 		
 		callback = cb;
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		modelAnnTable = new KBTable(callback.initSemSimModelTable(), true);
-		kbmodAnnTable = new KBTable(callback.initKBModelTable(), true);
+		modelAnnTable = new KBTable(new ModelAnnotationTable());
+		kbmodAnnTable = new KBTable(new KBModelAnnotationTable());
 		
 		add(new JScrollPane(modelAnnTable));
 		add(new JScrollPane(kbmodAnnTable));
 	}
+
+		public void updateTable(int selection) {	
+
+	}
+	
 }

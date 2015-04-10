@@ -2,14 +2,11 @@ package vprExplorer.common;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.LinkedList;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import semsimKB.SemSimKBConstants;
 import vprExplorer.Settings;
-import vprExplorer.knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 
 public class KBTree extends DefaultTreeModel {
 	private static final long serialVersionUID = 1L;
@@ -55,16 +52,16 @@ public class KBTree extends DefaultTreeModel {
 		classmap.put(ppNode, SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI);
 	}
 	
-	public void loadLeaves(DefaultMutableTreeNode sel) {
-		URI seluri = classmap.get(sel);
-		RemoteKnowledgeBaseInterface query = new RemoteKnowledgeBaseInterface(globals);
-		
-		LinkedList<String> rslts = query.getAllClassMemberNames(seluri);
-		
-		for (String s : rslts) {
-			insertNodeInto(new DefaultMutableTreeNode(s), sel, sel.getChildCount());
-		}
-		this.reload(sel);
-	}
+//	public void loadLeaves(DefaultMutableTreeNode sel) {
+//		URI seluri = classmap.get(sel);
+//		RemoteKnowledgeBaseInterface query = new RemoteKnowledgeBaseInterface(globals);
+//		
+//		LinkedList<String> rslts = query.getAllClassMemberNames(seluri);
+//		
+//		for (String s : rslts) {
+//			insertNodeInto(new DefaultMutableTreeNode(s), sel, sel.getChildCount());
+//		}
+//		this.reload(sel);
+//	}
 	
 }

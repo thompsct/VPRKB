@@ -5,8 +5,6 @@ import java.net.URI;
 import semsimKB.SemSimKBConstants;
 
 public class PhysicalProperty extends PhysicalModelComponent{
-	
-	private PhysicalModelComponent physicalPropertyOf;
 
 	public PhysicalProperty() {}
 	public PhysicalProperty(String name, URI uri) {
@@ -14,13 +12,6 @@ public class PhysicalProperty extends PhysicalModelComponent{
 		setName(name);
 	}
 	
-	public void setPhysicalPropertyOf(PhysicalModelComponent physicalPropertyOf) {
-		this.physicalPropertyOf = physicalPropertyOf;
-	}
-
-	public PhysicalModelComponent getPhysicalPropertyOf() {
-		return physicalPropertyOf;
-	}
 	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI;

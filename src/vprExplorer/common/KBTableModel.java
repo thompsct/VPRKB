@@ -1,47 +1,29 @@
 package vprExplorer.common;
 
-import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 
-public class KBTableModel extends AbstractTableModel {
-
+public abstract class KBTableModel extends AbstractTableModel {
+	
 	private static final long serialVersionUID = 1L;
-	protected String[] columnNames = {"", ""};
-	protected List<Object[]> data;
-	public HashMap<Integer, Color> rowstocolor = new HashMap<Integer, Color>();
+	protected String[] columnNames = new String[]{"",""};
+	protected ArrayList<String[]> data = new ArrayList<String[]>();
+	protected ArrayList<TableCellRenderer[]> renderers = new ArrayList<TableCellRenderer[]>();
+	protected Font boldfont = new Font("arial", Font.BOLD, 12);
 	
-	public KBTableModel(String[] colnames, List<Object[]> table) {
-		columnNames = colnames;
-		data.addAll(table);
-	}
+	protected TableCellRenderer heading = new LabelRenderer(true, false);
+	protected TableCellRenderer normal = new LabelRenderer(false, false);
 	
-	public KBTableModel() {
-		data = Collections.synchronizedList(new ArrayList<Object[]>());
-	};
-		
+	public KBTableModel() {};	
+	
 	public void setTitles(String[] titles) {
 		columnNames = titles;
-	}
-	
-	public boolean hasRow(int row) {
-		return rowstocolor.containsKey(row);
-	}
-	
-	public Color getRowColor(int row) {
-		return rowstocolor.get(row);
-	}
-	
-	public void setRowtoColor(int i, Color c) {
-		rowstocolor.put(i, c);
-	}
-	
-	public void clearColors() {
-		rowstocolor.clear();
 	}
 	
 	@Override
@@ -59,25 +41,53 @@ public class KBTableModel extends AbstractTableModel {
 		return data.get(arg0)[arg1];
 	}
 	
-	public void  setValueAt(String value, int arg0, int arg1) {
-		data.get(arg0)[arg1] =value;
-		fireTableCellUpdated(arg0, arg1);
+	public void setValueAt(String value, int row, int column) {
+		data.get(row)[column] =value;
+		fireTableCellUpdated(row, column);
 	}
 	
 	public boolean isCellEditable(int row, int col) { return false; }
 	 
-	public void addRow(Object[] obj) {
+	public void addRow(String[] obj, TableCellRenderer[] renderer) {
 		data.add(obj);
+		renderers.add(renderer);
 		fireTableRowsInserted(getRowCount(), getRowCount());
 	 }
+	
 	 public void removeRow(int row) {
 		 data.remove(row);
+		 renderers.remove(row);
 		 fireTableRowsDeleted(getRowCount(), getRowCount());
+	 }
+	
+	 public TableCellRenderer getCellRenderer(int row, int column) {
+		 return renderers.get(row)[column];
 	 }
 	 
 	public void clear() {
-		while (getRowCount() > 0) removeRow(0);
+		data.clear();
 	}
 	
-	 
+	public abstract void updateTable();
+	
+	protected class LabelRenderer extends JLabel implements TableCellRenderer {
+		private static final long serialVersionUID = 1L;
+		
+		boolean bolded;
+		boolean selectable;
+		
+		LabelRenderer() {}
+		LabelRenderer(boolean bold, boolean selectable) {
+			bolded = bold;
+		}
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable arg0,
+				Object value, boolean selected, boolean isfocus, int row, int column) {
+			
+			if (bolded) setFont(boldfont);
+			setText((String)value);
+			return this;
+		}
+	}
 }

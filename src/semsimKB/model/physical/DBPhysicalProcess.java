@@ -5,19 +5,9 @@ import java.net.URI;
 import semsimKB.SemSimKBConstants;
 
 public class DBPhysicalProcess extends DBPhysicalComponent {
-	protected PhysicalProcess physprocess;
-	public DBPhysicalProcess(PhysicalProcess newprocess) {
-		super(newprocess);
-		physprocess = newprocess; 
+	public DBPhysicalProcess() {
 	}
 	
-	public PhysicalProcess getPhysicalProcess() {
-		return physprocess;
-	}
-	
-	public void setProcess(PhysicalProcess process) {
-		physprocess = process;
-	}
 	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.KB_PROCESS_CLASS_URI;

@@ -97,7 +97,7 @@ public class EditorTab extends JPanel {
 			KBTree tmod = (KBTree)kbt.getModel();
 			
 			if (node.getParent()==tmod.getRoot()) {
-				tmod.loadLeaves(node);
+				//tmod.loadLeaves(node);
 			}
 		}
 	}

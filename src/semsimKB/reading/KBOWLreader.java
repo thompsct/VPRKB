@@ -4,15 +4,14 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLIndividual;
@@ -24,59 +23,57 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
-import semsimKB.model.KnowledgeBase;
+import semsimKB.model.kbbuffer.KBCompositeObject;
+import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
-import semsimKB.model.physical.PhysicalModelComponent;
+import semsimKB.model.physical.PhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.owl.KBOWLFactory;
+import vprExplorer.buffer.ComponentStatus;
 
 public class KBOWLreader {
-	private KnowledgeBase KBModel;
+	private KnowledgeBase KBModel = new KnowledgeBase();
 	private OWLDataFactory factory;
-	private Map<URI, PhysicalModelComponent> URIandPMCmap = new HashMap<URI, PhysicalModelComponent>();	
-	public String SemSimbase = SemSimKBConstants.SEMSIM_NAMESPACE;
+	private String SemSimbase = SemSimKBConstants.SEMSIM_NAMESPACE;
+	private HashMap<String, PhysicalEntity> peurimap = new HashMap<String, PhysicalEntity>();
+	private OWLOntology ont;
 	
 	public KnowledgeBase readFromFile(File file) throws OWLException, CloneNotSupportedException{
 		
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
-		OWLOntology ont = manager.loadOntologyFromOntologyDocument(file);
+		ont = manager.loadOntologyFromOntologyDocument(file);
 		
-		KBModel = new KnowledgeBase();
-		KBModel.setName(file.getName().substring(0, file.getName().lastIndexOf(".")));
-		
-			OWLClass topclass = factory.getOWLClass(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "SemSim_component"));
-			if(!ont.getClassesInSignature().contains(topclass)){
-				KBModel.addError("Source file does not appear to be a valid Knowledge Base");
-				return KBModel;
-			}
 			//Get models
 			for (String modelind : KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.KB_MODEL_URI.toString())){
-				CompBioModel cbm= new CompBioModel(KBOWLFactory.getURIdecodedFragmentFromIRI(modelind));
+				String label = KBOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(modelind)))[0];
+				CompBioModel cbm= new CompBioModel(URI.create(modelind), label);
 				cbm.setURI(URI.create(modelind));
-				KBModel.addComponent(cbm);
-				}
+				KBModel.addModel(cbm, ComponentStatus.EXACT_MATCH);
+			}
 			//Get Reference Physical Entities
 			for (String rpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI.toString())) {
-				getPhysicalEntityFromURI(ont, URI.create(rpes));
+				getPhysicalEntityFromURI(URI.create(rpes));
 			}
 			
 			//Get Physical Properties
 			for (String pps : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI.toString())) {
-				getPhysicalPropertyfromURI(ont, URI.create(pps));
+				getPhysicalPropertyfromURI(URI.create(pps));
 			}
 			
 			//Get Composite Physical Entities
 			for (String cpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.KB_COMPOSITE_CLASS_URI.toString())) {
-				getCompositeEntityFromURI(ont, URI.create(cpes));
+				getCompositeEntityFromURI(URI.create(cpes));
 			}
-
+			for (DBCompositeEntity dce : KBModel.getComposites()) {
+				this.setCompositeComponents(dce);
+			}
 				
 		return KBModel;
 	}
 	
-	private void getPhysicalPropertyfromURI(OWLOntology ont, URI ppuri) throws OWLException {
+	private void getPhysicalPropertyfromURI(URI ppuri) throws OWLException {
 		String label = KBOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(ppuri)))[0];
 		String refersto = KBOWLFactory.getFunctionalIndDatatypeProperty(ont, ppuri.toString(), SemSimbase + "refersTo");
 		
@@ -84,44 +81,19 @@ public class KBOWLreader {
 		pp.setName(label);
 		pp.setURI(ppuri);
 		pp.addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, URI.create(refersto), label);
-		KBModel.addComponent(pp);
+		KBModel.addPhysicalProperty(pp, ComponentStatus.EXACT_MATCH);
 	}
 	
-	
 	// Get the URI of the object of a triple that uses a structural relation as its predicate
-	private DBCompositeEntity getCompositeEntityFromURI(OWLOntology ont, URI compind) throws OWLException{
-		ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
-		String enttype = KBOWLFactory.getFunctionalIndDatatypeProperty(ont, compind.toString(), SemSimKBConstants.KB_ENTITY_COMPLEXITY_URI.toString());
-
-		DBCompositeEntity DPE = new DBCompositeEntity(compind, SemSimKBConstants.KNOWLEDGE_BASE_ENTITY_TYPES.get(enttype));
-		DPE.setName(KBOWLFactory.getURIdecodedFragmentFromIRI(compind.toString().replace("_", " ")));
+	private void getCompositeEntityFromURI(URI compind) throws OWLException{
+		DBCompositeEntity dpe = new DBCompositeEntity(compind);
+		dpe.setName(KBOWLFactory.getURIdecodedFragmentFromIRI(compind.toString().replace("_", " ")));
 		
 		Set<String> models = KBOWLFactory.getIndObjectProperty(ont, compind.toString(), SemSimKBConstants.BQM_IS_DERIVED_FROM_URI.toString());
 		for (String model : models) {
-			DPE.addCompBioModel(KBModel.getModelbyURI(URI.create(model)));
+			dpe.addCompBioModel(KBModel.getModelbyURI(URI.create(model)));
 		}
 		
-		URI firstent = URI.create(KBOWLFactory.getFunctionalIndObjectProperty(ont, compind.toString(), SemSimKBConstants.KB_HAS_SUBCOMPONENT_URI.toString()));		
-		DPE.addComponent(getExistingCompositeComponent(ont, firstent));
-		
-		String partof = KBOWLFactory.getFunctionalIndObjectProperty(ont, compind.toString(), SemSimKBConstants.PART_OF_URI.toString());
-
-		String nextind = null;
-		if(!partof.equals("")){
-			nextind = KBOWLFactory.getFunctionalIndObjectProperty(ont, compind.toString(), SemSimKBConstants.PART_OF_URI.toString());
-			rels.add(SemSimKBConstants.PART_OF_RELATION);
-		}
-		else{
-			nextind = KBOWLFactory.getFunctionalIndObjectProperty(ont, compind.toString(), SemSimKBConstants.CONTAINED_IN_URI.toString());
-			rels.add(SemSimKBConstants.CONTAINED_IN_RELATION);
-		}
-		DPE.addComponent(getExistingCompositeComponent(ont, URI.create(nextind)));
-		DPE.addRelation(rels.get(0));
-		
-		if(!URIandPMCmap.containsKey(URI.create(nextind))){
-			URIandPMCmap.put(URI.create(nextind), DPE);
-		}
-
 		Set<String> pps = KBOWLFactory.getIndObjectProperty(ont, compind.toString(), SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
 		for (String pp : pps) {
 			PhysicalProperty pptoadd = KBModel.getPropertybyURI(URI.create(pp));
@@ -136,33 +108,41 @@ public class KBOWLreader {
 				if(ax.equalsIgnoreAnnotations(axiom)){
 					if(!ax.getAnnotations(annprop).isEmpty()){
 						for (OWLAnnotation ann : ax.getAnnotations(annprop)) {
-							URI moduri = URI.create(ann.getValue().toString());
-							DPE.addProperty(pptoadd, moduri);
+							CompBioModel mod = KBModel.getModelbyURI(URI.create(ann.getValue().toString()));
+							dpe.addProperty(pptoadd, mod);
 						}
 					}
 				}
 			}
-
 		}
+		peurimap.put(dpe.getURI().toString(), dpe);
+		KBCompositeObject<DBCompositeEntity> object = makeCompositeObject(dpe);
 		
-		KBModel.addComponent(DPE);
-		
-		return DPE;
+		KBModel.addComposite(object);
+
 	} 
 	
-	private PhysicalModelComponent getExistingCompositeComponent(OWLOntology ont, URI entity) throws OWLException {
-		PhysicalModelComponent pe = KBModel.getRefEntitybyURI(entity);
-		if (pe==null) {
-			pe = KBModel.getComponentbyURI(entity);
-			if (pe==null) {
-				pe = getCompositeEntityFromURI(ont, entity);
-			}
+	private void setCompositeComponents(DBCompositeEntity dpe) throws OWLException {
+		URI compuri = dpe.getURI();
+		
+		String partof = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), SemSimKBConstants.PART_OF_URI.toString());
+
+		String secondent = null;
+		StructuralRelation rel = SemSimKBConstants.PART_OF_RELATION;
+		if(partof.equals("")){
+			secondent = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), SemSimKBConstants.CONTAINED_IN_URI.toString());
+			rel = SemSimKBConstants.CONTAINED_IN_RELATION;
 		}
-		return pe;
+		dpe.setRelation(rel);
+		URI firstent = URI.create(KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), SemSimKBConstants.KB_HAS_SUBCOMPONENT_URI.toString()));		
+
+		dpe.setComponents(Pair.of(peurimap.get(firstent), peurimap.get(secondent)));
+		
+		
 	}
 	
 	// Retrieve or generate a reference physical entity from its URI in the OWL-encoded SemSim model 
-	private void getPhysicalEntityFromURI(OWLOntology ont, URI uri) throws OWLException{
+	private void getPhysicalEntityFromURI(URI uri) throws OWLException{
 		String label = KBOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(uri)))[0];
 
 		String refersto = KBOWLFactory.getFunctionalIndDatatypeProperty(ont, uri.toString(), SemSimbase + "refersTo");
@@ -170,7 +150,27 @@ public class KBOWLreader {
 		rpe.setURI(uri);
 		
 		rpe.addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, URI.create(refersto), label);
-		KBModel.addComponent(rpe);
+		peurimap.put(refersto, rpe);
+		KBModel.addReferencePhysicalEntity(rpe, ComponentStatus.EXACT_MATCH);
 
+	}
+	
+	private KBCompositeObject<DBCompositeEntity> makeCompositeObject(DBCompositeEntity dce) {
+		ArrayList<ComponentStatus> pstat = new ArrayList<ComponentStatus>();
+		ArrayList<ArrayList<ComponentStatus>> pmstat = new ArrayList<ArrayList<ComponentStatus>>();
+		
+		int psize = dce.getPropertyList().size();
+		for (int i=0; i<psize; i++) {		
+			pstat.add(ComponentStatus.EXACT_MATCH);
+			ArrayList<ComponentStatus> mstat = new ArrayList<ComponentStatus>();
+			int msize = dce.getPropertyModelList(psize).size();
+			for (int j=0; j<msize; j++) {
+				mstat.add(ComponentStatus.EXACT_MATCH);
+			}
+			pmstat.add(mstat);
+		}	
+		
+
+		return new KBCompositeObject<DBCompositeEntity>(dce, ComponentStatus.EXACT_MATCH, pstat, pmstat);
 	}
 }

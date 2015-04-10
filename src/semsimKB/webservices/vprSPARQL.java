@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -129,6 +130,32 @@ public class vprSPARQL {
 		return 0;
 	}
 
+	public int selectDistinctwithMultiCriteria(ArrayList<String> predicates, ArrayList<String> objects) {
+		host = server + "query";
+		String prefix = "";
+		String criteria = "";
+		for (int i = 0; i< predicates.size(); i++) {
+			prefix = prefix + hasPrefix(predicates.get(i));
+			criteria = criteria + cons.triple;
+			
+			criteria = criteria.replace("%o", " <" + objects.get(i) + ">");
+			criteria = criteria.replace("%p", predicates.get(i));
+			criteria = criteria.replace("%s", "?s");
+		}
+		String qs = prefix + cons.multselect;
+		qs = qs.replace("%d", "DISTINCT");
+		qs = qs.replace("%t", "?s");
+		qs = qs.replace("%q", criteria);
+
+		Query query = QueryFactory.create(qs);
+		query.setPrefixMapping(pmap);
+		
+		qef = QueryExecutionFactory.sparqlService(host, query,auth);
+
+		results = qef.execSelect();
+		return 0;
+	}
+	
 	public int selectDistinct(String predicate, URI object) {
 		return selectDistinct(predicate, object.toString());
 	}
@@ -292,8 +319,8 @@ public class vprSPARQL {
 		return getResultsasStrings("?model", result);
 	}
 		
-	public LinkedList<String> getResultLabels() {
-		LinkedList<String> rslts = new LinkedList<String>();
+	public ArrayList<String> getResultLabels() {
+		ArrayList<String> rslts = new ArrayList<String>();
 		
 		while (results.hasNext()) {
 			QuerySolution sol = results.next();

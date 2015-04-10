@@ -5,7 +5,7 @@ import java.net.URI;
 import semsimKB.SemSimKBConstants;
 
 
-public class CustomPhysicalEntity extends PhysicalEntity{
+public class CustomPhysicalEntity extends PhysicalModelComponent implements PhysicalEntity{
 	
 	public CustomPhysicalEntity(String name, String description){
 		setName(name);

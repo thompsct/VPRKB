@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
 
-public class CompositePhysicalEntity extends PhysicalEntity implements Comparable<CompositePhysicalEntity>{
+public class CompositePhysicalEntity extends PhysicalModelComponent implements Comparable<CompositePhysicalEntity>, PhysicalEntity{
 	
 	private ArrayList<PhysicalEntity> arrayListOfPhysicalEntities;
 	private ArrayList<StructuralRelation> arrayListOfStructuralRelations;
@@ -30,9 +30,7 @@ public class CompositePhysicalEntity extends PhysicalEntity implements Comparabl
 		if(getArrayListOfEntities().size()>0) name = "";
 		for(int x=0; x<getArrayListOfEntities().size(); x++){
 			PhysicalEntity ent = getArrayListOfEntities().get(x);
-			if(ent.hasRefersToAnnotation())
-				name = name + ent.getFirstRefersToReferenceOntologyAnnotation().getValueDescription();
-			else name = name + "\"" + ent.getName() + "\"";
+			name = name + ent.getName();
 			
 			if(x<getArrayListOfEntities().size()-1)	name = name + " in ";
 

@@ -1,16 +1,30 @@
 package vprExplorer.knowledgebaseinterface;
 
 import java.net.URI;
+import java.util.ArrayList;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.SemSimComponent;
-import vprExplorer.buffer.KBBufferOperations;
+import semsimKB.model.kbbuffer.KBCompositeObject;
+import semsimKB.model.kbbuffer.KnowledgeBase;
+import semsimKB.model.physical.DBCompositeEntity;
 
 public abstract class KnowledgeBaseInterface {
-	public abstract SemSimComponent getElementwithName(SemSimComponent ele);
-	public abstract SemSimComponent getElementwithName(String ele);
+	protected KnowledgeBase buffer;
 	
-	public abstract SemSimComponent getElementwithURI(SemSimComponent ele);
-	public abstract SemSimComponent getElementwithURI(URI eleuri);
+	KnowledgeBaseInterface(KnowledgeBase buff) {
+		buffer = buff;
+	}
 	
-	public abstract int pushChangestoDatabase(KBBufferOperations kbbuffer);
+	public abstract boolean getElementwithName(SemSimComponent ele, boolean verifyonly);
+	public abstract boolean getElementwithName(String ele, boolean verifyonly);
+	
+	public abstract boolean getElementwithURI(SemSimComponent ele, boolean verifyonly);
+	public abstract boolean getElementwithURI(URI eleuri, boolean verifyonly);
+	
+	public abstract DBCompositeEntity retrieveComposite(Pair<URI, URI> comps, StructuralRelation rel);
+	
+	public abstract int pushChangestoDatabase(URI modeluri, ArrayList<KBCompositeObject<DBCompositeEntity>> composites);
 }

@@ -1,6 +1,6 @@
 package semsimKB.writing;
 
-import semsimKB.model.KnowledgeBase;
+import semsimKB.model.kbbuffer.KnowledgeBase;
 
 public interface Writer {
 	public String writeToString(KnowledgeBase kb);
