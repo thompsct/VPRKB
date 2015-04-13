@@ -10,7 +10,7 @@ import semsimKB.SemSimKBConstants;
 public class SPARQLConstants extends SemSimKBConstants {
 	//local server
 	public static final String local = "http://localhost:3030/cfg/SemSimKBBase.owl/";
-	public final String triple = "%s %p %o";
+	public final String triple = "%s %p %o . ";
 	public final String ask = "ASK WHERE {%s %p %o}";
 	public final String describe = "DESCRIBE <%t>";
 	

@@ -41,7 +41,7 @@ public class AddModelWorkbench extends Observable {
 		}
 		loadModelComposites();
 		createBuffer();
-		
+		setChanged();
 		notifyObservers(WBEvent.modelloaded);
 		return "Loaded: " + owlfile.getName();
 	}
@@ -63,6 +63,8 @@ public class AddModelWorkbench extends Observable {
 	//Add Object to buffer
 	public void addSelectedComposite(int selection) {
 		kbbuffer.modifyComposite(selection, modcomplist.get(selection));
+		setChanged();
+		this.notifyObservers(WBEvent.bufferupdated);
 	}
 	
 	

@@ -38,8 +38,10 @@ public class KBCompositeList extends JScrollPane implements Observer {
 	}
 
 	private void updateList() {
+		kblist.setValueIsAdjusting(true);
 		kblist.clearSelection();
 		kblist.setListData(entries.toArray(new Entry[]{}));
+		kblist.setValueIsAdjusting(false);
 	}
 	
 	private void loadEntries() {
@@ -58,12 +60,8 @@ public class KBCompositeList extends JScrollPane implements Observer {
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 == WBEvent.modelloaded) {
+		if (arg1 == WBEvent.modelloaded || arg1 == WBEvent.bufferupdated) {
 			loadEntries();
-		}
-		
-		if (arg1 == WBEvent.bufferupdated) {
-			updateList();
 		}
 	}
 	
@@ -108,7 +106,7 @@ public class KBCompositeList extends JScrollPane implements Observer {
 		
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {
-				workbench.getSelectedSemSimEntryInformation(target.getSelectedIndex());
+				workbench.getSelectedDBEntryInformation(target.getSelectedIndex());
 			}
 		}
 	};

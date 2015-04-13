@@ -9,6 +9,7 @@ public class ReferencePhysicalEntity extends PhysicalModelComponent implements P
 	public ReferencePhysicalEntity(URI uri, String description){
 		addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, uri, description);
 		setName(description);
+		setURI(uri);
 	}
 	
 	public String getName() {

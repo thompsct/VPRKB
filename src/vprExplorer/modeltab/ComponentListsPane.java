@@ -119,7 +119,7 @@ public class ComponentListsPane extends JPanel implements ActionListener, Observ
 			workbench.addAllComposites();
 		}
 		if (obj==removeElement) {	
-			
+			workbench.removeComponent(modelComposites.getSelectedIndex());
 		}
 		if (obj==confirm) {
 			workbench.pushBuffertoDatabase();
@@ -133,8 +133,10 @@ public class ComponentListsPane extends JPanel implements ActionListener, Observ
 		}
 		
 		public void valueChanged(ListSelectionEvent e) {
-			if (!e.getValueIsAdjusting()) {			
+			if (!e.getValueIsAdjusting()) {		
+				addComposite.setEnabled(true);
 				workbench.getSelectedSemSimEntryInformation(target.getSelectedIndex());
+				
 			}
 		}		
 	};
@@ -142,9 +144,11 @@ public class ComponentListsPane extends JPanel implements ActionListener, Observ
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 == WBEvent.modelloaded) {
+			addAll.setEnabled(true);
 			modelComposites.clearSelection();
 			modelComposites.removeAll();
-			modelComposites.setListData(workbench.getNamesofModelComposites().toArray(new String[]{}));
+			String[] namelist = workbench.getNamesofModelComposites().toArray(new String[]{});
+			modelComposites.setListData(namelist);
 		}
 	}
 	

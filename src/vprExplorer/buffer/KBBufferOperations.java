@@ -46,6 +46,7 @@ public class KBBufferOperations {
 		}
 		else kbinterface = new RemoteKnowledgeBaseInterface(sets, buffer);
 	}
+	
 	//Load all reference components from the model
 	public void compareModeltoKB(ArrayList<CompositePhysicalEntity> cpes) {
 		//Check if model already in KB
@@ -60,11 +61,10 @@ public class KBBufferOperations {
 			ArrayList<PhysicalEntity> cents = cpe.getArrayListOfEntities();
 			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
 			KBCompositeObject<DBCompositeEntity> dbc = checkforComposite(cents, rels);
-			
-			dbc.addProperties(cpe.getPhysicalProperties(), buffer.getModelbyURI(moduri));
-			
 			comppelist.add(dbc);
 			if (dbc!=null) {
+				dbc.addProperties(cpe.getPhysicalProperties(), buffer.getModelbyURI(moduri));
+			
 				compareComponents(dbc, cpe);
 			}
 		}
@@ -88,6 +88,7 @@ public class KBBufferOperations {
 		}
 		else {
 			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(0).getURI(), cpes.get(1).getURI()), rels.get(0));
+			if (dbc == null) return null;
 			return buffer.getKBCompositeObject(dbc.getURI());
 		}
 		return null;
@@ -103,32 +104,30 @@ public class KBBufferOperations {
 	}
 	
 	private KBCompositeObject<DBCompositeEntity> parseComposite(ArrayList<PhysicalEntity> cpes, ArrayList<StructuralRelation> rels) {
-		ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
 		for (PhysicalEntity pe : cpes) {
 			if (pe.getURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
-				addReferenceEntityBuffer((ReferencePhysicalEntity) pe);
+				addReferenceEntitytoBuffer((ReferencePhysicalEntity) pe);
 			}
 		}
-		for (int i = 0; i < cpes.size()-1; i++) {
-			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(i).getURI(), cpes.get(i+1).getURI()), rels.get(i));
-			if (dbc ==null) {
-				dbc = createComposite(Pair.of(cpes.get(i), cpes.get(i+1)), rels.get(i)).getComponent();
+		if (cpes.size() > 2) {
+			ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
+
+			for (int i = 0; i < cpes.size()-1; i++) {
+				DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(i).getURI(), cpes.get(i+1).getURI()), rels.get(i));
+				if (dbc ==null) {
+					dbc = createComposite(Pair.of(cpes.get(i), cpes.get(i+1)), rels.get(i)).getComponent();
+				}
+				dbcs.add(dbc);
 			}
-			dbcs.add(dbc);
-		}
-		if (dbcs.size() > 2) {
+
 			ArrayList<StructuralRelation> dbcrels = new ArrayList<StructuralRelation>();
 			for (int i = 1; i<rels.size(); i++) {
 				dbcrels.add(rels.get(i));
 			}
-			checkforComposite(dbcs, dbcrels);
+			return parseComposite(dbcs, dbcrels);
+
 		}
-		else {
-			KBCompositeObject<DBCompositeEntity> kdbc = createComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
-			modifylist.add(kdbc);
-			return kdbc;
-		}
-		return null;
+		return createComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
 	}
 	
 	private KBCompositeObject<DBCompositeEntity> createComposite(Pair<PhysicalEntity, PhysicalEntity> cpes,StructuralRelation rel) {
@@ -136,7 +135,10 @@ public class KBBufferOperations {
 		dbc.setURI(createURIforComponent());
 		dbc.setRelation(rel);
 		
-		return new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.MISSING);
+		KBCompositeObject<DBCompositeEntity> kdbc = new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.MISSING);
+		buffer.addComposite(kdbc);
+		modifylist.add(kdbc);
+		return kdbc;
 	}
 	
 	//Compare similarity of composite properties
@@ -163,7 +165,7 @@ public class KBBufferOperations {
 		}
 	}
 	
-	private void addReferenceEntityBuffer(ReferencePhysicalEntity rpe){
+	private void addReferenceEntitytoBuffer(ReferencePhysicalEntity rpe){
 		if (!kbinterface.getElementwithURI(rpe, true)) {
 			buffer.addReferencePhysicalEntity(rpe, ComponentStatus.MISSING);
 		}
@@ -185,7 +187,7 @@ public class KBBufferOperations {
 	
 	private URI createURIforComponent() {
 		Date newdate = new Date();
-		String name = SemSimKBConstants.VPR_NAMESPACE + newdate;
+		String name = SemSimKBConstants.VPR_NAMESPACE + newdate.getTime();
 		if (!newdate.after(date)) {
 			name = name + String.valueOf(dbcint);
 		}
@@ -219,8 +221,10 @@ public class KBBufferOperations {
 	}
 	
 	public ArrayList<Triple<String, ComponentStatus, Boolean>> getAllBufferCompositesNamesandStatuses() {
+		
 		ArrayList<Triple<String, ComponentStatus, Boolean>> namestatlist = new ArrayList<Triple<String, ComponentStatus, Boolean>>();
-		for ( KBCompositeObject<DBCompositeEntity> kdce : comppelist) {
+
+		for ( KBCompositeObject<DBCompositeEntity> kdce : buffer.getAllKBCompositeObjects()) {
 			namestatlist.add(Triple.of(kdce.getName(), kdce.getStatus(), modifylist.contains(kdce)));
 		}
 		return namestatlist;

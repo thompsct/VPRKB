@@ -1,8 +1,6 @@
 package semsimKB.model.physical;
 
 import java.net.URI;
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
@@ -25,26 +23,27 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 		private void createName() {
 				Pair<String, String> names =  getComponentNames();
 				String[] pe1name = names.getLeft().split(" ");
-				ArrayList<String> pe2name = new ArrayList<String>();
-				for (String s : names.getRight().split(" ")) {
-						pe2name.add(s);
-				}
-				
-				for (int i = 1; i<pe1name.length; i++) {
-					if (pe1name[pe1name.length-i].equals(pe2name.get(i))) {
-						pe2name.remove(i);
+				String[] pe2name = names.getRight().split(" ");
+
+				int index = 0;
+				for (int i= 0; i < pe2name.length; i++) {
+					if (pe1name[pe1name.length-1].equalsIgnoreCase(pe2name[i])) {
+						index = i+1;
+						break;
 					}
-					else break;
 				}
+				if (pe2name[index].equalsIgnoreCase("part")) index = index+2;
+				else if (pe2name[index].equalsIgnoreCase("in")) index = index+1;
+				
 				String pe2 = "";
-				for (String s : pe2name) {
-					pe2 = pe2 + " " + s;
+				for (int i = index; i < pe2name.length; i++) {
+					pe2 = pe2 + pe2name[i] + " ";
 				}
-				String rel = " part of";
-				if (getRelation()==SemSimKBConstants.CONTAINED_IN_RELATION) {
-					rel = " contained in";
+				String rel = " part of ";
+				if (this.relation==SemSimKBConstants.CONTAINED_IN_RELATION) {
+					rel = " in ";
 				}
-				setName(names.getLeft() + rel + pe2);
+				setName(names.getLeft() + rel + pe2 );
 		}
 		
 		public Pair<URI, URI> getComponentURIs() {

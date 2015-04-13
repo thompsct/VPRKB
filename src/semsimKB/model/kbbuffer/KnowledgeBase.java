@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalProcess;
@@ -34,7 +37,7 @@ public class KnowledgeBase {
 	public KnowledgeBase() {}
 
 	public void addComposite(KBCompositeObject<DBCompositeEntity> element) {
-		if (kbHasComposite(element.getComponent()))
+		if (kbHasComposite(element.getComponent())) return;
 		physicalCompositeEntities.add(element);	
 		URIandDBCmap.put(element.getURI(), element);
 	}
@@ -79,6 +82,17 @@ public class KnowledgeBase {
 	
 	public boolean hasModel(CompBioModel component) {
 		return URIandCBMmap.containsKey(component.getURI());
+	}
+	
+	public boolean hasKBComposite(URI curi) {
+		return URIandDBCmap.containsKey(curi);
+	}
+	
+	public boolean hasKBComposite(Pair<PhysicalEntity, PhysicalEntity> pepair, StructuralRelation sr) {
+		for (DBCompositeEntity dbc : getComposites()) {
+			if (dbc.componentEntityListsMatch(pepair)) return true;
+		}
+		return false;
 	}
 	
 	public boolean kbHasComposite(DBCompositeEntity comp) {
@@ -171,18 +185,22 @@ public class KnowledgeBase {
 	}
 	
 	public CompBioModel getModelbyURI(URI moduri) {
+		if (!hasModel(moduri)) return null;
 		return URIandCBMmap.get(moduri).getComponent();
 	}
 	
 	public PhysicalProperty getPropertybyURI(URI ppuri) {
+		if (!hasProperty(ppuri)) return null;
 		return URIandPPmap.get(ppuri).getComponent();
 	}
 	
 	public ReferencePhysicalEntity getRefEntitybyURI(URI rpeuri) {
+		if (!hasReferenceEntity(rpeuri)) return null;
 		return URIandRPEmap.get(rpeuri).getComponent();
 	}
 	
 	public DBCompositeEntity getCompositeEntitybyURI(URI cpeuri) {
+		if (!hasKBComposite(cpeuri)) return null;
 		return URIandDBCmap.get(cpeuri).getComponent();
 	}
 	

@@ -137,8 +137,6 @@ public class KBOWLreader {
 		URI firstent = URI.create(KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), SemSimKBConstants.KB_HAS_SUBCOMPONENT_URI.toString()));		
 
 		dpe.setComponents(Pair.of(peurimap.get(firstent), peurimap.get(secondent)));
-		
-		
 	}
 	
 	// Retrieve or generate a reference physical entity from its URI in the OWL-encoded SemSim model 

@@ -26,7 +26,7 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 	}
 	
 	public String makeName(){
-		String name = null;
+		String name = new String("");
 		if(getArrayListOfEntities().size()>0) name = "";
 		for(int x=0; x<getArrayListOfEntities().size(); x++){
 			PhysicalEntity ent = getArrayListOfEntities().get(x);

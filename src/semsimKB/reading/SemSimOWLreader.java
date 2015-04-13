@@ -110,7 +110,10 @@ public class SemSimOWLreader {
 			ArrayList<PhysicalEntity> rpes = new ArrayList<PhysicalEntity>();
 			ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
 			
-			rpes.add(getClassofIndividual(ind));
+			ReferencePhysicalEntity rpe = getClassofIndividual(ind);
+			if (rpe == null) continue;
+			rpes.add(rpe);
+			
 			while (true) {
 				String nextind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind.toString(), SemSimKBConstants.PART_OF_URI.toString());
 				StructuralRelation rel = SemSimKBConstants.PART_OF_RELATION;
@@ -119,20 +122,23 @@ public class SemSimOWLreader {
 					if (nextind=="") break;
 					rel = SemSimKBConstants.CONTAINED_IN_RELATION;
 				}
-				
-				rpes.add(getClassofIndividual(nextind));
+				rpe = getClassofIndividual(nextind);
+				if (rpe == null) break;
+				rpes.add(rpe);
 				rels.add(rel);
 				ind = nextind;
 			}
-			
+			if (rpe==null) continue; 
 			CompositePhysicalEntity cpe = new CompositePhysicalEntity(rpes, rels);
 			String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLClass(IRI.create(cperef)))[0];
 			cpe.setName(label);
+			model.addCompositePhysicalEntity(cpe);
+			
 		}
 	}
 	
 	private ReferencePhysicalEntity getClassofIndividual(String ind) throws OWLException {
-		String indclass = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
+		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
 		return rpeurimap.get(indclass);
 	}
 }
