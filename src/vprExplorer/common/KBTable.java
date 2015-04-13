@@ -3,6 +3,7 @@ package vprExplorer.common;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 import java.awt.Color;
 
@@ -24,6 +25,11 @@ public class KBTable extends JTable {
 
 	public TableCellRenderer getCellRenderer(int row, int column) {
 		return tablemodel.getCellRenderer(row, column);
+	}
+	@Override
+	public void setModel(TableModel model) {
+		super.setModel(model);
+		tablemodel = (KBTableModel)model;
 	}
 
 }

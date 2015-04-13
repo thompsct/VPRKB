@@ -34,6 +34,7 @@ public class SemSimOWLreader {
 	private OWLOntology ont;
 	private OWLDataFactory factory;
 	private HashMap<String, ReferencePhysicalEntity> rpeurimap = new HashMap<String, ReferencePhysicalEntity>();
+	private HashMap<String, PhysicalProperty> ppurimap = new HashMap<String, PhysicalProperty>();
 	
 	public ModelLite readFromFile(File file) throws OWLException, CloneNotSupportedException{
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -109,6 +110,7 @@ public class SemSimOWLreader {
 			String ind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, cperef.toString(), SemSimKBConstants.HAS_INDEX_ENTITY_URI.toString());
 			ArrayList<PhysicalEntity> rpes = new ArrayList<PhysicalEntity>();
 			ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
+			Set<String> pps = SemSimOWLFactory.getIndObjectProperty(ont, ind, SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
 			
 			ReferencePhysicalEntity rpe = getClassofIndividual(ind);
 			if (rpe == null) continue;
@@ -129,10 +131,10 @@ public class SemSimOWLreader {
 				ind = nextind;
 			}
 			if (rpe==null) continue; 
-			CompositePhysicalEntity cpe = new CompositePhysicalEntity(rpes, rels);
-			String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLClass(IRI.create(cperef)))[0];
-			cpe.setName(label);
-			model.addCompositePhysicalEntity(cpe);
+			CompositePhysicalEntity newcpe = model.addCompositePhysicalEntity(rpes, rels);
+			for (String pp : pps) {
+				newcpe.addPhysicalProperty(getClassofProperty(pp));
+			}
 			
 		}
 	}
@@ -140,5 +142,10 @@ public class SemSimOWLreader {
 	private ReferencePhysicalEntity getClassofIndividual(String ind) throws OWLException {
 		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
 		return rpeurimap.get(indclass);
+	}
+	
+	private PhysicalProperty getClassofProperty(String ind) throws OWLException {
+		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
+		return ppurimap.get(indclass);
 	}
 }

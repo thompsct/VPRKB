@@ -76,6 +76,11 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 		// Else the arrays were different sizes
 		return 1;
 	}
+	
+	public String getFullName() {
+		return getName();
+	}
+	
 	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI;

@@ -17,6 +17,11 @@ public class ReferencePhysicalEntity extends PhysicalModelComponent implements P
 	}
 	
 	@Override
+	public String getFullName() {
+		return getName() + " (" + getFirstRefersToReferenceOntologyAnnotation().getOntologyAbbreviation()+ ")";
+	}
+	
+	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI;
 	}

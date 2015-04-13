@@ -1,6 +1,7 @@
 package semsimKB.model.physical;
 
 import java.net.URI;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
@@ -78,7 +79,11 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 				componententities = cmptpair;
 			}
 		}
-
+		
+		public String getFullName() {
+			return getName();
+		}
+		
 		@Override
 		public  URI getClassURI() {
 			return SemSimKBConstants.KB_COMPOSITE_CLASS_URI;

@@ -33,7 +33,7 @@ public class KBAddModelTab extends JPanel {
 		mainpanel.setPreferredSize(settings.getScreenDimensions());
 
 		ComponentListsPane complistpanel = new ComponentListsPane(callback);	
-		BioModelTablePane modview = new BioModelTablePane(callback); 
+		SemSimModelTablePane modview = new SemSimModelTablePane(callback); 
 		CompAnnTablePane compview = new CompAnnTablePane(callback);
 		
 		mainpanel.add(complistpanel);

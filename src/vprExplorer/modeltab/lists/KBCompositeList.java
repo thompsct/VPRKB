@@ -88,10 +88,12 @@ public class KBCompositeList extends JScrollPane implements Observer {
 		public Component getListCellRendererComponent(
 				JList<? extends Entry> list, Entry value, int index,
 				boolean isSelected, boolean cellHasFocus) {
-			if (list.isSelectedIndex(index)) value.bgcolor=list.getSelectionBackground();				 
-			setBackground(value.bgcolor);
+			if (list.isSelectedIndex(index)) setBackground(value.bgcolor);				 
+			else setBackground(value.bgcolor);
+			
 			if (value.bolded) setFont(bolded);
 			else setFont(arial);
+			
 			setText(value.name);
 			return this;
 		}

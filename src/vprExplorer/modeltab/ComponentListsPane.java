@@ -135,8 +135,9 @@ public class ComponentListsPane extends JPanel implements ActionListener, Observ
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {		
 				addComposite.setEnabled(true);
-				workbench.getSelectedSemSimEntryInformation(target.getSelectedIndex());
-				
+				if (target.getSelectedIndex() != -1) {
+					workbench.getSelectedSemSimEntryInformation(target.getSelectedIndex());
+				}
 			}
 		}		
 	};
@@ -144,11 +145,13 @@ public class ComponentListsPane extends JPanel implements ActionListener, Observ
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 == WBEvent.modelloaded) {
-			addAll.setEnabled(true);
+			modelComposites.setValueIsAdjusting(true);
 			modelComposites.clearSelection();
 			modelComposites.removeAll();
 			String[] namelist = workbench.getNamesofModelComposites().toArray(new String[]{});
 			modelComposites.setListData(namelist);
+			modelComposites.setValueIsAdjusting(false);
+			addAll.setEnabled(true);
 		}
 	}
 	

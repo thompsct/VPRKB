@@ -57,13 +57,17 @@ public class KBBufferOperations {
 			buffer.addModel(localdbmodel, ComponentStatus.MISSING);
 		}
 		
+		compareComposites(cpes);
+	}
+	
+	private void compareComposites(ArrayList<CompositePhysicalEntity> cpes) {
 		for (CompositePhysicalEntity cpe : cpes) {
 			ArrayList<PhysicalEntity> cents = cpe.getArrayListOfEntities();
 			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
 			KBCompositeObject<DBCompositeEntity> dbc = checkforComposite(cents, rels);
 			comppelist.add(dbc);
 			if (dbc!=null) {
-				dbc.addProperties(cpe.getPhysicalProperties(), buffer.getModelbyURI(moduri));
+				dbc.addProperties(cpe.getPhysicalProperties(), buffer.getModelbyURI(localdbmodel.getURI()));
 			
 				compareComponents(dbc, cpe);
 			}
@@ -96,6 +100,7 @@ public class KBBufferOperations {
 	
 	public void modifyComposite(int index, CompositePhysicalEntity cpe) {
 		if (comppelist.get(index)!= null) {
+			if (buffer.getCompositeEntityStatusbyURI(comppelist.get(index).getURI()) == ComponentStatus.MISSING) return;
 			compareComponents(comppelist.get(index), cpe);
 		}
 		else {

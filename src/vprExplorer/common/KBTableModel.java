@@ -45,9 +45,7 @@ public abstract class KBTableModel extends AbstractTableModel {
 		data.get(row)[column] =value;
 		fireTableCellUpdated(row, column);
 	}
-	
-	public boolean isCellEditable(int row, int col) { return false; }
-	 
+
 	public void addRow(String[] obj, TableCellRenderer[] renderer) {
 		data.add(obj);
 		renderers.add(renderer);

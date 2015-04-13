@@ -4,8 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
+import semsimKB.annotation.CurationalMetadata;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.ModelLite;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
@@ -104,5 +108,14 @@ public class AddModelWorkbench extends Observable {
 	
 	public Triple<String, ComponentStatus, Boolean> getEntry(int index) {	
 		return Triple.of(kbbuffer.getCompositeName(index), kbbuffer.getCompositeStatus(index), kbbuffer.getCompositetobeModified(index));
+	}
+	
+	public 	ArrayList<Pair<String, String>> describeSemSimModel() {
+		CurationalMetadata metadata = curmodel.getCurationalMetadata();
+		ArrayList<Pair<String, String>> metadatastrings = new ArrayList<Pair<String, String>>();
+		for (Metadata m : Metadata.values()) {
+			metadatastrings.add(Pair.of(m.toString(), metadata.getAnnotationValue(m)));
+		}
+		return metadatastrings;
 	}
 }
