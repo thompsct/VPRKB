@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import vprExplorer.common.KBTable;
+import vprExplorer.modeltab.AddModelWorkbench.WBEvent;
 import vprExplorer.modeltab.tables.KBCompositeTableModel;
 import vprExplorer.modeltab.tables.SemSimCompositeTableModel;
 
@@ -33,10 +34,23 @@ public class CompAnnTablePane extends JPanel implements Observer{
 		validate();
 	}
 
+	private void resetTables() {
+		compAnnTable.setModel(new SemSimCompositeTableModel());
+		kbcompAnnTable.setModel(new KBCompositeTableModel());
+	}
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-	
-		
+		if (arg1==WBEvent.modelloaded) {
+			resetTables();
+		}
+		if (arg1==WBEvent.sscompslct) {
+			compAnnTable.setModel(new SemSimCompositeTableModel(workbench.describeSemSimComposite()));
+			
+		}
+		if (arg1==WBEvent.dbcompslct) {
+			kbcompAnnTable.setModel(new KBCompositeTableModel(workbench.getKBCompositeEditor()));
+		}
 	}
 
 	

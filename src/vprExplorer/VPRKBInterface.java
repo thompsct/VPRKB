@@ -60,10 +60,11 @@ public class VPRKBInterface extends JFrame implements Observer{
 				quit();
 			}
 		});
-		new ServiceSelectionDialog(globals, gacts);
-		setTitle("Virtual Physiological Rat Knowledge Base Client");
+
 		gacts.addObserver(this);
 		
+		new ServiceSelectionDialog(globals, gacts);
+		setTitle("Virtual Physiological Rat Knowledge Base Client");
 		setJMenuBar(new KBClientMenu(globals, gacts));
 
 		KBClientGUI client = new KBClientGUI(globals, gacts);
@@ -72,8 +73,7 @@ public class VPRKBInterface extends JFrame implements Observer{
 		pack();
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
-		
-		
+
 		System.out.println("...Loaded.");
 	}
 

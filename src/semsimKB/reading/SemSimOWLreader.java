@@ -23,7 +23,6 @@ import semsimKB.annotation.Annotation;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.ModelLite;
 import semsimKB.model.physical.CompositePhysicalEntity;
-import semsimKB.model.physical.PhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.owl.KBOWLFactory;
@@ -91,8 +90,9 @@ public class SemSimOWLreader {
 	private void collectPhysicalProperties() throws OWLException {
 		for (String pps : KBOWLFactory.getAllSubclasses(ont,  SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI.toString(),false)) {
 			String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLClass(IRI.create(pps)))[0];
-			
-			model.addPhysicalProperty(new PhysicalProperty(label, URI.create(pps)));
+			PhysicalProperty pp = new PhysicalProperty(label, URI.create(pps));
+			model.addPhysicalProperty(pp);
+			ppurimap.put(pps, pp);
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class SemSimOWLreader {
 	private void collectCompositeEntities() throws OWLException {
 		for (String cperef : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI.toString())) {		
 			String ind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, cperef.toString(), SemSimKBConstants.HAS_INDEX_ENTITY_URI.toString());
-			ArrayList<PhysicalEntity> rpes = new ArrayList<PhysicalEntity>();
+			ArrayList<ReferencePhysicalEntity> rpes = new ArrayList<ReferencePhysicalEntity>();
 			ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
 			Set<String> pps = SemSimOWLFactory.getIndObjectProperty(ont, ind, SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
 			
@@ -117,12 +117,12 @@ public class SemSimOWLreader {
 			rpes.add(rpe);
 			
 			while (true) {
-				String nextind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind.toString(), SemSimKBConstants.PART_OF_URI.toString());
-				StructuralRelation rel = SemSimKBConstants.PART_OF_RELATION;
+				StructuralRelation rel = StructuralRelation.PART_OF_RELATION;
+				String nextind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind.toString(), rel.getURIasString());				
 				if (nextind=="") {
-					nextind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind.toString(), SemSimKBConstants.CONTAINED_IN_URI.toString());
+					rel = StructuralRelation.CONTAINED_IN_RELATION;
+					nextind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, ind.toString(), rel.getURIasString());
 					if (nextind=="") break;
-					rel = SemSimKBConstants.CONTAINED_IN_RELATION;
 				}
 				rpe = getClassofIndividual(nextind);
 				if (rpe == null) break;

@@ -114,7 +114,7 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	 * @return If the model already contains a semantically-identical composite physical entity, that entity is returned.
 	 * Otherwise, the new CompositePhysicalEntity added to the model is returned.
 	 */
-	public CompositePhysicalEntity addCompositePhysicalEntity(ArrayList<PhysicalEntity> entlist, ArrayList<StructuralRelation> rellist){
+	public CompositePhysicalEntity addCompositePhysicalEntity(ArrayList<ReferencePhysicalEntity> entlist, ArrayList<StructuralRelation> rellist){
 		CompositePhysicalEntity newcpe = new CompositePhysicalEntity(entlist, rellist);
 		for(CompositePhysicalEntity cpe : getCompositePhysicalEntities()){
 			// If there's already an equivalent CompositePhysicalEntity in the model, return it and don't do anything else.

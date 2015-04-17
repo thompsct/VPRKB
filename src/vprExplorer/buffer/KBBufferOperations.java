@@ -22,6 +22,8 @@ import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.PhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
+import semsimKB.utilities.descriptors.KBCompositeEditor;
+import semsimKB.utilities.descriptors.KBModelEditor;
 import vprExplorer.Settings;
 import vprExplorer.knowledgebaseinterface.KnowledgeBaseInterface;
 import vprExplorer.knowledgebaseinterface.LocalKnowledgeBase;
@@ -30,7 +32,7 @@ import vprExplorer.knowledgebaseinterface.RemoteKnowledgeBaseInterface;
 public class KBBufferOperations {
 	private KnowledgeBase buffer = new KnowledgeBase();
 	private KnowledgeBaseInterface kbinterface;
-	private ArrayList<KBCompositeObject<DBCompositeEntity>> comppelist = new ArrayList<KBCompositeObject<DBCompositeEntity>>();
+	private ArrayList<KBCompositeObject<DBCompositeEntity>> comppelist;
 	private ArrayList<KBCompositeObject<DBCompositeEntity>> modifylist = new ArrayList<KBCompositeObject<DBCompositeEntity>>();
 	
 	protected ModelLite model;
@@ -51,74 +53,160 @@ public class KBBufferOperations {
 	public void compareModeltoKB(ArrayList<CompositePhysicalEntity> cpes) {
 		//Check if model already in KB
 		URI moduri = URI.create(SemSimKBConstants.VPR_NAMESPACE + model.getName());
-		if (kbinterface.getElementwithURI(moduri, false)) {
+		if (!kbinterface.getElementwithURI(moduri, false)) {
 			localdbmodel = new CompBioModel(model);
 			localdbmodel.setURI(moduri);
 			buffer.addModel(localdbmodel, ComponentStatus.MISSING);
+		}
+		else {
+			localdbmodel = buffer.getModelbyURI(moduri);
+		}
+		for (PhysicalProperty pp : model.getPhysicalProperties()) {
+			addPropertytoBuffer(pp);
 		}
 		
 		compareComposites(cpes);
 	}
 	
-	private void compareComposites(ArrayList<CompositePhysicalEntity> cpes) {
+	public void compareComposites(ArrayList<CompositePhysicalEntity> cpes) {
+		 comppelist = new ArrayList<KBCompositeObject<DBCompositeEntity>>();
 		for (CompositePhysicalEntity cpe : cpes) {
-			ArrayList<PhysicalEntity> cents = cpe.getArrayListOfEntities();
+			ArrayList<PhysicalEntity> cents = new ArrayList<PhysicalEntity>();
+			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
+				if (kbinterface.getElementwithURI(rpe.getURI(), true)) {
+					buffer.addReferencePhysicalEntity(rpe, ComponentStatus.EXACT_MATCH);
+				}
+				cents.add(rpe);
+			}
 			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
+			
 			KBCompositeObject<DBCompositeEntity> dbc = checkforComposite(cents, rels);
+			
 			comppelist.add(dbc);
 			if (dbc!=null) {
-				dbc.addProperties(cpe.getPhysicalProperties(), buffer.getModelbyURI(localdbmodel.getURI()));
-			
-				compareComponents(dbc, cpe);
+				buffer.addComposite(dbc);
+				compareCompositeAssociations(dbc, cpe);
 			}
 		}
 	}
-	
 	private KBCompositeObject<DBCompositeEntity> checkforComposite(ArrayList<PhysicalEntity> cpes, ArrayList<StructuralRelation> rels) {
-		ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
-		
-		for (int i = 0; i < cpes.size()-1; i++) {
-			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(i).getURI(), cpes.get(i+1).getURI()), rels.get(i));
-			if (dbc !=null) {
-				dbcs.add(dbc);
+		if (cpes.size() > 2) {
+			ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
+			for (int i = 0; i < cpes.size()-1; i++) {
+				DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(i).getURI(), cpes.get(i+1).getURI()), rels.get(i));
+				if (dbc !=null) {
+					dbcs.add(dbc);
+				}
+				else return null;
 			}
-		}
-		if (dbcs.size() > 2) {
 			ArrayList<StructuralRelation> dbcrels = new ArrayList<StructuralRelation>();
 			for (int i = 1; i<rels.size(); i++) {
 				dbcrels.add(rels.get(i));
 			}
-			checkforComposite(dbcs, dbcrels);
+			return checkforComposite(dbcs, dbcrels);
 		}
 		else {
 			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(0).getURI(), cpes.get(1).getURI()), rels.get(0));
 			if (dbc == null) return null;
 			return buffer.getKBCompositeObject(dbc.getURI());
 		}
-		return null;
 	}
 	
-	public void modifyComposite(int index, CompositePhysicalEntity cpe) {
-		if (comppelist.get(index)!= null) {
-			if (buffer.getCompositeEntityStatusbyURI(comppelist.get(index).getURI()) == ComponentStatus.MISSING) return;
-			compareComponents(comppelist.get(index), cpe);
+	public void compareBufferComposites(ArrayList<CompositePhysicalEntity> cpes) {
+		 comppelist = new ArrayList<KBCompositeObject<DBCompositeEntity>>();
+		for (CompositePhysicalEntity cpe : cpes) {
+			ArrayList<PhysicalEntity> cents = new ArrayList<PhysicalEntity>();
+			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
+				cents.add(rpe);
+		};
+			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
+			KBCompositeObject<DBCompositeEntity> dbc = checkforCompositeinBuffer(cents, rels);
+			
+			comppelist.add(dbc);
+		}
+	}
+
+	private KBCompositeObject<DBCompositeEntity> checkforCompositeinBuffer(ArrayList<PhysicalEntity> cpes, ArrayList<StructuralRelation> rels) {
+		if (cpes.size() > 2) {
+			ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
+			for (int i = 0; i < cpes.size()-1; i++) {
+				DBCompositeEntity dbc = buffer.getKBComposite(Pair.of(cpes.get(i), cpes.get(i+1)), rels.get(i));
+				if (dbc !=null) {
+					dbcs.add(dbc);
+				}
+				else return null;
+			}
+			ArrayList<StructuralRelation> dbcrels = new ArrayList<StructuralRelation>();
+			for (int i = 1; i<rels.size(); i++) {
+				dbcrels.add(rels.get(i));
+			}
+			return checkforComposite(dbcs, dbcrels);
 		}
 		else {
-			comppelist.set(index, parseComposite(cpe.getArrayListOfEntities(), cpe.getArrayListOfStructuralRelations()));
+			DBCompositeEntity dbc = buffer.getKBComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
+			if (dbc == null) return null;
+			return buffer.getKBCompositeObject(dbc.getURI());
 		}
+	}
+	
+	//Compare similarity of composite properties
+	private void compareCompositeAssociations(KBCompositeObject<DBCompositeEntity> kbelement, CompositePhysicalEntity pmcElement) {
+		if (kbelement.getStatus() == ComponentStatus.MISSING) return;
+		DBCompositeEntity dbc = kbelement.getComponent();
+		ComponentStatus status = ComponentStatus.EXACT_MATCH;
+		//Compare database composite entity to model instance
+		int i = 0;
+		for (PhysicalProperty pp : pmcElement.getPhysicalProperties()) {
+			if (!dbc.containsProperty(pp)) {
+				status = ComponentStatus.NEW_ASSOCIATED_PHYS_PROPERTY;
+				break;
+			}
+			if (!dbc.getPropertyModelList(i).contains(localdbmodel)) {
+				status = ComponentStatus.NEW_PROPERTY_MODEL_ASSOCIATION;
+			}
+			i++;
+		}
+		kbelement.changeStatus(status);
+	}
+	
+	public boolean modifyComposite(int index, CompositePhysicalEntity cpe) {
+		KBCompositeObject<DBCompositeEntity> kdce = comppelist.get(index);
+		//If the SemSim composite already has a corresponding kb composite in the buffer,
+		//check if it is eligible to be modified
+		if (kdce!= null) {
+			if (kdce.getStatus() == ComponentStatus.MISSING ||
+					kdce.getStatus() == ComponentStatus.EXACT_MATCH ||
+							kdce.getStatus() == ComponentStatus.EXTERNAL_TO_MODEL)  {
+				return false;
+			}
+			
+			importCPEAssociations(kdce, cpe);
+			modifylist.add(kdce);
+		}
+		else {
+			ArrayList<PhysicalEntity> pes = new ArrayList<PhysicalEntity>();
+			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
+				pes.add(rpe);
+			}
+			kdce = parseComposite(pes, cpe.getArrayListOfStructuralRelations());
+			importCPEAssociations(kdce, cpe);
+		}
+		return true;
 	}
 	
 	private KBCompositeObject<DBCompositeEntity> parseComposite(ArrayList<PhysicalEntity> cpes, ArrayList<StructuralRelation> rels) {
+		//Verify Reference Entities exist in buffer
 		for (PhysicalEntity pe : cpes) {
-			if (pe.getURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
+			if (pe.getClassURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
 				addReferenceEntitytoBuffer((ReferencePhysicalEntity) pe);
 			}
 		}
+		//If the number of subcomponents exceeds 2, create two composites for every three.
 		if (cpes.size() > 2) {
 			ArrayList<PhysicalEntity> dbcs = new ArrayList<PhysicalEntity>();
 
 			for (int i = 0; i < cpes.size()-1; i++) {
-				DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(i).getURI(), cpes.get(i+1).getURI()), rels.get(i));
+				DBCompositeEntity dbc = buffer.getKBComposite(Pair.of(cpes.get(i), cpes.get(i+1)), rels.get(i));
 				if (dbc ==null) {
 					dbc = createComposite(Pair.of(cpes.get(i), cpes.get(i+1)), rels.get(i)).getComponent();
 				}
@@ -129,14 +217,22 @@ public class KBBufferOperations {
 			for (int i = 1; i<rels.size(); i++) {
 				dbcrels.add(rels.get(i));
 			}
+			//Parse the new list
 			return parseComposite(dbcs, dbcrels);
 
 		}
+		//If there are only two physical entities, build composite and return
+
+		
 		return createComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
 	}
 	
 	private KBCompositeObject<DBCompositeEntity> createComposite(Pair<PhysicalEntity, PhysicalEntity> cpes,StructuralRelation rel) {
-		DBCompositeEntity dbc = new DBCompositeEntity(cpes, rel);
+		//Verify that the composite does not already exist, if it does, return the existing object.
+		DBCompositeEntity dbc = buffer.getKBComposite(cpes, rel);
+		if (dbc!=null) return buffer.getKBCompositeObject(dbc.getURI());
+		
+		dbc = new DBCompositeEntity(cpes, rel);
 		dbc.setURI(createURIforComponent());
 		dbc.setRelation(rel);
 		
@@ -146,22 +242,17 @@ public class KBBufferOperations {
 		return kdbc;
 	}
 	
+
 	//Compare similarity of composite properties
-	private void compareComponents(KBCompositeObject<DBCompositeEntity> kbelement, CompositePhysicalEntity pmcElement) {
+	private void importCPEAssociations(KBCompositeObject<DBCompositeEntity> kbelement, CompositePhysicalEntity pmcElement) {
 		DBCompositeEntity dbc = kbelement.getComponent();
-		ComponentStatus status = ComponentStatus.EXACT_MATCH;
 		//Compare database composite entity to model instance
 		for (PhysicalProperty pp : pmcElement.getPhysicalProperties()) {
 			if (!dbc.containsProperty(pp)) {
 				addPropertytoBuffer(pp);
-				status = ComponentStatus.NEW_ASSOCIATED_PHYS_PROPERTY;
-				break;
 			}
-			if (!dbc.getPropertyModelList(pp).contains(localdbmodel)) {
-				status = ComponentStatus.NEW_PROPERTY_MODEL_ASSOCIATION;
-			}
+			kbelement.addProperty(pp, localdbmodel);
 		}
-		kbelement.changeStatus(status);
 	}
 	
 	private void addPropertytoBuffer(PhysicalProperty pp){
@@ -176,25 +267,12 @@ public class KBBufferOperations {
 		}
 	}
 	
-	//Add composite to KB or change existing component
-	public void changeComposite(KBCompositeObject<DBCompositeEntity> kbelement, CompositePhysicalEntity pmcElement) {
-		DBCompositeEntity dbc = kbelement.getComponent();
-		//Compare database composite entity to model instance
-		for (PhysicalProperty pp : pmcElement.getPhysicalProperties()) {
-			if (!dbc.containsProperty(pp)) {
-				dbc.addProperty(pp, localdbmodel);
-				continue;
-			}
-			dbc.addModeltoProperty(pp, localdbmodel);
-		}
-		modifylist.add(kbelement);
-	}
-	
 	private URI createURIforComponent() {
 		Date newdate = new Date();
 		String name = SemSimKBConstants.VPR_NAMESPACE + newdate.getTime();
 		if (!newdate.after(date)) {
 			name = name + String.valueOf(dbcint);
+			dbcint++;
 		}
 		else {
 			date = newdate;
@@ -226,7 +304,6 @@ public class KBBufferOperations {
 	}
 	
 	public ArrayList<Triple<String, ComponentStatus, Boolean>> getAllBufferCompositesNamesandStatuses() {
-		
 		ArrayList<Triple<String, ComponentStatus, Boolean>> namestatlist = new ArrayList<Triple<String, ComponentStatus, Boolean>>();
 
 		for ( KBCompositeObject<DBCompositeEntity> kdce : buffer.getAllKBCompositeObjects()) {
@@ -249,5 +326,17 @@ public class KBBufferOperations {
 	
 	public void pushBuffertoDatabase() {
 		kbinterface.pushChangestoDatabase(localdbmodel.getURI(), modifylist);
+	}
+	
+	public KBModelEditor createModelEditor() {
+		return new KBModelEditor(localdbmodel, buffer.getModelStatusbyURI(localdbmodel.getURI()));
+		
+	}
+	
+	public KBCompositeEditor createCompositeEditor(int index) {
+		KBCompositeObject<DBCompositeEntity> kdbc = buffer.getCompositeEntity(index);
+		Pair<URI, URI> pps = kdbc.getComponent().getComponentURIs();
+		return new KBCompositeEditor(kdbc, 
+				Pair.of(buffer.getPhysicalEntityStatusbyURI(pps.getLeft()), buffer.getPhysicalEntityStatusbyURI(pps.getRight())));
 	}
 }

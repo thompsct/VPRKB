@@ -1,5 +1,6 @@
 package vprExplorer.utilities;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,9 +28,9 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 		settings = sets;
 		gacts = acts;
 		
-		//setBounds(3*screenwidth/7, screenheight/4, screenwidth/6, screenheight/7);
 		setLayout(new GridLayout(0,2));
-		
+		//setUndecorated(true);
+		setResizable(false);
 		kbserver = new JRadioButton("KB Server");
 		localser = new JRadioButton("Local Server");
 		rdffile = new JRadioButton("Local File");
@@ -43,6 +44,7 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 		add(kbserver);
 		pwrd = new JPasswordField();
 		pwrd.setEnabled(false);
+		pwrd.setMinimumSize(new Dimension(30,20));
 		add(pwrd);
 		add(localser);
 		add(new JPanel());

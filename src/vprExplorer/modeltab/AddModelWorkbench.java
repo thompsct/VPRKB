@@ -12,10 +12,12 @@ import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.ModelLite;
 import semsimKB.model.physical.CompositePhysicalEntity;
-import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.reading.SemSimOWLreader;
 import semsimKB.utilities.SemSimComponentComparator;
 import semsimKB.utilities.SemSimObjectCollection;
+import semsimKB.utilities.descriptors.CompositeEntityDescriptor;
+import semsimKB.utilities.descriptors.KBCompositeEditor;
+import semsimKB.utilities.descriptors.KBModelEditor;
 import vprExplorer.Settings;
 import vprExplorer.buffer.ComponentStatus;
 import vprExplorer.buffer.KBBufferOperations;
@@ -25,8 +27,12 @@ public class AddModelWorkbench extends Observable {
 	private Settings globals;
 	private KBBufferOperations kbbuffer;
 	
+	
 	private ModelLite curmodel;
 	private ArrayList<CompositePhysicalEntity> modcomplist;
+	private int curcompsel = -1;
+	private KBModelEditor kbmodeleditor;
+	private KBCompositeEditor kbcompeditor;
 		
 	//Set local knowledge base buffer to be used
 	
@@ -45,6 +51,7 @@ public class AddModelWorkbench extends Observable {
 		}
 		loadModelComposites();
 		createBuffer();
+		kbmodeleditor = kbbuffer.createModelEditor();
 		setChanged();
 		notifyObservers(WBEvent.modelloaded);
 		return "Loaded: " + owlfile.getName();
@@ -66,9 +73,11 @@ public class AddModelWorkbench extends Observable {
 	
 	//Add Object to buffer
 	public void addSelectedComposite(int selection) {
-		kbbuffer.modifyComposite(selection, modcomplist.get(selection));
-		setChanged();
-		this.notifyObservers(WBEvent.bufferupdated);
+		if (kbbuffer.modifyComposite(selection, modcomplist.get(selection))) {
+			kbbuffer.compareBufferComposites(modcomplist);
+			setChanged();
+			notifyObservers(WBEvent.bufferupdated);
+		}
 	}
 	
 	
@@ -79,6 +88,8 @@ public class AddModelWorkbench extends Observable {
 			kbbuffer.modifyComposite(i, cpe);
 			i++;
 		}
+		setChanged();
+		notifyObservers(WBEvent.bufferupdated);
 	}
 	
 	//Remove composite from buffer
@@ -89,17 +100,22 @@ public class AddModelWorkbench extends Observable {
 	public void pushBuffertoDatabase() {
 		kbbuffer.pushBuffertoDatabase();
 		createBuffer();
+		setChanged();
+		notifyObservers(WBEvent.bufferupdated);
 	}
 	//**************************SELECTIONS********************************//
 	
-	public CompositePhysicalEntity getSelectedSemSimEntryInformation(int index) {
-		return modcomplist.get(index);
+	public void getSelectedSemSimEntryInformation(int index) {
+		curcompsel = index;
+		setChanged();
+		notifyObservers(WBEvent.sscompslct);
 	}
 	
 	
-	public DBPhysicalComponent getSelectedDBEntryInformation(int index) {
-
-		return null;
+	public void getSelectedDBEntryInformation(int index) {
+		kbcompeditor = kbbuffer.createCompositeEditor(index);
+		setChanged();
+		notifyObservers(WBEvent.dbcompslct);
 	} 
 	
 	public ArrayList<Triple<String, ComponentStatus, Boolean>>  getAllKBComposites() {
@@ -117,5 +133,17 @@ public class AddModelWorkbench extends Observable {
 			metadatastrings.add(Pair.of(m.toString(), metadata.getAnnotationValue(m)));
 		}
 		return metadatastrings;
+	}
+	
+	public CompositeEntityDescriptor describeSemSimComposite() {
+		return new CompositeEntityDescriptor(modcomplist.get(curcompsel));
+	}
+	
+	public KBModelEditor getKBModelEditor() {
+		return kbmodeleditor;
+	}
+	
+	public KBCompositeEditor getKBCompositeEditor() {
+		return kbcompeditor;
 	}
 }

@@ -51,9 +51,25 @@ public class KnowledgeBase {
 	public void addReferencePhysicalEntity(ReferencePhysicalEntity component, ComponentStatus status) {
 		KBBufferObject<ReferencePhysicalEntity> kbo = new KBBufferObject<ReferencePhysicalEntity>(component, status);
 		PhysicalReferenceEntities.add(kbo);
-		URIandRPEmap.put(component.getURI(), kbo);
+		URIandRPEmap.put(kbo.getURI(), kbo);
 	}
 	
+	public ComponentStatus getRefEntityStatusbyURI(URI rpeuri) {
+		return URIandRPEmap.get(rpeuri).getStatus();
+	}
+		
+	public ReferencePhysicalEntity getRefEntitybyURI(URI rpeuri) {
+		if (!hasReferenceEntity(rpeuri)) return null;
+		return URIandRPEmap.get(rpeuri).getComponent();
+	}
+	
+	public boolean hasReferenceEntity(ReferencePhysicalEntity component) {
+		return URIandRPEmap.containsKey(component.getURI());
+	}
+	
+	public boolean hasReferenceEntity(URI rpeuri) {
+		return URIandRPEmap.containsKey(rpeuri);
+	}
 	public void addModel(CompBioModel component, ComponentStatus status) {
 		KBBufferObject<CompBioModel> kbo = new KBBufferObject<CompBioModel>(component, status);
 		BioModels.add(kbo);
@@ -68,13 +84,7 @@ public class KnowledgeBase {
 		return URIandPPmap.containsKey(ppuri);
 	}
 		
-	public boolean hasReferenceEntity(ReferencePhysicalEntity component) {
-		return URIandRPEmap.containsKey(component.getURI());
-	}
-	
-	public boolean hasReferenceEntity(URI rpeuri) {
-		return URIandRPEmap.containsKey(rpeuri);
-	}
+
 	
 	public boolean hasModel(URI muri) {
 		return URIandCBMmap.containsKey(muri);
@@ -176,12 +186,15 @@ public class KnowledgeBase {
 		return URIandPPmap.get(ppuri).getStatus();
 	}
 	
-	public ComponentStatus getRefEntityStatusbyURI(URI rpeuri) {
-		return URIandRPEmap.get(rpeuri).getStatus();
-	}
-	
 	public ComponentStatus getCompositeEntityStatusbyURI(URI cpeuri) {
 		return URIandDBCmap.get(cpeuri).getStatus();
+	}
+	
+	public ComponentStatus getPhysicalEntityStatusbyURI(URI uri) {
+		if (URIandRPEmap.containsKey(uri)){
+			return URIandRPEmap.get(uri).getStatus();
+		}
+		return URIandDBCmap.get(uri).getStatus();
 	}
 	
 	public CompBioModel getModelbyURI(URI moduri) {
@@ -193,19 +206,25 @@ public class KnowledgeBase {
 		if (!hasProperty(ppuri)) return null;
 		return URIandPPmap.get(ppuri).getComponent();
 	}
-	
-	public ReferencePhysicalEntity getRefEntitybyURI(URI rpeuri) {
-		if (!hasReferenceEntity(rpeuri)) return null;
-		return URIandRPEmap.get(rpeuri).getComponent();
-	}
-	
+
 	public DBCompositeEntity getCompositeEntitybyURI(URI cpeuri) {
 		if (!hasKBComposite(cpeuri)) return null;
 		return URIandDBCmap.get(cpeuri).getComponent();
 	}
 	
+	public KBCompositeObject<DBCompositeEntity> getCompositeEntity(int cpeuri) {
+		return physicalCompositeEntities.get(cpeuri);
+	}
+	
 	public KBCompositeObject<DBCompositeEntity> getKBCompositeObject(URI cpeuri) {
 		return URIandDBCmap.get(cpeuri);
+	}
+	
+	public DBCompositeEntity getKBComposite(Pair<PhysicalEntity, PhysicalEntity> pepair, StructuralRelation sr) {
+		for (DBCompositeEntity dbc : getComposites()) {
+			if (dbc.componentEntityListsMatch(pepair)) return dbc;
+		}
+		return null;
 	}
 	
 	public ArrayList<KBCompositeObject<DBCompositeEntity>> getAllKBCompositeObjects() {

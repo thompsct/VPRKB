@@ -14,8 +14,9 @@ public abstract class DBPhysicalComponent extends SemSimComponent {
 	
 	public DBPhysicalComponent() {}
 	
-	public DBPhysicalComponent(URI uri) {
+	public DBPhysicalComponent(URI uri, String label) {
 		setURI(uri);
+		setName(label);
 	}
 	
 	public void setBioCompModels(ArrayList<CompBioModel> biomod) {
@@ -65,20 +66,19 @@ public abstract class DBPhysicalComponent extends SemSimComponent {
 			propmodlist.add(cbms);
 			return proplist.size()-1;
 		}
-		if (addModeltoProperty(pptoadd, cbmuri)) return proplist.indexOf(pptoadd);
-		return -1;
+		return proplist.indexOf(pptoadd);
 	}
 		
-	public boolean addModeltoProperty(PhysicalProperty ppURItoadd, CompBioModel cbmuri) {
-		if (propmodlist.get(proplist.indexOf(ppURItoadd)).contains(cbmuri)) {
-			propmodlist.get(proplist.indexOf(ppURItoadd)).add(cbmuri);
+	public boolean addModeltoProperty(int index, CompBioModel cbmuri) {
+		if (!propmodlist.get(index).contains(cbmuri)) {
+			propmodlist.get(index).add(cbmuri);
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean containsProperty(PhysicalProperty pptocheck) {
-		return proplist.contains(pptocheck);
+		return containsProperty(pptocheck.getURI());
 	}
 	
 	public boolean containsProperty(URI pptocheck) {

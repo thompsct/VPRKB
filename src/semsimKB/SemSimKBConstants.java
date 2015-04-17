@@ -8,7 +8,6 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import semsimKB.annotation.SemSimRelation;
-import semsimKB.annotation.StructuralRelation;
 
 /**
  * A set of constants for working with SemSim models
@@ -91,12 +90,6 @@ public class SemSimKBConstants {
 	public static final URI KB_PROCESS_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Process");
 	public static final URI KB_MODEL_URI = URI.create(VPR_NAMESPACE+"KB_Bio_Model");
 	
-	public static final URI KB_HAS_SUBCOMPONENT_URI = URI.create(VPR_NAMESPACE + "Has_Subcomponent");
-	public static final URI KB_ENTITY_COMPLEXITY_URI = URI.create(VPR_NAMESPACE + "Entity_Complexity");
-	public static final URI KB_SINGULAR_COMPONENT_URI = URI.create(VPR_NAMESPACE + "Base_Composite");
-	public static final URI KB_BASE_COMPOSITE_URI = URI.create(VPR_NAMESPACE + "Base_Composite");
-	public static final URI KB_COMPLEX_COMPOSITE_URI = URI.create(VPR_NAMESPACE + "Complex_Composite");
-	
 	public static final URI CELLML_COMPONENT_SUBSUMPTION_TYPE_URI = URI.create(SEMSIM_NAMESPACE + "submodelSubsumptionType");
 	public static final URI ENCAPSULATES_URI = URI.create(SEMSIM_NAMESPACE + "encapsulates");
 	public static final URI HAS_SOURCE_URI = URI.create(SEMSIM_NAMESPACE + "hasSource");
@@ -120,11 +113,7 @@ public class SemSimKBConstants {
 	public static final URI UNIT_FOR_URI = URI.create(SEMSIM_NAMESPACE + "unitFor");
 	public static final URI PHYSICAL_PROPERTY_OF_URI = URI.create(SEMSIM_NAMESPACE + "physicalPropertyOf");
 	public static final URI HAS_PHYSICAL_PROPERTY_URI = URI.create(SEMSIM_NAMESPACE + "hasPhysicalProperty");
-	public static final URI PART_OF_URI = URI.create(RO_NAMESPACE + "part_of");
-	public static final URI HAS_PART_URI = URI.create(RO_NAMESPACE + "has_part");
-	public static final URI CONTAINED_IN_URI = URI.create(RO_NAMESPACE + "contained_in");
-	public static final URI CONTAINS_URI = URI.create(RO_NAMESPACE + "contains");
-	public static final URI AdjacentToURI = URI.create(SEMSIM_NAMESPACE + "adjacentTo");
+
 	public static final URI HAS_INDEX_ENTITY_URI = URI.create(SEMSIM_NAMESPACE + "hasIndexEntity");
 	public static final URI INDEX_ENTITY_FOR_URI = URI.create(SEMSIM_NAMESPACE + "isIndexEntityFor");
 	public static final URI HAS_MULTIPLIER_URI = URI.create(SEMSIM_NAMESPACE + "hasMultiplier");
@@ -192,12 +181,6 @@ public class SemSimKBConstants {
 	public static final SemSimRelation UNIT_FOR_RELATION = new SemSimRelation("physical units for a property", HAS_UNIT_URI);
 	public static final SemSimRelation PHYSICAL_PROPERTY_OF_RELATION = new SemSimRelation("physical entity or process associated with a property ", PHYSICAL_PROPERTY_OF_URI);
 	public static final SemSimRelation HAS_PHYSICAL_PROPERTY_RELATION = new SemSimRelation("physical property of an entity or process", HAS_PHYSICAL_PROPERTY_URI);
-	public static final StructuralRelation PART_OF_RELATION = new StructuralRelation("physical entity is part of another physical entity", PART_OF_URI);
-	public static final StructuralRelation HAS_PART_RELATION = new StructuralRelation("physical entity has part other physical entity", HAS_PART_URI);
-	public static final StructuralRelation CONTAINED_IN_RELATION = new StructuralRelation("physical entity is contained in another physical entity", CONTAINED_IN_URI);
-	public static final StructuralRelation CONTAINS_RELATION = new StructuralRelation("physical entity contains another physical entity", CONTAINS_URI);
-	public static final StructuralRelation AdjacentToRelation = new StructuralRelation("physical entity is adjacent to another physical entity", AdjacentToURI);
-	public static final StructuralRelation SUBCOMPONENT_RELATION = new StructuralRelation("physical entity is subcomponent of another physical entity", KB_HAS_SUBCOMPONENT_URI);
 	public static final SemSimRelation HAS_SOURCE_RELATION = new SemSimRelation("physical process has thermodynamic source entity", HAS_SOURCE_URI);
 	public static final SemSimRelation HAS_SINK_RELATION = new SemSimRelation("physical process has thermodynamic sink entity", HAS_SINK_URI);
 	public static final SemSimRelation HAS_MEDIATOR_RELATION = new SemSimRelation("physical process has thermodynamic mediator entity", HAS_MEDIATOR_URI);
@@ -236,7 +219,6 @@ public class SemSimKBConstants {
 	public static final Map<String, String> ONTOLOGY_NAMESPACES_AND_FULL_NAMES_MAP;
 	public static final Map<String, String> ONTOLOGY_FULL_NAMES_AND_NICKNAMES_MAP;
 	public static final Map<URI, SemSimRelation> URIS_AND_SEMSIM_RELATIONS;
-	public static final Map<URI,URI> INVERSE_STRUCTURAL_RELATIONS_MAP;
 	public static final Map<Integer, SemSimRelation> BIOLOGICAL_QUALIFIER_TYPES_AND_RELATIONS;
 	public static final Map<Integer, SemSimRelation> MODEL_QUALIFIER_TYPES_AND_RELATIONS;
 	
@@ -258,10 +240,6 @@ public class SemSimKBConstants {
 		aMap0.put(METADATA_ID_URI, METADATA_ID_RELATION);
 		aMap0.put(PHYSICAL_PROPERTY_OF_URI, PHYSICAL_PROPERTY_OF_RELATION); 
 		aMap0.put(HAS_PHYSICAL_PROPERTY_URI, HAS_PHYSICAL_PROPERTY_RELATION);
-		aMap0.put(PART_OF_URI, PART_OF_RELATION);
-		aMap0.put(HAS_PART_URI, HAS_PART_RELATION);
-		aMap0.put(CONTAINED_IN_URI, CONTAINED_IN_RELATION);
-		aMap0.put(CONTAINS_URI, CONTAINS_RELATION);
 		aMap0.put(HAS_INDEX_ENTITY_URI, HAS_INDEX_ENTITY_RELATION);
 		aMap0.put(INDEX_ENTITY_FOR_URI, INDEX_ENtity_FOR_RELATION);
 		aMap0.put(HAS_SOURCE_URI, HAS_SOURCE_RELATION);
@@ -378,12 +356,6 @@ public class SemSimKBConstants {
 		aMap6.put(UBERON_FULLNAME, "UBERON");
 		aMap6.put(UNIPROT_FULLNAME, "UNIPROT");
 		ONTOLOGY_FULL_NAMES_AND_NICKNAMES_MAP = Collections.unmodifiableMap(aMap6);
-		
-		// inverseRelations Map
-		Map<URI,URI> aMap2 = new HashMap<URI,URI>();
-		aMap2.put(PART_OF_URI, HAS_PART_URI);
-		aMap2.put(CONTAINED_IN_URI, CONTAINS_URI);
-		INVERSE_STRUCTURAL_RELATIONS_MAP = Collections.unmodifiableMap(aMap2);
 
 		// BiologicalQualifierTypesAndRelations Map
 		Map<Integer, SemSimRelation> aMap4 = new HashMap<Integer, SemSimRelation>();

@@ -1,5 +1,6 @@
 package vprExplorer.common;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public abstract class KBTableModel extends AbstractTableModel {
 	
 	protected TableCellRenderer heading = new LabelRenderer(true, false);
 	protected TableCellRenderer normal = new LabelRenderer(false, false);
+	protected TableCellRenderer[] dfltrowrenderer = new TableCellRenderer[]{heading,normal};
 	
 	public KBTableModel() {};	
 	
@@ -73,10 +75,15 @@ public abstract class KBTableModel extends AbstractTableModel {
 		
 		boolean bolded;
 		boolean selectable;
+		Color color = Color.white;
 		
-		LabelRenderer() {}
-		LabelRenderer(boolean bold, boolean selectable) {
+		public LabelRenderer(boolean bold, boolean selectable) {
 			bolded = bold;
+		}
+		public LabelRenderer(boolean bold, boolean selectable, Color col) {
+			setOpaque(true);
+			bolded = bold;
+			color = col;
 		}
 		
 		@Override
@@ -84,6 +91,7 @@ public abstract class KBTableModel extends AbstractTableModel {
 				Object value, boolean selected, boolean isfocus, int row, int column) {
 			
 			if (bolded) setFont(boldfont);
+			setBackground(color);
 			setText((String)value);
 			return this;
 		}

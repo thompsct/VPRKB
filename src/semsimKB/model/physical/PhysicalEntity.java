@@ -7,4 +7,5 @@ public interface PhysicalEntity {
 	public String getName();
 	public URI getURI();
 	public String getFullName();
+	public URI getClassURI();
 }

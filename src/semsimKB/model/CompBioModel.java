@@ -7,17 +7,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.util.Annotations;
-
 import semsimKB.SemSimKBConstants;
 import semsimKB.model.data.KBDataComponent;
-import semsimKB.model.physical.DBPhysicalComponent;
 
 public class CompBioModel extends SemSimComponent {
 	protected Map<URI, String> ModelURL = new HashMap<URI, String>();
-	protected Set<KBDataComponent> AssociatedDataSets = new HashSet<>();
-	protected Set<DBPhysicalComponent> modelComponents = new HashSet<>();
-	protected Set<Annotations> annotations = new HashSet<>();
+	protected Set<KBDataComponent> AssociatedDataSets = new HashSet<KBDataComponent>();
 	
 	public CompBioModel(URI uri, String name) {
 		setName(name);
@@ -27,7 +22,7 @@ public class CompBioModel extends SemSimComponent {
 		setName(model.getName());
 		setDescription(model.getDescription());
 		setURI(URI.create(
-				SemSimKBConstants.SEMSIM_NAMESPACE.subSequence(0, SemSimKBConstants.SEMSIM_NAMESPACE.length()-1)+ getName()));
+				SemSimKBConstants.VPR_NAMESPACE + getName()));
 	}
 
 	public Map<URI, String> getModelURLList() {
@@ -39,14 +34,6 @@ public class CompBioModel extends SemSimComponent {
 		if (url==null) url="";
 		
 		return url;
-	}
-	
-	public Set<Annotations> getAnnotations() {
-		return annotations;
-	}
-	
-	public void addAnnotation(Annotations ann) {
-		annotations.add(ann);
 	}
 	
 	public void addModelURL(URI repos, String URL) {

@@ -39,9 +39,12 @@ public class KBCompositeList extends JScrollPane implements Observer {
 
 	private void updateList() {
 		kblist.setValueIsAdjusting(true);
+		int cursel = kblist.getSelectedIndex();
 		kblist.clearSelection();
 		kblist.setListData(entries.toArray(new Entry[]{}));
 		kblist.setValueIsAdjusting(false);
+		if (cursel >= kblist.getComponentCount()) cursel = 0;
+		kblist.setSelectedIndex(cursel);
 	}
 	
 	private void loadEntries() {
@@ -88,7 +91,7 @@ public class KBCompositeList extends JScrollPane implements Observer {
 		public Component getListCellRendererComponent(
 				JList<? extends Entry> list, Entry value, int index,
 				boolean isSelected, boolean cellHasFocus) {
-			if (list.isSelectedIndex(index)) setBackground(value.bgcolor);				 
+			if (list.isSelectedIndex(index)) setBackground(Color.lightGray);				 
 			else setBackground(value.bgcolor);
 			
 			if (value.bolded) setFont(bolded);
@@ -97,7 +100,6 @@ public class KBCompositeList extends JScrollPane implements Observer {
 			setText(value.name);
 			return this;
 		}
-
 	}
 	
 	private class KBListSelectionListener implements ListSelectionListener {
@@ -108,7 +110,9 @@ public class KBCompositeList extends JScrollPane implements Observer {
 		
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {
-				workbench.getSelectedDBEntryInformation(target.getSelectedIndex());
+				if (target.getSelectedIndex()!=-1) {
+					workbench.getSelectedDBEntryInformation(target.getSelectedIndex());
+				}
 			}
 		}
 	};

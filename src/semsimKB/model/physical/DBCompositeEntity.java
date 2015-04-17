@@ -9,7 +9,7 @@ import semsimKB.annotation.StructuralRelation;
 
 public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEntity{
 		private Pair<PhysicalEntity, PhysicalEntity> componententities = null;
-		protected StructuralRelation relation  = SemSimKBConstants.PART_OF_RELATION;
+		protected StructuralRelation relation  = StructuralRelation.PART_OF_RELATION;
 		
 		public DBCompositeEntity(Pair<PhysicalEntity,PhysicalEntity> entitiestoadd, StructuralRelation rel) {
 			componententities = entitiestoadd;
@@ -17,8 +17,8 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 			createName();
 		}
 
-		public DBCompositeEntity(URI uri) {
-			super(uri);
+		public DBCompositeEntity(URI uri, String label) {
+			super(uri, label);
 		}
 		
 		private void createName() {
@@ -41,7 +41,7 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 					pe2 = pe2 + pe2name[i] + " ";
 				}
 				String rel = " part of ";
-				if (this.relation==SemSimKBConstants.CONTAINED_IN_RELATION) {
+				if (relation==StructuralRelation.CONTAINED_IN_RELATION) {
 					rel = " in ";
 				}
 				setName(names.getLeft() + rel + pe2 );
@@ -78,6 +78,10 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 			if (componententities == null) {
 				componententities = cmptpair;
 			}
+		}
+		
+		public final Pair<PhysicalEntity, PhysicalEntity> getComponents() {
+			return componententities;
 		}
 		
 		public String getFullName() {

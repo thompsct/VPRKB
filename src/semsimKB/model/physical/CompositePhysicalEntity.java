@@ -8,10 +8,10 @@ import semsimKB.annotation.StructuralRelation;
 
 public class CompositePhysicalEntity extends PhysicalModelComponent implements Comparable<CompositePhysicalEntity>, PhysicalEntity{
 	
-	private ArrayList<PhysicalEntity> arrayListOfPhysicalEntities;
+	private ArrayList<ReferencePhysicalEntity> arrayListOfPhysicalEntities;
 	private ArrayList<StructuralRelation> arrayListOfStructuralRelations;
 
-	public CompositePhysicalEntity(ArrayList<PhysicalEntity> ents, ArrayList<StructuralRelation> rels){
+	public CompositePhysicalEntity(ArrayList<ReferencePhysicalEntity> ents, ArrayList<StructuralRelation> rels){
 		if(ents.size()-1 != rels.size()){
 			System.err.println("Error constructing composite physical entity: " +
 					"length of relations array (" + rels.size() + 
@@ -38,11 +38,11 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 		return name;
 	}
 
-	public void setArrayListOfEntities(ArrayList<PhysicalEntity> arrayListOfEntities) {
+	public void setArrayListOfEntities(ArrayList<ReferencePhysicalEntity> arrayListOfEntities) {
 		this.arrayListOfPhysicalEntities = arrayListOfEntities;
 	}
 
-	public ArrayList<PhysicalEntity> getArrayListOfEntities() {
+	public ArrayList<ReferencePhysicalEntity> getArrayListOfEntities() {
 		return arrayListOfPhysicalEntities;
 	}
 

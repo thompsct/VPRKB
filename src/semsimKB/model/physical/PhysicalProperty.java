@@ -9,6 +9,7 @@ public class PhysicalProperty extends PhysicalModelComponent{
 	public PhysicalProperty() {}
 	public PhysicalProperty(String name, URI uri) {
 		setURI(uri);
+		addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, uri, uri.toString());
 		setName(name);
 	}
 	

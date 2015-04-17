@@ -99,14 +99,9 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	public DBCompositeEntity retrieveComposite(Pair<URI, URI> comps, StructuralRelation rel) {
 		ArrayList<String> predicates = new ArrayList<String>();
 		ArrayList<String> objects = new ArrayList<String>();
-		predicates.add("VPRKB:Has_Subcomponent");
-		if (rel == SemSimKBConstants.PART_OF_RELATION) {
-			predicates.add("ro:part_of");
-		}
-		else {
-			predicates.add("ro:contained_in");
-		}
-		
+		predicates.add(StructuralRelation.SUBCOMPONENT_RELATION.getSparqlCode());
+		predicates.add(rel.getSparqlCode());
+
 		objects.add(comps.getLeft().toString());
 		objects.add(comps.getRight().toString()); 
 		
@@ -117,7 +112,6 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		DBCompositeEntity dbc = makeComposite(URI.create(results.get(0)));
 		
 		ArrayList<ComponentStatus> pstats = new ArrayList<ComponentStatus>();
-		ArrayList<ArrayList<ComponentStatus>> pmstats = new ArrayList<ArrayList<ComponentStatus>>();
 		
 		for (int i=0; i<dbc.getPropertyCount(); i++) {
 			if (buffer.hasProperty(dbc.getPhysicalProperty(i))) {
@@ -127,13 +121,9 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 				
 				pstats.add(ComponentStatus.EXTERNAL_TO_MODEL);
 			}
-			pmstats.add(new ArrayList<ComponentStatus>());
-			for (int j=0; j<dbc.getPropertyModelCount(i); j++) {
-				pmstats.get(i).add(ComponentStatus.EXTERNAL_TO_MODEL);
-			}
 		}
 		KBCompositeObject<DBCompositeEntity> kbco = 
-				new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.EXACT_MATCH, pstats, pmstats);
+				new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.EXACT_MATCH, pstats);
 		buffer.addComposite(kbco);
 		return dbc;
 	}
@@ -141,17 +131,16 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	private DBCompositeEntity makeComposite(URI eleuri) {
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
-		DBCompositeEntity dbc = new DBCompositeEntity(eleuri);
-		dbc.setName(label);
+		DBCompositeEntity dbc = new DBCompositeEntity(eleuri , label);
 		URI pe1uri = URI.create(sparql.getSingModelProperty("VPRKB:Has_Subcomponent", dbc.getURI(), false));
 		
 		URI pe2uri = URI.create(sparql.getSingModelProperty("ro:part_of", dbc.getURI(), false));
 		if (pe2uri==null) {
 			pe2uri = URI.create(sparql.getSingModelProperty("ro:contained_in", dbc.getURI(), false));
-			dbc.setRelation(SemSimKBConstants.PART_OF_RELATION);
+			dbc.setRelation(StructuralRelation.PART_OF_RELATION);
 		}
 		else {
-			dbc.setRelation(SemSimKBConstants.CONTAINED_IN_RELATION);
+			dbc.setRelation(StructuralRelation.CONTAINED_IN_RELATION);
 		}
 
 		PhysicalEntity pe1 = buffer.getPhysicalEntitybyURI(pe1uri);

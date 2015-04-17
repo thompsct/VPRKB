@@ -127,7 +127,10 @@ public class LocalKnowledgeBase extends KnowledgeBaseInterface {
 		
 		Pair<PhysicalEntity, PhysicalEntity> pepair =
 				Pair.of(localKB.getPhysicalEntitybyURI(comps.getLeft()), localKB.getPhysicalEntitybyURI(comps.getRight()));
-		
+		if (pepair.getLeft()==null || pepair.getRight() == null) {
+			return null;
+		}
+
 		for (DBCompositeEntity dce : localKB.getComposites()) {
 			if (dce.componentEntityListsMatch(pepair)) {
 				if (dce.getRelation() == rel) {
@@ -141,20 +144,13 @@ public class LocalKnowledgeBase extends KnowledgeBaseInterface {
 
 	private void addKBCompositeObject(DBCompositeEntity dbc) {
 		ArrayList<ComponentStatus> pstats = new ArrayList<ComponentStatus>();
-		ArrayList<ArrayList<ComponentStatus>> pmstats = new ArrayList<ArrayList<ComponentStatus>>();
 		
-		for (int i=0; i<dbc.getPropertyCount(); i++) {
-			if (!buffer.hasProperty(dbc.getPhysicalProperty(i))) {
-				buffer.addPhysicalProperty(dbc.getPhysicalProperty(i),ComponentStatus.EXACT_MATCH);
-			}
+		for (PhysicalProperty pp : dbc.getPropertyList()) {
+			pp = buffer.getPropertybyURI(pp.getURI());
 			pstats.add(ComponentStatus.EXACT_MATCH);
-			pmstats.add(new ArrayList<ComponentStatus>());
-			for (int j=0; j<dbc.getPropertyModelCount(i); j++) {
-				pmstats.get(i).add(ComponentStatus.EXTERNAL_TO_MODEL);
-			}
 		}
 		KBCompositeObject<DBCompositeEntity> kbco = 
-				new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.EXACT_MATCH, pstats, pmstats);
+				new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.EXACT_MATCH, pstats);
 		buffer.addComposite(kbco);
 	}
 	
