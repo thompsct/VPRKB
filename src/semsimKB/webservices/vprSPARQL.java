@@ -130,18 +130,22 @@ public class vprSPARQL {
 		return 0;
 	}
 
-	public int selectDistinctwithMultiCriteria(ArrayList<String> predicates, ArrayList<String> objects) {
+	public LinkedList<String> selectDistinctwithMultiCriteria(ArrayList<String> predicates, ArrayList<String> objects) {
 		host = server + "query";
 		String prefix = "";
 		String criteria = "";
-		for (int i = 0; i< predicates.size(); i++) {
+		for (int i = 0; i< predicates.size()-1; i++) {
 			prefix = prefix + hasPrefix(predicates.get(i));
-			criteria = criteria + cons.triple;
+			criteria = criteria + cons.dbl + " ; ";
 			
 			criteria = criteria.replace("%o", " <" + objects.get(i) + ">");
 			criteria = criteria.replace("%p", predicates.get(i));
-			criteria = criteria.replace("%s", "?s");
 		}
+		criteria = criteria + cons.dbl + " . ";
+		criteria = criteria.replace("%o", " <" + objects.get(objects.size()-1) + ">");
+		criteria = criteria.replace("%p", predicates.get(predicates.size()-1));
+		prefix = prefix + hasPrefix(predicates.get(predicates.size()-1));
+		
 		String qs = prefix + cons.multselect;
 		qs = qs.replace("%d", "DISTINCT");
 		qs = qs.replace("%t", "?s");
@@ -153,7 +157,7 @@ public class vprSPARQL {
 		qef = QueryExecutionFactory.sparqlService(host, query,auth);
 
 		results = qef.execSelect();
-		return 0;
+		return getResultsasStrings("?s", results);
 	}
 	
 	public int selectDistinct(String predicate, URI object) {

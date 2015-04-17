@@ -62,7 +62,14 @@ public class KBBufferOperations {
 			localdbmodel = buffer.getModelbyURI(moduri);
 		}
 		for (PhysicalProperty pp : model.getPhysicalProperties()) {
-			addPropertytoBuffer(pp);
+			if (kbinterface.getElementwithURI(pp.getURI(), true)) {
+				buffer.addPhysicalProperty(pp, ComponentStatus.EXACT_MATCH);
+			}
+		}
+		for (ReferencePhysicalEntity rpe : model.getReferenceEntities()) {
+			if (kbinterface.getElementwithURI(rpe.getURI(), true)) {
+				buffer.addReferencePhysicalEntity(rpe, ComponentStatus.EXACT_MATCH);
+			}
 		}
 		
 		compareComposites(cpes);
@@ -73,9 +80,6 @@ public class KBBufferOperations {
 		for (CompositePhysicalEntity cpe : cpes) {
 			ArrayList<PhysicalEntity> cents = new ArrayList<PhysicalEntity>();
 			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
-				if (kbinterface.getElementwithURI(rpe.getURI(), true)) {
-					buffer.addReferencePhysicalEntity(rpe, ComponentStatus.EXACT_MATCH);
-				}
 				cents.add(rpe);
 			}
 			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
@@ -118,7 +122,7 @@ public class KBBufferOperations {
 			ArrayList<PhysicalEntity> cents = new ArrayList<PhysicalEntity>();
 			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
 				cents.add(rpe);
-		};
+			}
 			ArrayList<StructuralRelation> rels = cpe.getArrayListOfStructuralRelations();
 			KBCompositeObject<DBCompositeEntity> dbc = checkforCompositeinBuffer(cents, rels);
 			
@@ -256,13 +260,13 @@ public class KBBufferOperations {
 	}
 	
 	private void addPropertytoBuffer(PhysicalProperty pp){
-		if (!kbinterface.getElementwithURI(pp, true)) {
+		if (!buffer.hasProperty(pp)) {
 			buffer.addPhysicalProperty(pp, ComponentStatus.MISSING);
 		}
 	}
 	
 	private void addReferenceEntitytoBuffer(ReferencePhysicalEntity rpe){
-		if (!kbinterface.getElementwithURI(rpe, true)) {
+		if (!buffer.hasReferenceEntity(rpe)) {
 			buffer.addReferencePhysicalEntity(rpe, ComponentStatus.MISSING);
 		}
 	}

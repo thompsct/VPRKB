@@ -103,12 +103,12 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		predicates.add(rel.getSparqlCode());
 
 		objects.add(comps.getLeft().toString());
-		objects.add(comps.getRight().toString()); 
+		objects.add(comps.getRight().toString());
 		
-		sparql.selectDistinctwithMultiCriteria(predicates, objects);
-		ArrayList<String> results = sparql.getResultLabels();
+		LinkedList<String> results = sparql.selectDistinctwithMultiCriteria(predicates, objects);
 		if (results.isEmpty()) return null;
 		
+
 		DBCompositeEntity dbc = makeComposite(URI.create(results.get(0)));
 		
 		ArrayList<ComponentStatus> pstats = new ArrayList<ComponentStatus>();
@@ -129,14 +129,15 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	}
 	
 	private DBCompositeEntity makeComposite(URI eleuri) {
+		sparql.describeGraph(eleuri);
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
 		DBCompositeEntity dbc = new DBCompositeEntity(eleuri , label);
-		URI pe1uri = URI.create(sparql.getSingModelProperty("VPRKB:Has_Subcomponent", dbc.getURI(), false));
+		URI pe1uri = URI.create(sparql.getSingModelProperty("VPRKB:Has_Subcomponent", eleuri, false));
 		
-		URI pe2uri = URI.create(sparql.getSingModelProperty("ro:part_of", dbc.getURI(), false));
+		String pe2uri = sparql.getSingModelProperty("ro:part_of", eleuri, false);
 		if (pe2uri==null) {
-			pe2uri = URI.create(sparql.getSingModelProperty("ro:contained_in", dbc.getURI(), false));
+			pe2uri = sparql.getSingModelProperty("ro:contained_in", eleuri, false);
 			dbc.setRelation(StructuralRelation.PART_OF_RELATION);
 		}
 		else {
@@ -144,7 +145,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		}
 
 		PhysicalEntity pe1 = buffer.getPhysicalEntitybyURI(pe1uri);
-		PhysicalEntity pe2 = buffer.getPhysicalEntitybyURI(pe1uri);
+		PhysicalEntity pe2 = buffer.getPhysicalEntitybyURI(URI.create(pe2uri));
 		dbc.setComponents(Pair.of(pe1, pe2));
 		
 		LinkedList<String> results = sparql.getMultModelProperty("model-qualifiers:isDerivedFrom", dbc.getURI());

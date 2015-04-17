@@ -82,27 +82,27 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	
 	//Reference Physical Entity
 	String buildEntry(ReferencePhysicalEntity obj, String data) {
-		String ouri = obj.getURI().toString() ;
-		data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
+		//String ouri = obj.getURI().toString() ;
+		//data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
 		return data;
 	}
 	
 	String buildEntry(PhysicalProperty obj, String data) {
-		String ouri = obj.getURI().toString() ;
-		data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
+		//String ouri = obj.getURI().toString() ;
+		//data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
 		return data;
 	}
+	
 	String buildEntry(DBCompositeEntity obj, String data) {
 		String ouri = obj.getURI().toString() ;
+		Pair<URI, URI> compuris = obj.getComponentURIs();
+		data = data + "<" + ouri + "> " + "VPRKB:Has_Subcomponent <" +  compuris.getLeft().toString() + "> .\n";
+		data = data + "<" + ouri + "> " + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString() + "> .\n";
+
 		for (PhysicalProperty pp : obj.getPropertyList()) {
 			data = data + "<" + ouri + "> SemSim:hasPhysicalProperty <" + pp.getURI().toString() + "> .\n";
 		}
-		for (CompBioModel cbm : obj.getBioCompModels()) {
-			data = data + "<" + ouri + "> model-qualifiers:isDerivedFrom <" + cbm.getURI().toString() + "> .\n";
-		}
-		Pair<URI, URI> compuris = obj.getComponentURIs();
-		data = data + "<" + ouri + "> <" + obj.getRelation().getURI().toString() + "> <" + compuris.getLeft().toString() + "> .\n";
-		data = data + "<" + ouri + "> VPRKB:Has_Subcomponent <" +  compuris.getRight().toString() + "> .\n";
+
 		return data;
 	}
 	
