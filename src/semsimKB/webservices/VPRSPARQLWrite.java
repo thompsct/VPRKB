@@ -10,7 +10,6 @@ import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
 import semsimKB.model.physical.PhysicalProperty;
-import semsimKB.model.physical.ReferencePhysicalEntity;
 import vprExplorer.Settings;
 
 import com.hp.hpl.jena.sparql.modify.UpdateProcessRemote;
@@ -58,12 +57,6 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		else if (type==SemSimKBConstants.KB_MODEL_URI) {
 			buildEntry((CompBioModel)ind, data);
 		}
-		else if (type==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
-			data = buildEntry((ReferencePhysicalEntity)ind, data);
-		}
-		else if (type==SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI) {
-			data = buildEntry((PhysicalProperty)ind, data);
-		}
 		ui = ui.replace("%d", data);
 		
 		updateRemote(ui);
@@ -78,19 +71,6 @@ public class VPRSPARQLWrite extends vprSPARQL {
 			}
 		}
 		return 0;
-	}
-	
-	//Reference Physical Entity
-	String buildEntry(ReferencePhysicalEntity obj, String data) {
-		//String ouri = obj.getURI().toString() ;
-		//data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
-		return data;
-	}
-	
-	String buildEntry(PhysicalProperty obj, String data) {
-		//String ouri = obj.getURI().toString() ;
-		//data = data + "<" + ouri + "> SemSim:refersTo <" + obj.getFirstRefersToReferenceOntologyAnnotation().getReferenceURI() + "> .\n";
-		return data;
 	}
 	
 	String buildEntry(DBCompositeEntity obj, String data) {

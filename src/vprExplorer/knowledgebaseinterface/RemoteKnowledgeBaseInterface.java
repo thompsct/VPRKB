@@ -165,6 +165,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 				getElementwithURI(ppuri, false);
 				PhysicalProperty pp = buffer.getPropertybyURI(ppuri);
 				for (String mod : pmres) {
+					getElementwithURI(URI.create(mod), false);
 					CompBioModel model = buffer.getModelbyURI(URI.create(mod));
 					dbc.addProperty(pp, model);
 				}

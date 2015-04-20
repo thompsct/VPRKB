@@ -2,7 +2,6 @@
 package semsimKB.model.kbbuffer;
 
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -19,8 +18,7 @@ import semsimKB.model.physical.ReferencePhysicalEntity;
 import vprExplorer.buffer.ComponentStatus;
 
 public class KnowledgeBase {
-	protected SimpleDateFormat sdf;
-	
+
 	protected ArrayList<KBBufferObject<ReferencePhysicalEntity>> PhysicalReferenceEntities = new ArrayList<KBBufferObject<ReferencePhysicalEntity>>();
 	protected ArrayList<KBBufferObject<PhysicalProperty>> PhysicalProperties = new  ArrayList<KBBufferObject<PhysicalProperty>>();
 	protected ArrayList<KBBufferObject<CompBioModel>> BioModels = new ArrayList<KBBufferObject<CompBioModel>>();
@@ -83,9 +81,7 @@ public class KnowledgeBase {
 	public boolean hasProperty(URI ppuri) {
 		return URIandPPmap.containsKey(ppuri);
 	}
-		
 
-	
 	public boolean hasModel(URI muri) {
 		return URIandCBMmap.containsKey(muri);
 	}

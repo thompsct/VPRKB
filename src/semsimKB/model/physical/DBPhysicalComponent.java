@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
-import semsimKB.SemSimKBConstants;
 
 public abstract class DBPhysicalComponent extends SemSimComponent {
 	protected ArrayList<CompBioModel> models = new ArrayList<CompBioModel>();
@@ -111,11 +110,6 @@ public abstract class DBPhysicalComponent extends SemSimComponent {
 	
 	public int getPropertyCount() {
 		return proplist.size();
-	}
-	
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.KB_PHYSICAL_CLASS_URI;
 	}
 
 }

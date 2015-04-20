@@ -83,8 +83,6 @@ public class SemSimKBConstants {
 	public static final URI CUSTOM_PHYSICAL_PROCESS_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Custom_physical_process");
 	public static final URI DATA_STRUCTURE_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Data_structure");
 	
-	public static final URI KNOWLEDGE_BASE_CLASS_URI = URI.create(VPR_NAMESPACE + "Knowledge_Base");
-	public static final URI KB_PHYSICAL_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Model_Component");
 	public static final URI KB_COMPOSITE_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Entity");
 	public static final URI KB_DATASET_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Data_Set");
 	public static final URI KB_PROCESS_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Process");
