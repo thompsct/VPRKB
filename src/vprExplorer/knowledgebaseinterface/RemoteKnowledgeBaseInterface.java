@@ -107,9 +107,10 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		
 		LinkedList<String> results = sparql.selectDistinctwithMultiCriteria(predicates, objects);
 		if (results.isEmpty()) return null;
-		
+		URI rslturi = URI.create(results.get(0));
+		if (buffer.hasKBComposite(rslturi)) return buffer.getCompositeEntitybyURI(rslturi); 
 
-		DBCompositeEntity dbc = makeComposite(URI.create(results.get(0)));
+		DBCompositeEntity dbc = makeComposite(rslturi);
 		
 		ArrayList<ComponentStatus> pstats = new ArrayList<ComponentStatus>();
 		
@@ -157,8 +158,9 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		}
 		
 		results = sparql.getComponentPropertyList(dbc.getURI());
-		LinkedList<String> pmres = new LinkedList<String>();
+		
 		if (!results.isEmpty()) {
+			LinkedList<String> pmres = new LinkedList<String>();
 			for (String property : results) {
 				URI ppuri = URI.create(property);
 				pmres = sparql.getComponentPropModelMap(dbc.getURI(), URI.create(property));
@@ -167,7 +169,8 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 				for (String mod : pmres) {
 					getElementwithURI(URI.create(mod), false);
 					CompBioModel model = buffer.getModelbyURI(URI.create(mod));
-					dbc.addProperty(pp, model);
+					int index = dbc.addProperty(pp, model);
+					dbc.addModeltoProperty(index, model);
 				}
 			}
 		}
@@ -218,7 +221,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 			if (kbdbc.getPropertyStatus(i) == ComponentStatus.NEW_ASSOCIATED_PHYS_PROPERTY) {
 				sparql.addPropertyModelLinks(dbc.getURI(), dbc.getPhysicalProperty(i).getURI(), muri);
 			}
-			else if (kbdbc.getPropertyStatus(i) == ComponentStatus.NEW_ASSOCIATED_PHYS_PROPERTY) {
+			else if (kbdbc.getPropertyStatus(i) == ComponentStatus.NEW_PROPERTY_MODEL_ASSOCIATION) {
 					sparql.addModeltoAxiom(dbcuri, dbc.getPhysicalProperty(i).getURI(), muri);
 			}
 		}

@@ -2,17 +2,18 @@
 package semsimKB.model;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import semsimKB.SemSimKBConstants;
+import semsimKB.annotation.Annotation;
+import semsimKB.annotation.CurationalMetadata;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.data.KBDataComponent;
 
 public class CompBioModel extends SemSimComponent {
-	protected Map<URI, String> ModelURL = new HashMap<URI, String>();
 	protected Set<KBDataComponent> AssociatedDataSets = new HashSet<KBDataComponent>();
+	protected CurationalMetadata metadata = new CurationalMetadata();
 	
 	public CompBioModel(URI uri, String name) {
 		setName(name);
@@ -24,30 +25,6 @@ public class CompBioModel extends SemSimComponent {
 		setURI(URI.create(
 				SemSimKBConstants.VPR_NAMESPACE + getName()));
 	}
-
-	public Map<URI, String> getModelURLList() {
-		return ModelURL;
-	}
-	
-	public String getModelURL(URI repos) {
-		String url = ModelURL.get(repos);
-		if (url==null) url="";
-		
-		return url;
-	}
-	
-	public void addModelURL(URI repos, String URL) {
-		ModelURL.put(repos, URL);
-	}
-	
-	public void removeModelURL(String repos) {
-		ModelURL.remove(repos);
-	}
-	
-	public void replaceModelURL(URI repos, String URL) {
-		ModelURL.remove(repos);
-		ModelURL.put(repos, URL);
-	}
 	
 	public Set<KBDataComponent> getDataSets() {
 		return AssociatedDataSets;
@@ -55,6 +32,27 @@ public class CompBioModel extends SemSimComponent {
 		
 	public void addDataSet(KBDataComponent DataSet) {
 		AssociatedDataSets.add(DataSet);
+	}
+	
+	/**
+	 * Add a SemSim {@link Annotation} to this object
+	 * @param ann The {@link Annotation} to add
+	 */
+	public void setModelAnnotation(Metadata metaID, String value) {
+		metadata.setAnnotationValue(metaID, value);
+	}
+	
+	@Override
+	public String getDescription() {
+		return metadata.getAnnotationValue(Metadata.description);
+	}
+	@Override
+	public void setDescription(String value) {
+		metadata.setAnnotationValue(Metadata.description, value);
+	}
+	
+	public CurationalMetadata getCurationalMetadata() {
+		return metadata;
 	}
 	
 	@Override

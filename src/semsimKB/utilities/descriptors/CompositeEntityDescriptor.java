@@ -10,10 +10,13 @@ import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 
 public class CompositeEntityDescriptor {
-	ArrayList<String[]> description = new ArrayList<String[]>();
+	private ArrayList<String[]> description = new ArrayList<String[]>();
+	private ArrayList<String[]> additional = new ArrayList<String[]>();
+	private String[] blank = new String[]{"", ""};
 	
 	public CompositeEntityDescriptor(CompositePhysicalEntity cpe) {
-		description.add(new String[]{"Name:", cpe.getName()});
+		addRow(new String[]{"Name:", cpe.getName()});
+		
 		ArrayList<PhysicalEntity> pes = new ArrayList<PhysicalEntity>();
 		for (ReferencePhysicalEntity rpe :cpe.getArrayListOfEntities()) {
 			pes.add(rpe);
@@ -22,22 +25,38 @@ public class CompositeEntityDescriptor {
 		makePropertyDescriptor(cpe.getPhysicalProperties());
 	}
 	
+
+	
 	private void makeEntityDescriptor(ArrayList<PhysicalEntity> pes, ArrayList<StructuralRelation> rels) {
-		description.add(new String[]{"Index Entity:", pes.get(0).getFullName()});
+		addRow(new String[]{"Index Entity:", pes.get(0).getFullName()}, new String[]{"", pes.get(0).getURI().toString()});
 		for (int i = 1; i< pes.size(); i++) {
 			PhysicalEntity pe = pes.get(i);
-			description.add(new String[]{rels.get(i-1).getShortDescription(), pe.getName()});
+			addRow(new String[]{rels.get(i-1).getShortDescription(), pe.getFullName()}, new String[]{"", pe.getURI().toString()});
 			i++;
 		}
 	}
 	
+	private void addRow(String[] text) {
+		description.add(text);
+		additional.add(blank);
+	}
+	
+	private void addRow(String[] text, String[] tooltip) {
+		description.add(text);
+		additional.add(tooltip);
+	}
+	
 	private void makePropertyDescriptor(Set<PhysicalProperty> pps) {
 		for (PhysicalProperty pp : pps) {
-			description.add(new String[]{"Associated Physical Property:", pp.getName()});
+			addRow(new String[]{"Associated Physical Property:", pp.getName()});
 		}		
 	}
 	
 	public ArrayList<String[]> getDescription() {
 		return description;
+	}
+	
+	public String[] getAdditionalInformation(int index) {
+		return additional.get(index);
 	}
 }

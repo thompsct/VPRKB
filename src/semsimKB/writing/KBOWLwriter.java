@@ -72,9 +72,6 @@ public class KBOWLwriter {
 			processCompositePhysicalEntity(pce);
 		}
 				
-		String str = new String("Virtual Physiological Rat Knowledge Base");
-		KBOWLFactory.addOntologyAnnotation(ont, SemSimKBConstants.MODEL_NAME_URI.toString(), str, "en", manager);
-				
 		return ont;
 	}
 	

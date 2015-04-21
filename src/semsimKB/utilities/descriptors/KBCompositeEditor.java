@@ -18,6 +18,7 @@ public class KBCompositeEditor {
 	String description;
 	ComponentStatus status;
 	ArrayList<String[]> components = new ArrayList<String[]>();
+	ArrayList<String> compuris = new ArrayList<String>();
 	ArrayList<PropertyModelGroup> pmglist = new ArrayList<PropertyModelGroup>();
 	Pair<ComponentStatus, ComponentStatus> cpntstats;
 	
@@ -31,8 +32,9 @@ public class KBCompositeEditor {
 		status = kdbc.getStatus();
 				
 		components.add(new String[]{StructuralRelation.SUBCOMPONENT_RELATION.getShortDescription(), dbc.getComponentNames().getLeft()});
+		compuris.add(dbc.getComponentURIs().getLeft().toString());
 		components.add(new String[]{dbc.getRelation().getShortDescription(), dbc.getComponentNames().getRight()});
-		
+		compuris.add(dbc.getComponentURIs().getRight().toString());
 		int i = 0;
 		for (PhysicalProperty pp : dbc.getPropertyList()) {
 			PropertyModelGroup pmg = new PropertyModelGroup(pp, kdbc.getPropertyStatus(i));
@@ -78,6 +80,10 @@ public class KBCompositeEditor {
 	
 	public ComponentStatus getStatus() {
 		return status;
+	}
+	
+	public String getAdditionalInformation(int index) {
+		return compuris.get(index);
 	}
 	
 	private class PropertyModelGroup {

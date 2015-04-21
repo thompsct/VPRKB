@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import semsimKB.SemSimKBConstants;
-import semsimKB.SemSimKBConstants.modelAnnotations;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.ModelLite;
@@ -288,23 +287,6 @@ public class KBBufferOperations {
 	
 	public boolean removeBufferComponent(int index) {
 		return (buffer.removeComposite(index));
-	}
-	
-	public void addModelEdit(modelAnnotations field, String edit) {
-		CompBioModel cbm = buffer.getModelbyURI(model.getURI());
-		switch (field) {
-			case CELLML_MODEL_URL_URI:
-				cbm.addModelURL(SemSimKBConstants.CELLML_MODEL_URL_URI, edit);
-				break;
-			case JSIM_MODEL_URL_URI:
-				cbm.addModelURL(SemSimKBConstants.JSIM_MODEL_URL_URI, edit);
-				break;
-			case MATLAB_MODEL_URL_URI:
-				cbm.addModelURL(SemSimKBConstants.MATLAB_MODEL_URL_URI, edit);
-				break;
-			default:
-				break;
-		}
 	}
 	
 	public ArrayList<Triple<String, ComponentStatus, Boolean>> getAllBufferCompositesNamesandStatuses() {

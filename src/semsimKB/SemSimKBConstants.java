@@ -68,10 +68,7 @@ public class SemSimKBConstants {
 	};
 	
 	// URIs
-	public static final URI SEMSIM_COMPONENT_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "SemSim_component");
 	public static final URI SEMSIM_RELATION_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "SemSim_relation");
-	public static final URI RELATIONAL_CONSTRAINT_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Relational_constraint");
-	public static final URI PHYSICAL_MODEL_COMPONENT_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Physical_model_component");
 	public static final URI COMPOSITE_PHYSICAL_ENTITY_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Composite_physical_entity");
 	public static final URI PHYSICAL_PROPERTY_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Physical_property");
 	public static final URI PHYSICAL_ENTITY_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Physical_entity");
@@ -81,15 +78,12 @@ public class SemSimKBConstants {
 	public static final URI PHYSICAL_DEPENDENCY_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Physical_dependency");
 	public static final URI CUSTOM_PHYSICAL_ENTITY_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Custom_physical_entity");
 	public static final URI CUSTOM_PHYSICAL_PROCESS_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Custom_physical_process");
-	public static final URI DATA_STRUCTURE_CLASS_URI = URI.create(SEMSIM_NAMESPACE + "Data_structure");
 	
 	public static final URI KB_COMPOSITE_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Entity");
 	public static final URI KB_DATASET_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Data_Set");
 	public static final URI KB_PROCESS_CLASS_URI = URI.create(VPR_NAMESPACE + "KB_Physical_Process");
 	public static final URI KB_MODEL_URI = URI.create(VPR_NAMESPACE+"KB_Bio_Model");
-	
-	public static final URI CELLML_COMPONENT_SUBSUMPTION_TYPE_URI = URI.create(SEMSIM_NAMESPACE + "submodelSubsumptionType");
-	public static final URI ENCAPSULATES_URI = URI.create(SEMSIM_NAMESPACE + "encapsulates");
+
 	public static final URI HAS_SOURCE_URI = URI.create(SEMSIM_NAMESPACE + "hasSource");
 	public static final URI HAS_SINK_URI = URI.create(SEMSIM_NAMESPACE + "hasSink");
 	public static final URI HAS_MEDIATOR_URI = URI.create(SEMSIM_NAMESPACE + "hasMediator");
@@ -99,10 +93,6 @@ public class SemSimKBConstants {
 	public static final URI HAS_PHYSICAL_ENTITY_REFERENCE_URI = URI.create(SEMSIM_NAMESPACE + "hasPhysicalEntityReference");
 	
 	public static final URI HREF_VALUE_OF_IMPORT_URI = URI.create(SEMSIM_NAMESPACE + "hrefValueOfImport");
-	public static final URI IS_DECLARED_URI = URI.create(SEMSIM_NAMESPACE + "isDeclared");
-	public static final URI IS_DETERMINED_BY_URI = URI.create(SEMSIM_NAMESPACE + "isDeterminedBy");
-	public static final URI IS_DISCRETE_URI = URI.create(SEMSIM_NAMESPACE + "isDiscrete");
-	public static final URI IS_COMPUTATIONAL_COMPONENT_FOR_URI = URI.create(SEMSIM_NAMESPACE + "isComputationalComponentFor");
 	public static final URI METADATA_ID_URI = URI.create(SEMSIM_NAMESPACE + "metadataID");
 	public static final URI REFERS_TO_URI = URI.create(SEMSIM_NAMESPACE + "refersTo");
 	public static final URI SEMSIM_VERSION_URI = URI.create(SEMSIM_NAMESPACE + "SemSimVersion");
@@ -116,22 +106,6 @@ public class SemSimKBConstants {
 	public static final URI INDEX_ENTITY_FOR_URI = URI.create(SEMSIM_NAMESPACE + "isIndexEntityFor");
 	public static final URI HAS_MULTIPLIER_URI = URI.create(SEMSIM_NAMESPACE + "hasMultiplier");
 	
-	// Model-level relations
-	public static final URI MODEL_DESCRIPTION_URI = URI.create(SEMSIM_NAMESPACE + "ModelDescription");
-	public static final URI REFERENCE_PUBLICATION_PUBMED_ID_URI = URI.create(SEMSIM_NAMESPACE + "PubMedIDofReferencePublication");
-	public static final URI REFERENCE_PUBLICATION_ABSTRACT_TEXT_URI = URI.create(SEMSIM_NAMESPACE + "ReferencePublicationAbstractText");
-	public static final URI REFERENCE_PUBLICATION_CITATION_URI = URI.create(SEMSIM_NAMESPACE + "ReferencePublicationCitation");
-	public static final URI ANNOTATOR_CONTACT_INFO_URI = URI.create(SEMSIM_NAMESPACE + "AnnotatorContactInfo");
-	public static final URI MODEL_ID_URI = URI.create(SEMSIM_NAMESPACE + "modelId");
-	public static final URI MODEL_NAME_URI = URI.create(SEMSIM_NAMESPACE + "modelName");
-	public static final URI MODEL_ALIAS_URI = URI.create(VPR_NAMESPACE + "modelAlias");	
-	public static final URI JSIM_MODEL_URL_URI = URI.create(VPR_NAMESPACE + "JSIMURL");
-	public static final URI CELLML_MODEL_URL_URI = URI.create(VPR_NAMESPACE + "CELLMLURL");
-	public static final URI MATLAB_MODEL_URL_URI = URI.create(VPR_NAMESPACE + "Matlab_URL");
-	public static final URI SBML_MODEL_URL_URI = URI.create(VPR_NAMESPACE + "SBML_URL");
-	
-	public static enum modelAnnotations {JSIM_MODEL_URL_URI, CELLML_MODEL_URL_URI, MATLAB_MODEL_URL_URI}; 
-	
 	public static final URI BQB_HAS_PART_URI = URI.create(BQB_NAMESPACE + "hasPart");
 	public static final URI BQB_IS_PART_OF_URI = URI.create(BQB_NAMESPACE + "isPartOf");
 	public static final URI BQB_IS_URI = URI.create(BQB_NAMESPACE + "is");
@@ -140,16 +114,9 @@ public class SemSimKBConstants {
 	public static final URI BQM_IS_URI = URI.create(BQM_NAMESPACE + "is");
 	public static final URI BQM_IS_DESCRIBED_BY_URI = URI.create(BQM_NAMESPACE + "isDescribedBy");
 	public static final URI BQM_IS_DERIVED_FROM_URI = URI.create(BQM_NAMESPACE + "isDerivedFrom");
-	
-	public static final URI HAS_NOTES_URI = URI.create(SEMSIM_NAMESPACE + "hasNotes");
 
-	public static final URI CELLML_COMPONENT_PRIVATE_INTERFACE_URI = URI.create(SEMSIM_NAMESPACE + "hasCellMLprivateInterface");
-	public static final URI CELLML_COMPONENT_PUBLIC_INTERFACE_URI = URI.create(SEMSIM_NAMESPACE + "hasCellMLpublicInterface");
-	public static final URI CELLML_DOCUMENTATION_URI = URI.create(SEMSIM_NAMESPACE + "hasCellMLdocumentation");
-	public static final URI CELLML_RDF_MARKUP_URI = URI.create(SEMSIM_NAMESPACE + "hasCellMLrdfMarkup");
 	
 	public static final URI HAS_NAME_URI = URI.create(SEMSIM_NAMESPACE + "name");
-	public static final URI KEY_TERM_URI = URI.create(SEMSIM_NAMESPACE + "keyTerm");
 	
 	// Relations
 	public static final SemSimRelation BQB_HAS_PART_RELATION = new SemSimRelation("The biological entity represented by the model element includes the subject of the referenced resource, either physically or logically", BQB_HAS_PART_URI);
@@ -161,23 +128,10 @@ public class SemSimKBConstants {
 	public static final SemSimRelation BQM_IS_DESCRIBED_BY_RELATION = new SemSimRelation("The modelling object represented by the model element is described by the subject of the referenced resource", BQM_IS_DESCRIBED_BY_URI);
 	public static final SemSimRelation BQM_IS_DERIVED_FROM_RELATION = new SemSimRelation("The modelling object represented by the model element is derived from the modelling object represented by the referenced resource", BQM_IS_DERIVED_FROM_URI);
 	
-	public static final SemSimRelation CELLML_COMPONENT_PRIVATE_INTERFACE_RELATION = new SemSimRelation("A variable in a CellML component has a private interface specification", CELLML_COMPONENT_PRIVATE_INTERFACE_URI);
-	public static final SemSimRelation CELLML_COMPONENT_PUBLIC_INTERFACE_RELATION = new SemSimRelation("A variable in a CellML component has a public interface specification", CELLML_COMPONENT_PUBLIC_INTERFACE_URI);
-	public static final SemSimRelation CELLML_DOCUMENTATION_RELATION = new SemSimRelation("CellML curatorial documentation", CELLML_DOCUMENTATION_URI);
-	public static final SemSimRelation CELLML_RDF_MARKUP_RELATION = new SemSimRelation("CellML RDF markup documentation", CELLML_RDF_MARKUP_URI);
-	
-	public static final SemSimRelation ENCAPSULATES_RELATION = new SemSimRelation("A submodel encapsulates another", ENCAPSULATES_URI);
-	public static final SemSimRelation HAS_NOTES_RELATION = new SemSimRelation("Model has notes", HAS_NOTES_URI);
-	public static final SemSimRelation CELLML_COMPONENT_SUBSUMPTION_TYPE_RELATION = new SemSimRelation("The type of relation between a parent and child component (either containment, encapsulation or a custom term)", CELLML_COMPONENT_SUBSUMPTION_TYPE_URI);
-	
 	public static final SemSimRelation REFERS_TO_RELATION = new SemSimRelation("Refers to ontology term", REFERS_TO_URI);
 	public static final SemSimRelation SEMSIM_VERSION_RELATION = new SemSimRelation("Version of SemSim used to create model", SEMSIM_VERSION_URI);
-	public static final SemSimRelation IS_DECLARED_RELATION = new SemSimRelation("declaration status of data structure", IS_DECLARED_URI);
-	public static final SemSimRelation IS_DETERMINED_BY_RELATION = new SemSimRelation("connects a physical property to the physical dependency that determines it", IS_DETERMINED_BY_URI);
 	public static final SemSimRelation HAS_UNIT_RELATION = new SemSimRelation("physical property has physical units", HAS_UNIT_URI);
 	public static final SemSimRelation METADATA_ID_RELATION = new SemSimRelation("a semsim model component has some metadata id (to support SBML and CellML metadata IDind)", METADATA_ID_URI);
-	public static final SemSimRelation UNIT_FOR_RELATION = new SemSimRelation("physical units for a property", HAS_UNIT_URI);
-	public static final SemSimRelation PHYSICAL_PROPERTY_OF_RELATION = new SemSimRelation("physical entity or process associated with a property ", PHYSICAL_PROPERTY_OF_URI);
 	public static final SemSimRelation HAS_PHYSICAL_PROPERTY_RELATION = new SemSimRelation("physical property of an entity or process", HAS_PHYSICAL_PROPERTY_URI);
 	public static final SemSimRelation HAS_SOURCE_RELATION = new SemSimRelation("physical process has thermodynamic source entity", HAS_SOURCE_URI);
 	public static final SemSimRelation HAS_SINK_RELATION = new SemSimRelation("physical process has thermodynamic sink entity", HAS_SINK_URI);
@@ -194,18 +148,6 @@ public class SemSimKBConstants {
 
 
 	public static final SemSimRelation HAS_NAME_RELATION = new SemSimRelation("semsim component has name", HAS_NAME_URI);
-	public static final SemSimRelation KEY_TERM_RELATION = new SemSimRelation("semsim model represents", KEY_TERM_URI);
-	
-	// Model-level relations
-	public static final SemSimRelation REFERENCE_PUBLICATION_PUBMED_ID_RELATION = new SemSimRelation("the PubMed ID of the model's reference publication", REFERENCE_PUBLICATION_PUBMED_ID_URI);
-	public static final SemSimRelation REFERENCE_PUBLICATION_ABSTRACT_TEXT_RELATION = new SemSimRelation("the abstract text of the model's reference publication", REFERENCE_PUBLICATION_ABSTRACT_TEXT_URI);
-	public static final SemSimRelation MODEL_DESCRIPTION_RELATION = new SemSimRelation("a free-text description of the model", MODEL_DESCRIPTION_URI);
-	public static final SemSimRelation REFERENCE_PUBLICATION_CITATION_RELATION = new SemSimRelation("the citation for the reference publication", REFERENCE_PUBLICATION_CITATION_URI);
-
-	public static final SemSimRelation ANNOTATOR_CONTACT_INFO_RELATION = new SemSimRelation("who to contact about the annotations in the model", ANNOTATOR_CONTACT_INFO_URI);
-	public static final SemSimRelation MODEL_ID_RELATION = new SemSimRelation("the ID of the model from which the SemSim model was generated", MODEL_ID_URI);
-	public static final SemSimRelation MODEL_NAME_RELATION = new SemSimRelation("a human-readable name for the model", MODEL_NAME_URI);
-
 	
 	public static final String BIOPORTAL_API_KEY = "c4192e4b-88a8-4002-ad08-b4636c88df1a";
 	
@@ -225,18 +167,11 @@ public class SemSimKBConstants {
 	static{       
         // URIsAndSemSimRelations Map
         Map<URI,SemSimRelation> aMap0 = new HashMap<URI,SemSimRelation>();
-		aMap0.put(CELLML_COMPONENT_SUBSUMPTION_TYPE_URI, CELLML_COMPONENT_SUBSUMPTION_TYPE_RELATION);
-		aMap0.put(ENCAPSULATES_URI, ENCAPSULATES_RELATION);
 		aMap0.put(REFERS_TO_URI, REFERS_TO_RELATION);
 		aMap0.put(SEMSIM_VERSION_URI, SEMSIM_VERSION_RELATION);
 		aMap0.put(HAS_UNIT_URI, HAS_UNIT_RELATION);
-		aMap0.put(UNIT_FOR_URI, UNIT_FOR_RELATION);
 		aMap0.put(HAS_NAME_URI, HAS_NAME_RELATION);
-		aMap0.put(KEY_TERM_URI, KEY_TERM_RELATION);
-		aMap0.put(IS_DECLARED_URI, IS_DECLARED_RELATION);
-		aMap0.put(IS_DETERMINED_BY_URI, IS_DETERMINED_BY_RELATION);
 		aMap0.put(METADATA_ID_URI, METADATA_ID_RELATION);
-		aMap0.put(PHYSICAL_PROPERTY_OF_URI, PHYSICAL_PROPERTY_OF_RELATION); 
 		aMap0.put(HAS_PHYSICAL_PROPERTY_URI, HAS_PHYSICAL_PROPERTY_RELATION);
 		aMap0.put(HAS_INDEX_ENTITY_URI, HAS_INDEX_ENTITY_RELATION);
 		aMap0.put(INDEX_ENTITY_FOR_URI, INDEX_ENtity_FOR_RELATION);
@@ -244,13 +179,6 @@ public class SemSimKBConstants {
 		aMap0.put(HAS_SINK_URI, HAS_SINK_RELATION);
 		aMap0.put(HAS_MEDIATOR_URI, HAS_MEDIATOR_RELATION);
 		// Model-level stuff
-		aMap0.put(REFERENCE_PUBLICATION_PUBMED_ID_URI, REFERENCE_PUBLICATION_PUBMED_ID_RELATION);
-		aMap0.put(REFERENCE_PUBLICATION_ABSTRACT_TEXT_URI, REFERENCE_PUBLICATION_ABSTRACT_TEXT_RELATION);
-		aMap0.put(REFERENCE_PUBLICATION_CITATION_URI, REFERENCE_PUBLICATION_CITATION_RELATION);
-		aMap0.put(ANNOTATOR_CONTACT_INFO_URI, ANNOTATOR_CONTACT_INFO_RELATION);
-		aMap0.put(MODEL_DESCRIPTION_URI, MODEL_DESCRIPTION_RELATION);
-		aMap0.put(MODEL_ID_URI, MODEL_ID_RELATION);
-		aMap0.put(MODEL_NAME_URI, MODEL_NAME_RELATION);
 		aMap0.put(BQB_HAS_PART_URI, BQB_HAS_PART_RELATION);
 		aMap0.put(BQB_IS_PART_OF_URI, BQB_IS_PART_OF_RELATION);
 		aMap0.put(BQB_IS_URI, BQB_IS_RELATION);
@@ -259,10 +187,6 @@ public class SemSimKBConstants {
 		aMap0.put(BQM_IS_URI, BQM_IS_RELATION);
 		aMap0.put(BQM_IS_DESCRIBED_BY_URI, BQM_IS_DESCRIBED_BY_RELATION);
 		aMap0.put(BQM_IS_DERIVED_FROM_URI, BQM_IS_DERIVED_FROM_RELATION);
-		aMap0.put(CELLML_COMPONENT_PRIVATE_INTERFACE_URI, CELLML_COMPONENT_PRIVATE_INTERFACE_RELATION);
-		aMap0.put(CELLML_COMPONENT_PUBLIC_INTERFACE_URI, CELLML_COMPONENT_PUBLIC_INTERFACE_RELATION);
-		aMap0.put(CELLML_DOCUMENTATION_URI, CELLML_DOCUMENTATION_RELATION);
-		aMap0.put(CELLML_RDF_MARKUP_URI, CELLML_RDF_MARKUP_RELATION);
 		aMap0.put(HAS_MULTIPLIER_URI, PROCESS_PARTICIPANT_MULTIPLIER_RELATION);
 		URIS_AND_SEMSIM_RELATIONS = Collections.unmodifiableMap(aMap0);
 		

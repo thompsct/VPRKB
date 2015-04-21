@@ -2,11 +2,13 @@ package semsimKB.utilities.descriptors;
 
 import java.net.URI;
 
+import semsimKB.annotation.CurationalMetadata;
 import semsimKB.model.CompBioModel;
 import vprExplorer.buffer.ComponentStatus;
 
 public class KBModelEditor {
 	String name;
+	CurationalMetadata metadata;
 	URI uri;
 	ComponentStatus status;
 	
@@ -14,6 +16,7 @@ public class KBModelEditor {
 		name = model.getName();
 		uri = model.getURI();
 		status = stat;
+		metadata = model.getCurationalMetadata();
 	}
 	
 	public String getName() {
@@ -27,4 +30,5 @@ public class KBModelEditor {
 	public ComponentStatus getStatus() {
 		return status;
 	}
+	
 }

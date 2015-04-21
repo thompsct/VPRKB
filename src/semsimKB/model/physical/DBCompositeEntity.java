@@ -52,7 +52,7 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 		}
 		
 		public Pair<String, String> getComponentNames() {
-			return Pair.of(componententities.getLeft().getName(), componententities.getRight().getName());
+			return Pair.of(componententities.getLeft().getFullName(), componententities.getRight().getFullName());
 		}
 		
 		

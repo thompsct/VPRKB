@@ -58,7 +58,7 @@ public abstract class DBPhysicalComponent extends SemSimComponent {
 	}
 	
 	public int addProperty(PhysicalProperty pptoadd, CompBioModel cbmuri) {
-		if (!proplist.contains(pptoadd.getURI())) {
+		if (!proplist.contains(pptoadd)) {
 			ArrayList<CompBioModel> cbms = new ArrayList<CompBioModel>();
 			cbms.add(cbmuri);
 			proplist.add(pptoadd);

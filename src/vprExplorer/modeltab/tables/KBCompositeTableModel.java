@@ -19,9 +19,9 @@ public class KBCompositeTableModel extends KBTableModel {
 		addRow(new String[]{"Name:", descriptor.getName()}, new TableCellRenderer[]{heading, new LabelRenderer(false, false, descriptor.getStatus().getColor())});
 		addRow(new String[]{"URI:", descriptor.getURI().toString()}, dfltrowrenderer);
 		
-		addRow(descriptor.getComponents().get(0), 
+		addRow(descriptor.getComponents().get(0), new String[]{"", descriptor.getAdditionalInformation(0)},
 				new TableCellRenderer[]{heading, new LabelRenderer(false, false, descriptor.getFirstComponentStatus().getColor())});
-		addRow(descriptor.getComponents().get(1), 
+		addRow(descriptor.getComponents().get(1), new String[]{"", descriptor.getAdditionalInformation(1)}, 
 				new TableCellRenderer[]{heading, new LabelRenderer(false, false, descriptor.getSecondComponentStatus().getColor())});
 		
 		for (int i = 0; i < descriptor.getProperties().size(); i++) {

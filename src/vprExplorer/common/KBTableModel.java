@@ -3,10 +3,13 @@ package vprExplorer.common;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -15,12 +18,14 @@ public abstract class KBTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	protected String[] columnNames = new String[]{"",""};
 	protected ArrayList<String[]> data = new ArrayList<String[]>();
+	protected ArrayList<String[]> tooltips = new ArrayList<String[]>();
 	protected ArrayList<TableCellRenderer[]> renderers = new ArrayList<TableCellRenderer[]>();
 	protected Font boldfont = new Font("arial", Font.BOLD, 12);
 	
 	protected TableCellRenderer heading = new LabelRenderer(true, false);
 	protected TableCellRenderer normal = new LabelRenderer(false, false);
 	protected TableCellRenderer[] dfltrowrenderer = new TableCellRenderer[]{heading,normal};
+	protected String[] blank = new String[]{"", ""};
 	
 	public KBTableModel() {};	
 	
@@ -51,6 +56,14 @@ public abstract class KBTableModel extends AbstractTableModel {
 	public void addRow(String[] obj, TableCellRenderer[] renderer) {
 		data.add(obj);
 		renderers.add(renderer);
+		tooltips.add(blank);
+		fireTableRowsInserted(getRowCount(), getRowCount());
+	 }
+	
+	public void addRow(String[] obj, String[] tooltip, TableCellRenderer[] renderer) {
+		data.add(obj);
+		renderers.add(renderer);
+		tooltips.add(tooltip);
 		fireTableRowsInserted(getRowCount(), getRowCount());
 	 }
 	
@@ -93,7 +106,41 @@ public abstract class KBTableModel extends AbstractTableModel {
 			if (bolded) setFont(boldfont);
 			setBackground(color);
 			setText((String)value);
+			if (tooltips.get(row)[column] != "") setToolTipText(tooltips.get(row)[column]);
 			return this;
 		}
+	}
+	
+	protected class TextareaRenderer extends JTextArea implements TableCellRenderer, KeyListener {
+		private static final long serialVersionUID = 1L;
+			
+		public TextareaRenderer() {
+			addKeyListener(this);
+		}
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable arg0,
+				Object value, boolean selected, boolean isfocus, int row, int column) {
+			
+			setText((String)value);
+			return this;
+		}
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			
+		}
+		
+		
 	}
 }

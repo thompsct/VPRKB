@@ -2,12 +2,10 @@ package semsimKB.model;
 
 import java.net.URI;
 
-import semsimKB.SemSimKBConstants;
-
 /**
  * A SemSim model element. A {@link SemSimModel} extends this class as well.
  */
-public class SemSimComponent {
+public abstract class SemSimComponent {
 	
 	private String name;
 	private String description;
@@ -76,7 +74,5 @@ public class SemSimComponent {
 		compuri = uri;
 	}
 	
-	public  URI getClassURI() {
-		return SemSimKBConstants.SEMSIM_COMPONENT_CLASS_URI;
-	}
+	public abstract URI getClassURI();
 }

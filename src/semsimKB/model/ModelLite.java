@@ -636,4 +636,11 @@ public class ModelLite extends SemSimComponent implements Cloneable, Annotatable
 	public void setSemsimversion(String semsimversion) {
 		this.semsimversion = Double.valueOf(semsimversion);
 	}
+
+
+	@Override
+	public URI getClassURI() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

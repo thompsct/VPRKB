@@ -12,10 +12,11 @@ public class SemSimCompositeTableModel extends KBTableModel {
 		addRow(new String[]{"No composite selected", ""}, new TableCellRenderer[]{heading, heading});
 	}
 	
-	public SemSimCompositeTableModel(
-			CompositeEntityDescriptor describeSemSimComposite) {
+	public SemSimCompositeTableModel(CompositeEntityDescriptor describeSemSimComposite) {
+		int i = 0;
 		for (String[] row : describeSemSimComposite.getDescription()) {
-			addRow(row, dfltrowrenderer);
+			addRow(row,describeSemSimComposite.getAdditionalInformation(i), dfltrowrenderer);
+			i++;
 		}
 	}
 
