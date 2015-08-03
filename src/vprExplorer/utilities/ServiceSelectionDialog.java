@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
+import semsimKB.webservices.vprSPARQL;
 import vprExplorer.GlobalActions;
 import vprExplorer.Settings;
 
@@ -18,7 +20,7 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 	private static final long serialVersionUID = 1L;
 	JButton okbut, cclbut;
 	JRadioButton kbserver, localser, rdffile;
-	JPasswordField pwrd;
+	JTextField uname;
 	Settings settings;
 	GlobalActions gacts;
 	
@@ -29,7 +31,7 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 		gacts = acts;
 		
 		setLayout(new GridLayout(0,2));
-		//setUndecorated(true);
+		setUndecorated(true);
 		setResizable(false);
 		kbserver = new JRadioButton("KB Server");
 		localser = new JRadioButton("Local Server");
@@ -42,10 +44,10 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 			rb.addActionListener(this);
 		}
 		add(kbserver);
-		pwrd = new JPasswordField();
-		pwrd.setEnabled(false);
-		pwrd.setMinimumSize(new Dimension(30,20));
-		add(pwrd);
+		uname = new JTextField();
+		uname.setEnabled(false);
+		uname.setMinimumSize(new Dimension(30,20));
+		add(uname);
 		add(localser);
 		add(new JPanel());
 		add(rdffile);
@@ -63,6 +65,35 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 		showDialog();
 	}
 
+	private void onOKButton() {
+		if (kbserver.isSelected()) {
+			if (uname.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Please enter a user name.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			settings.setUser(uname.getText());
+			settings.setService(Settings.service._REMOTE);
+			while (true) {
+				new PasswordDialog(settings);
+				if (settings.getPassword().length==0) {
+					return;
+				}
+				
+				int verify = new vprSPARQL(settings).verifyCredentials();
+				if (verify==0) break;
+			}
+			
+			uname.setEnabled(true);
+		}
+		else if(localser.isSelected()) {
+			settings.setService(Settings.service._LOCAL_SERVER);
+		}
+		else {
+			settings.setService(Settings.service._FILE);
+		}
+		dispose();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Object obj = arg0.getSource();
@@ -71,22 +102,19 @@ public class ServiceSelectionDialog extends CommonDialog implements ActionListen
 			gacts.quit();
 		}
 		else if (obj==okbut){
-			dispose();
+			onOKButton();
 		}
 		if (obj==kbserver) {
-			settings.setService(Settings.service._REMOTE);
-			pwrd.setEnabled(true);
+			uname.setEnabled(true);
 			okbut.setEnabled(true);
 		}
 		
 		else if (obj==localser) {
-			settings.setService(Settings.service._LOCAL_SERVER);
-			pwrd.setEnabled(false);
+			uname.setEnabled(false);
 			okbut.setEnabled(true);
 		}
 		else if (obj==rdffile) {
-			settings.setService(Settings.service._FILE);
-			pwrd.setEnabled(false);
+			uname.setEnabled(false);
 			okbut.setEnabled(true);
 		}
 	}

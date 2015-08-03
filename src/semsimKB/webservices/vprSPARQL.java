@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vprExplorer.Settings;
+import vprExplorer.Settings.service;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -28,12 +28,15 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.shared.impl.PrefixMappingImpl;
+import com.hp.hpl.jena.sparql.engine.http.HttpQuery;
+import com.hp.hpl.jena.sparql.engine.http.QueryExceptionHTTP;
 
 
 public class vprSPARQL {
+	static final Logger log = LoggerFactory.getLogger(HttpQuery.class.getName()) ;
 	protected HttpClient client = new HttpClient();
 	 protected String host;
-	 protected String server = "http://141.214.24.101:80/vprkb/";
+	 protected String server;
 	 protected PrefixMappingImpl pmap = new PrefixMappingImpl();
 	 protected LinkedList<String> prefixes = new LinkedList<String>();
 	 protected Settings globals;
@@ -41,21 +44,49 @@ public class vprSPARQL {
 	 protected Model base, model;
 	 protected static SPARQLConstants cons = new SPARQLConstants();
 	 protected ResultSet results;
-	 protected SimpleAuthenticator auth = new SimpleAuthenticator("vprkbuser", "virtual@rat".toCharArray());
-
+	 protected SimpleAuthenticator auth;
 	 public vprSPARQL(Settings global) {
 		 globals = global;
+		 if (global.getService()==service._REMOTE) {
+			 auth = new SimpleAuthenticator(global.getUser(), global.getPassword());
+			 server = "http://141.214.24.101:80/physiomekb-admin/";
+		 }
+		 else {
+			 server = "http://localhost:3030/ds";
+		 }
+
 		 host = server + "query";
 		 if (TestServerConnection()==0) {
-			 provideCredentials();
 			 loadPrefixes();
 		 }
 	 }
-	 
-	 
+
+	 public int verifyCredentials() {
+		 	host = server + "query";
+			String qs = makePrefixString("owl") + cons.ask;
+			qs = qs.replace("%o", "owl:NamedIndividual");
+			qs = qs.replace("%p", "a");
+			qs = qs.replace("%s", "<?s>");
+			
+			Query query = QueryFactory.create(qs);
+			query.setPrefixMapping(pmap);
+
+			
+			try	{
+				qef = QueryExecutionFactory.sparqlService(host, query,auth);
+				qef.execAsk();
+			}
+			catch (QueryExceptionHTTP ex) {
+				if (ex.getResponseCode()==401) {
+					return 1;
+				}
+				System.out.println("Server Connection failed");
+				return -1;
+			}
+			return 0;
+	 }
 	 
 	 public int TestServerConnection() {
-		
 		try (Socket s = new Socket("141.214.24.101", 80)) {
 			System.out.println("Server Connection Verified");
 			return 0;
@@ -67,12 +98,6 @@ public class vprSPARQL {
 	 	return -1;
 	}
 	 
-	protected void provideCredentials() {
-		 client.getParams().setAuthenticationPreemptive(true);
-		 Credentials cred = new UsernamePasswordCredentials("vprkbuser", "virtual@rat");
-		 client.getState().setCredentials(new AuthScope("141.214.24.101", 80, AuthScope.ANY_REALM), cred);
-	 }
-	
 	protected int loadPrefixes() {
 		File prefixtxt = new File("cfg/SPARQLHeader.txt");
 		Scanner fis;

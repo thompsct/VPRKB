@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import semsimKB.webservices.VPRSPARQLWrite;
 import vprExplorer.Settings;
+import vprExplorer.Settings.service;
 
 public class UtilitiesTab extends JPanel implements ActionListener {
 
@@ -16,7 +17,7 @@ public class UtilitiesTab extends JPanel implements ActionListener {
 	private JButton purge = new JButton("Purge KB");
 	private Settings settings;
 	
-	private VPRSPARQLWrite sparql = new VPRSPARQLWrite(settings);
+	private VPRSPARQLWrite sparql;
 	
 	public UtilitiesTab(Settings global) {
 		settings = global;
@@ -27,6 +28,12 @@ public class UtilitiesTab extends JPanel implements ActionListener {
 		purge.addActionListener(this);
 		add(purge);
 		
+		if (settings.getService()==service._REMOTE) {
+			sparql = new VPRSPARQLWrite(settings);
+		}
+		else {
+			purge.setEnabled(false);
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e) {

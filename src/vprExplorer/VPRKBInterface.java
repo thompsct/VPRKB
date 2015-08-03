@@ -21,7 +21,7 @@ public class VPRKBInterface extends JFrame implements Observer{
 		FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		//Log.setCmdLogging(); 
-		System.out.println("Loading VPR KB Client...");	
+		System.out.println("Loading Physiome KB Client...");	
 		
 		 SwingUtilities.invokeLater(new Runnable() {
 		     public void run() {
@@ -64,7 +64,7 @@ public class VPRKBInterface extends JFrame implements Observer{
 		gacts.addObserver(this);
 		
 		new ServiceSelectionDialog(globals, gacts);
-		setTitle("Virtual Physiological Rat Knowledge Base Client");
+		setTitle("Physiome Knowledge Base Client");
 		setJMenuBar(new KBClientMenu(globals, gacts));
 
 		KBClientGUI client = new KBClientGUI(globals, gacts);
