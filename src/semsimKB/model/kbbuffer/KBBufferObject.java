@@ -2,10 +2,10 @@ package semsimKB.model.kbbuffer;
 
 import java.net.URI;
 
-import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimObject;
 import vprExplorer.buffer.ComponentStatus;
 
-public class KBBufferObject<T extends SemSimComponent> {
+public class KBBufferObject<T extends SemSimObject> {
 	protected T object;
 	protected ComponentStatus status;
 

@@ -109,7 +109,14 @@ public class KBBufferOperations {
 			return checkforComposite(dbcs, dbcrels);
 		}
 		else {
-			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(cpes.get(0).getURI(), cpes.get(1).getURI()), rels.get(0));
+			URI peuri1 = cpes.get(0).getURI();
+			URI peuri2 = null;
+			StructuralRelation rel = null;
+			if (!rels.isEmpty()) {
+				rel = rels.get(0);
+				peuri2 = cpes.get(1).getURI();
+			}
+			DBCompositeEntity dbc = kbinterface.retrieveComposite(Pair.of(peuri1, peuri2), rel);
 			if (dbc == null) return null;
 			return buffer.getKBCompositeObject(dbc.getURI());
 		}
@@ -146,7 +153,13 @@ public class KBBufferOperations {
 			return checkforComposite(dbcs, dbcrels);
 		}
 		else {
-			DBCompositeEntity dbc = buffer.getKBComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
+			DBCompositeEntity dbc;
+			if (!rels.isEmpty()) {
+				dbc = buffer.getKBComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
+			}
+			else {
+				dbc = buffer.getKBComposite(Pair.of(cpes.get(0), null), null);
+			}
 			if (dbc == null) return null;
 			return buffer.getKBCompositeObject(dbc.getURI());
 		}
@@ -191,7 +204,13 @@ public class KBBufferOperations {
 			for (ReferencePhysicalEntity rpe : cpe.getArrayListOfEntities()) {
 				pes.add(rpe);
 			}
-			kdce = parseComposite(pes, cpe.getArrayListOfStructuralRelations());
+			//If singular
+			if (cpe.getArrayListOfStructuralRelations().isEmpty()) {
+				kdce = createComposite(Pair.of(pes.get(0), null), null);
+			}
+			else {
+				kdce = parseComposite(pes, cpe.getArrayListOfStructuralRelations());
+			}
 			importCPEAssociations(kdce, cpe);
 		}
 		return true;
@@ -226,7 +245,6 @@ public class KBBufferOperations {
 		}
 		//If there are only two physical entities, build composite and return
 
-		
 		return createComposite(Pair.of(cpes.get(0), cpes.get(1)), rels.get(0));
 	}
 	
@@ -237,7 +255,10 @@ public class KBBufferOperations {
 		
 		dbc = new DBCompositeEntity(cpes, rel);
 		dbc.setURI(createURIforComponent());
-		dbc.setRelation(rel);
+		if (rel!=null) {
+			dbc.setRelation(rel);
+		}
+		
 		
 		KBCompositeObject<DBCompositeEntity> kdbc = new KBCompositeObject<DBCompositeEntity>(dbc, ComponentStatus.MISSING);
 		buffer.addComposite(kdbc);

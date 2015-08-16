@@ -131,14 +131,23 @@ public class KBOWLreader {
 		StructuralRelation rel = StructuralRelation.PART_OF_RELATION;
 		if(secondent.equals("")){
 			secondent = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), StructuralRelation.CONTAINED_IN_RELATION.getURIasString());
-			rel = StructuralRelation.CONTAINED_IN_RELATION;
+			if (!secondent.equals("")) {
+				rel = StructuralRelation.CONTAINED_IN_RELATION;
+			}
 		}
-		dpe.setRelation(rel);
+		
 		String firstent = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), StructuralRelation.SUBCOMPONENT_RELATION.getURIasString());		
 		
 		if (!peurimap.containsKey(firstent)) getCompositeEntityFromURI(URI.create(firstent));
-		if (!peurimap.containsKey(secondent)) getCompositeEntityFromURI(URI.create(secondent));
-		dpe.setComponents(Pair.of(peurimap.get(firstent), peurimap.get(secondent)));
+		if (!secondent.equals("")) {
+			dpe.setRelation(rel);
+			if (!peurimap.containsKey(secondent)) getCompositeEntityFromURI(URI.create(secondent));
+			dpe.setComponents(Pair.of(peurimap.get(firstent), peurimap.get(secondent)));
+		}
+		else {
+			dpe.setComponents(Pair.of(peurimap.get(firstent), null));
+		}
+		
 	}
 	
 	private KBCompositeObject<DBCompositeEntity> makeCompositeObject(DBCompositeEntity dce) {

@@ -3,6 +3,7 @@ package semsimKB.utilities.descriptors;
 import java.net.URI;
 
 import semsimKB.annotation.CurationalMetadata;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.CompBioModel;
 import vprExplorer.buffer.ComponentStatus;
 
@@ -31,4 +32,7 @@ public class KBModelEditor {
 		return status;
 	}
 	
+	public String getMetadataValue(Metadata meta) {
+		return metadata.getAnnotationValue(meta);
+	}
 }

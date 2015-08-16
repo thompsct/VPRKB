@@ -93,4 +93,46 @@ public class PhysicalProcess extends PhysicalModelComponent {
 	public  URI getClassURI() {
 		return SemSimKBConstants.PHYSICAL_PROCESS_CLASS_URI;
 	}
+	
+	@Override
+	protected boolean isEquivalent(Object obj) {
+		PhysicalProcess proc = (PhysicalProcess)obj;
+		if ((sources.size()!=proc.getSources().size()) || 
+				(sinks.size()!=proc.getSinks().size()) || 
+				(mediators.size()!=proc.getMediators().size())) {
+			return false;
+		}
+		for (PhysicalEntity pe : getSources()) {
+			boolean hasequiv = false;
+			for (PhysicalEntity pe2 : proc.getSourcePhysicalEntities()) {
+				if (pe.equals(pe2)) {
+					hasequiv = true;
+					break;
+				}
+			}
+			if (!hasequiv) return false;
+		}
+		for (PhysicalEntity pe : getSinks()) {
+			boolean hasequiv = false;
+			for (PhysicalEntity pe2 : proc.getSinkPhysicalEntities()) {
+				if (pe.equals(pe2)) {
+					hasequiv = true;
+					break;
+				}
+			}
+			if (!hasequiv) return false;
+		}
+		for (PhysicalEntity pe : getMediators()) {
+			boolean hasequiv = false;
+			for (PhysicalEntity pe2 : proc.getMediatorPhysicalEntities()) {
+				if (pe.equals(pe2)) {
+					hasequiv = true;
+					break;
+				}
+			}
+			if (!hasequiv) return false;
+		}
+		
+		return true;
+	}
 }

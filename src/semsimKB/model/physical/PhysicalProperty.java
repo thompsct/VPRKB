@@ -14,6 +14,11 @@ public class PhysicalProperty extends PhysicalModelComponent{
 	}
 	
 	@Override
+	protected boolean isEquivalent(Object obj) {
+		return ((PhysicalProperty)obj).getURI().compareTo(referenceuri)==0;
+	}
+	
+	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI;
 	}

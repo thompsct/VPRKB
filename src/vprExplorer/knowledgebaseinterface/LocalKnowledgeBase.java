@@ -141,7 +141,7 @@ public class LocalKnowledgeBase extends KnowledgeBaseInterface {
 		}
 		return null;
 	}
-
+	
 	private void addKBCompositeObject(DBCompositeEntity dbc) {
 		ArrayList<ComponentStatus> pstats = new ArrayList<ComponentStatus>();
 		

@@ -187,6 +187,7 @@ public class KnowledgeBase {
 	}
 	
 	public ComponentStatus getPhysicalEntityStatusbyURI(URI uri) {
+		if (uri==null) return null;
 		if (URIandRPEmap.containsKey(uri)){
 			return URIandRPEmap.get(uri).getStatus();
 		}

@@ -25,7 +25,8 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 				Pair<String, String> names =  getComponentNames();
 				String[] pe1name = names.getLeft().split(" ");
 				String[] pe2name = names.getRight().split(" ");
-
+				
+				//Find where component entity names match, if they do
 				int index = 0;
 				for (int i= 0; i < pe2name.length; i++) {
 					if (pe1name[pe1name.length-1].equalsIgnoreCase(pe2name[i])) {
@@ -33,13 +34,22 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 						break;
 					}
 				}
-				if (pe2name[index].equalsIgnoreCase("part")) index = index+2;
-				else if (pe2name[index].equalsIgnoreCase("in")) index = index+1;
+				//If the index is less than the number of words in the name, it's a composite
+				//Get the index of the first word following the relation
+				if (index < pe2name.length) {
+					
+					if (pe2name[index].equalsIgnoreCase("part")) index = index+2;
+					else if (pe2name[index].equalsIgnoreCase("in")) index = index+1;
+				}	
+				else index = 0;
 				
 				String pe2 = "";
 				for (int i = index; i < pe2name.length; i++) {
 					pe2 = pe2 + pe2name[i] + " ";
 				}
+				//Get rid of last space
+				pe2 = pe2.trim();
+				
 				String rel = " part of ";
 				if (relation==StructuralRelation.CONTAINED_IN_RELATION) {
 					rel = " in ";
@@ -48,13 +58,28 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 		}
 		
 		public Pair<URI, URI> getComponentURIs() {
-			return Pair.of(componententities.getLeft().getURI(), componententities.getRight().getURI());
+			URI righturi = null;
+			if (componententities.getRight()!=null) {
+				righturi = componententities.getRight().getURI();
+			}
+			return Pair.of(componententities.getLeft().getURI(), righturi);
 		}
 		
 		public Pair<String, String> getComponentNames() {
-			return Pair.of(componententities.getLeft().getFullName(), componententities.getRight().getFullName());
+			String rightname = "<none>";
+				if (componententities.getRight()!=null) {
+					rightname = componententities.getRight().getName();
+				}
+			return Pair.of(componententities.getLeft().getName(), rightname);
 		}
 		
+		public Pair<String, String> getComponentFullNames() {
+			String rightname = "<none>";
+			if (componententities.getRight()!=null) {
+				rightname = componententities.getRight().getFullName();
+			}
+			return Pair.of(componententities.getLeft().getFullName(), rightname);
+		}
 		
 		public boolean equals(DBCompositeEntity dbc) {
 			return componentEntityListsMatch(dbc.componententities);
@@ -69,6 +94,10 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 		}
 		
 		public boolean componentEntityListsMatch(Pair<PhysicalEntity, PhysicalEntity> components) {
+			if (components.getRight()==null) {
+				return (components.getLeft().getURI().equals(componententities.getLeft().getURI()) &&
+						components.getRight()==null);
+			}
 			return (components.getLeft().getURI().equals(componententities.getLeft().getURI()) &&
 					components.getRight().getURI().equals(componententities.getRight().getURI()));
 			

@@ -11,7 +11,7 @@ import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.data.KBDataComponent;
 
-public class CompBioModel extends SemSimComponent {
+public class CompBioModel extends SemSimObject {
 	protected Set<KBDataComponent> AssociatedDataSets = new HashSet<KBDataComponent>();
 	protected CurationalMetadata metadata = new CurationalMetadata();
 	
@@ -24,6 +24,7 @@ public class CompBioModel extends SemSimComponent {
 		setDescription(model.getDescription());
 		setURI(URI.create(
 				SemSimKBConstants.VPR_NAMESPACE + getName()));
+		metadata.importMetadata(model.getCurationalMetadata(), true);
 	}
 	
 	public Set<KBDataComponent> getDataSets() {
@@ -54,6 +55,7 @@ public class CompBioModel extends SemSimComponent {
 	public CurationalMetadata getCurationalMetadata() {
 		return metadata;
 	}
+	
 	
 	@Override
 	public  URI getClassURI() {

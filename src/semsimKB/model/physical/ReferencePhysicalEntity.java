@@ -22,6 +22,11 @@ public class ReferencePhysicalEntity extends PhysicalModelComponent implements P
 	}
 	
 	@Override
+	protected boolean isEquivalent(Object obj) {
+		return ((ReferencePhysicalEntity)obj).getURI().toString().equals(referenceuri.toString());
+	}
+	
+	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI;
 	}

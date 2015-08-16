@@ -27,7 +27,7 @@ import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.model.physical.ReferencePhysicalProcess;
 
-public class ModelLite extends SemSimComponent implements Cloneable, Annotatable {	
+public class ModelLite extends SemSimObject implements Annotatable {	
 	public static final IRI LEGACY_CODE_LOCATION_IRI = IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "legacyCodeURI");
 	private double semsimversion;
 	//Physical Model Components

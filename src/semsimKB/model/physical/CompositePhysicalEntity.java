@@ -82,6 +82,11 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 	}
 	
 	@Override
+	protected boolean isEquivalent(Object obj) {
+		return compareTo((CompositePhysicalEntity)obj)==0;
+	}
+	
+	@Override
 	public  URI getClassURI() {
 		return SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI;
 	}

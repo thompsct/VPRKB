@@ -11,7 +11,7 @@ import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.annotation.SemSimRelation;
 import semsimKB.model.SemSimComponent;
 
-public abstract class PhysicalModelComponent extends SemSimComponent implements Annotatable, Cloneable{
+public abstract class PhysicalModelComponent extends SemSimComponent implements Annotatable {
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 	protected Set<PhysicalProperty> physicalProperties = new HashSet<PhysicalProperty>();
 	
@@ -90,4 +90,13 @@ public abstract class PhysicalModelComponent extends SemSimComponent implements 
 	public PhysicalModelComponent clone() throws CloneNotSupportedException {
         return (PhysicalModelComponent) super.clone();
 	}
+	
+	public boolean equals(Object obj) {
+		if (obj==null) return false;
+		if (obj==this) return true;
+		if (getClass()==obj.getClass()) return isEquivalent(obj);
+		return false;
+	}
+	
+	protected abstract boolean isEquivalent(Object obj);
 }

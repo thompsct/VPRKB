@@ -121,7 +121,7 @@ public abstract class KBTableModel extends AbstractTableModel {
 		@Override
 		public Component getTableCellRendererComponent(JTable arg0,
 				Object value, boolean selected, boolean isfocus, int row, int column) {
-			
+			if (isfocus) requestFocus(); 
 			setText((String)value);
 			return this;
 		}

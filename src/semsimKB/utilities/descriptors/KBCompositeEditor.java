@@ -31,10 +31,12 @@ public class KBCompositeEditor {
 		cpntstats = componentstatuses;
 		status = kdbc.getStatus();
 				
-		components.add(new String[]{StructuralRelation.SUBCOMPONENT_RELATION.getShortDescription(), dbc.getComponentNames().getLeft()});
+		components.add(new String[]{StructuralRelation.SUBCOMPONENT_RELATION.getShortDescription(), dbc.getComponentFullNames().getLeft()});
 		compuris.add(dbc.getComponentURIs().getLeft().toString());
-		components.add(new String[]{dbc.getRelation().getShortDescription(), dbc.getComponentNames().getRight()});
-		compuris.add(dbc.getComponentURIs().getRight().toString());
+		if (dbc.getRelation()!=null) {
+			components.add(new String[]{dbc.getRelation().getShortDescription(), dbc.getComponentNames().getRight()});
+			compuris.add(dbc.getComponentURIs().getRight().toString());
+		}
 		int i = 0;
 		for (PhysicalProperty pp : dbc.getPropertyList()) {
 			PropertyModelGroup pmg = new PropertyModelGroup(pp, kdbc.getPropertyStatus(i));

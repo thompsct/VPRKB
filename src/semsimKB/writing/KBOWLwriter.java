@@ -106,8 +106,10 @@ public class KBOWLwriter {
 		KBOWLFactory.setIndObjectProperty(ont, compuri.toString(), ents.getLeft().toString(),
 				StructuralRelation.SUBCOMPONENT_RELATION.getURIasString(), manager);
 		// Establish structural relationship between parts of composite annotation
-		KBOWLFactory.setIndObjectProperty(ont, compuri.toString(), ents.getRight().toString(),
-				rel.getURI().toString(), manager);
+		if (ents.getRight()!=null) {
+			KBOWLFactory.setIndObjectProperty(ont, compuri.toString(), ents.getRight().toString(),
+					rel.getURI().toString(), manager);
+		}
 		
 		//Add properties and model associations
 		OWLAnnotation ann;	

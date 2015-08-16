@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLLiteral;
-
 import semsimKB.SemSimKBConstants;
 
 
@@ -56,6 +55,14 @@ public class CurationalMetadata {
 	public CurationalMetadata() {
 		for (Metadata m : Metadata.values()) {
 			curationmap.put(m, "");
+		}
+	}
+	
+	public void importMetadata(CurationalMetadata toimport, boolean overwrite) {
+		for (Metadata m : Metadata.values()) {
+			if (curationmap.get(m)=="" || overwrite) {
+				curationmap.put(m, toimport.getAnnotationValue(m));
+			}
 		}
 	}
 	

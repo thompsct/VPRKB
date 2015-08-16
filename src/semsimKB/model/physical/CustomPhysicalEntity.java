@@ -20,4 +20,9 @@ public class CustomPhysicalEntity extends PhysicalModelComponent implements Phys
 	public  URI getClassURI() {
 		return SemSimKBConstants.CUSTOM_PHYSICAL_ENTITY_CLASS_URI;
 	}
+	
+	@Override
+	protected boolean isEquivalent(Object obj) {
+		return ((CustomPhysicalEntity)obj).getName().equals(getName());
+	}
 }

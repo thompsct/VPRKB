@@ -1,11 +1,12 @@
 package semsimKB.webservices;
 
 import java.net.URI;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
 import semsimKB.model.CompBioModel;
-import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimObject;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
@@ -38,7 +39,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		super(global);
 	}
 	//Add a named individual with properties	
-	public int addIndividual(SemSimComponent ind) {
+	public int addIndividual(SemSimObject ind) {
 		URI type = ind.getClassURI();
 		String iuri = ind.getURI().toString();
 		
@@ -77,7 +78,11 @@ public class VPRSPARQLWrite extends vprSPARQL {
 		String ouri = obj.getURI().toString() ;
 		Pair<URI, URI> compuris = obj.getComponentURIs();
 		data = data + "<" + ouri + "> " + "VPRKB:Has_Subcomponent <" +  compuris.getLeft().toString() + "> .\n";
-		data = data + "<" + ouri + "> " + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString() + "> .\n";
+		data = data + "<" + ouri + "> ";
+		if (compuris.getRight()!=null) {
+			data = data + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString();
+		}
+		data = data + "> .\n";
 
 		for (PhysicalProperty pp : obj.getPropertyList()) {
 			data = data + "<" + ouri + "> SemSim:hasPhysicalProperty <" + pp.getURI().toString() + "> .\n";
