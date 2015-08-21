@@ -3,13 +3,10 @@ package vprExplorer.common;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -19,12 +16,12 @@ public abstract class KBTableModel extends AbstractTableModel {
 	protected String[] columnNames = new String[]{"",""};
 	protected ArrayList<String[]> data = new ArrayList<String[]>();
 	protected ArrayList<String[]> tooltips = new ArrayList<String[]>();
-	protected ArrayList<TableCellRenderer[]> renderers = new ArrayList<TableCellRenderer[]>();
+	protected ArrayList<PhysKBTableRenderer[]> renderers = new ArrayList<PhysKBTableRenderer[]>();
 	protected Font boldfont = new Font("arial", Font.BOLD, 12);
 	
-	protected TableCellRenderer heading = new LabelRenderer(true, false);
-	protected TableCellRenderer normal = new LabelRenderer(false, false);
-	protected TableCellRenderer[] dfltrowrenderer = new TableCellRenderer[]{heading,normal};
+	protected PhysKBTableRenderer heading = new LabelRenderer(true, false);
+	protected PhysKBTableRenderer normal = new LabelRenderer(false, false);
+	protected PhysKBTableRenderer[] dfltrowrenderer = new PhysKBTableRenderer[]{heading,normal};
 	protected String[] blank = new String[]{"", ""};
 	
 	public KBTableModel() {};	
@@ -32,6 +29,10 @@ public abstract class KBTableModel extends AbstractTableModel {
 	public void setTitles(String[] titles) {
 		columnNames = titles;
 	}
+	
+	@Override
+	public boolean isCellEditable(int row, int col)
+    { return true; }
 	
 	@Override
 	public int getColumnCount() {
@@ -49,18 +50,19 @@ public abstract class KBTableModel extends AbstractTableModel {
 	}
 	
 	public void setValueAt(String value, int row, int column) {
+		((TextareaRenderer)renderers.get(row)[1]).setValue(value);
 		data.get(row)[column] =value;
 		fireTableCellUpdated(row, column);
 	}
 
-	public void addRow(String[] obj, TableCellRenderer[] renderer) {
+	public void addRow(String[] obj, PhysKBTableRenderer[] renderer) {
 		data.add(obj);
 		renderers.add(renderer);
 		tooltips.add(blank);
 		fireTableRowsInserted(getRowCount(), getRowCount());
 	 }
 	
-	public void addRow(String[] obj, String[] tooltip, TableCellRenderer[] renderer) {
+	public void addRow(String[] obj, String[] tooltip, PhysKBTableRenderer[] renderer) {
 		data.add(obj);
 		renderers.add(renderer);
 		tooltips.add(tooltip);
@@ -83,14 +85,19 @@ public abstract class KBTableModel extends AbstractTableModel {
 	
 	public abstract void updateTable();
 	
-	protected class LabelRenderer extends JLabel implements TableCellRenderer {
+	protected interface PhysKBTableRenderer extends TableCellRenderer{
+		boolean isEditable();
+	}
+	
+	protected class LabelRenderer extends JLabel implements PhysKBTableRenderer {
 		private static final long serialVersionUID = 1L;
 		
 		boolean bolded;
 		boolean selectable;
-		Color color = Color.white;
+		Color color = Color.lightGray;
 		
 		public LabelRenderer(boolean bold, boolean selectable) {
+			setOpaque(true);
 			bolded = bold;
 		}
 		public LabelRenderer(boolean bold, boolean selectable, Color col) {
@@ -109,13 +116,27 @@ public abstract class KBTableModel extends AbstractTableModel {
 			if (tooltips.get(row)[column] != "") setToolTipText(tooltips.get(row)[column]);
 			return this;
 		}
+		@Override
+		public boolean isEditable() {
+			return false;
+		}
 	}
 	
-	protected class TextareaRenderer extends JTextArea implements TableCellRenderer, KeyListener {
+	public interface DataSetter {
+		public void setValue(String val);
+	}
+	
+	public interface DataGetter {
+		public String getValue();
+	}
+	
+	protected class TextareaRenderer extends JLabel implements PhysKBTableRenderer {
 		private static final long serialVersionUID = 1L;
-			
-		public TextareaRenderer() {
-			addKeyListener(this);
+		Color color = Color.white;
+		DataSetter settarget;
+		
+		public TextareaRenderer(DataSetter t) {
+			settarget = t;
 		}
 		
 		@Override
@@ -126,21 +147,14 @@ public abstract class KBTableModel extends AbstractTableModel {
 			return this;
 		}
 
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent arg0) {
-			
-		}
-
-		@Override
-		public void keyTyped(KeyEvent arg0) {
-			
+		public void setValue(String val) {
+			settarget.setValue(val);
 		}
 		
+		@Override
+		public boolean isEditable() {
+			return true;
+		}
 		
 	}
 }

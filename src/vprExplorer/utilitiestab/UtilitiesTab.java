@@ -28,7 +28,7 @@ public class UtilitiesTab extends JPanel implements ActionListener {
 		purge.addActionListener(this);
 		add(purge);
 		
-		if (settings.getService()==service._REMOTE) {
+		if (settings.getService()==service._REMOTE || settings.getService()==service._LOCAL_SERVER) {
 			sparql = new VPRSPARQLWrite(settings);
 		}
 		else {

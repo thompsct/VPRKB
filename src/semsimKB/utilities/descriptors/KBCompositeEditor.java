@@ -33,7 +33,7 @@ public class KBCompositeEditor {
 				
 		components.add(new String[]{StructuralRelation.SUBCOMPONENT_RELATION.getShortDescription(), dbc.getComponentFullNames().getLeft()});
 		compuris.add(dbc.getComponentURIs().getLeft().toString());
-		if (dbc.getRelation()!=null) {
+		if (dbc.getComponentURIs().getRight()!=null) {
 			components.add(new String[]{dbc.getRelation().getShortDescription(), dbc.getComponentNames().getRight()});
 			compuris.add(dbc.getComponentURIs().getRight().toString());
 		}

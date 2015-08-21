@@ -30,8 +30,8 @@ public class SPARQLConstants extends SemSimKBConstants {
 	
 	public static final String kbpp = "SemSim:Physical_property";
 	public static final String kbrpe = "SemSim:Reference_physical_entity";
-	public static final String kbcpe = "VPRKB:KB_Physical_Entity";
-	public static final String kbcbm = "VPRKB:KB_Bio_Model";
+	public static final String kbcpe = "physkb:KB_Physical_Entity";
+	public static final String kbcbm = "physkb:KB_Bio_Model";
 	
 	public static final Map<URI, String> classmap;
 	static {
@@ -40,8 +40,8 @@ public class SPARQLConstants extends SemSimKBConstants {
 		aMap.put(REFERENCE_PHYSICAL_ENTITY_CLASS_URI,kbrpe);
 		aMap.put(KB_COMPOSITE_CLASS_URI,kbcpe);
 		aMap.put(KB_MODEL_URI,kbcbm);
-		aMap.put(KB_DATASET_CLASS_URI,"VPRKB:KB_Data_Set");
-		aMap.put(KB_PROCESS_CLASS_URI,"VPRKB:KB_Physical_Process");
+		aMap.put(KB_DATASET_CLASS_URI,"physkb:KB_Data_Set");
+		aMap.put(KB_PROCESS_CLASS_URI,"physkb:KB_Physical_Process");
 		classmap = Collections.unmodifiableMap(aMap);
 	}
 	

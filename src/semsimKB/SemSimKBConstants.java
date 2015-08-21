@@ -41,7 +41,7 @@ public class SemSimKBConstants {
 	public static final String UNIPROT_FULLNAME = "Universal Protein Resource";
 	
 	// Namespaces
-	public static final String VPR_NAMESPACE = "http://www.virtualrat.edu/VPRKB/";
+	public static final String VPR_NAMESPACE = "http://www.virtualrat.edu/physkb/";
 	public static final String SEMSIM_NAMESPACE = "http://www.bhi.washington.edu/SemSim#";
 	public static final String OPB_NAMESPACE = "http://bhi.washington.edu/OPB#";
 	public static final String RO_NAMESPACE = "http://www.obofoundry.org/ro/ro.owl#";

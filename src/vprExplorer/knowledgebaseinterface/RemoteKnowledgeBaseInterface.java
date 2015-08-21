@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
@@ -79,7 +80,14 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	
 	private void makeModel(URI uri, String label) {
 		if (buffer.hasModel(uri)) return;
-		buffer.addModel(new CompBioModel(uri, label), ComponentStatus.EXACT_MATCH);
+		CompBioModel cbm = new CompBioModel(uri, label);
+		for (Metadata m : Metadata.values()) {
+			String value = sparql.getSingModelProperty(m.getSparqlCode(), uri, true);
+			if (value!=null) {
+				cbm.getCurationalMetadata().setAnnotationValue(m, value);
+			}
+		}
+		buffer.addModel(cbm, ComponentStatus.EXACT_MATCH);
 		
 	}
 	
@@ -100,10 +108,14 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		ArrayList<String> predicates = new ArrayList<String>();
 		ArrayList<String> objects = new ArrayList<String>();
 		predicates.add(StructuralRelation.SUBCOMPONENT_RELATION.getSparqlCode());
-		predicates.add(rel.getSparqlCode());
+		if (rel!= null) {
+			predicates.add(rel.getSparqlCode());
+		}
 
 		objects.add(comps.getLeft().toString());
-		objects.add(comps.getRight().toString());
+		if (comps.getRight()!=null) {
+			objects.add(comps.getRight().toString());
+		}
 		
 		LinkedList<String> results = sparql.selectDistinctwithMultiCriteria(predicates, objects);
 		if (results.isEmpty()) return null;
@@ -134,7 +146,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
 		DBCompositeEntity dbc = new DBCompositeEntity(eleuri , label);
-		URI pe1uri = URI.create(sparql.getSingModelProperty("VPRKB:Has_Subcomponent", eleuri, false));
+		URI pe1uri = URI.create(sparql.getSingModelProperty("physkb:Has_Subcomponent", eleuri, false));
 		
 		String pe2uri = sparql.getSingModelProperty("ro:part_of", eleuri, false);
 		if (pe2uri==null) {
@@ -146,7 +158,10 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		}
 
 		PhysicalEntity pe1 = buffer.getPhysicalEntitybyURI(pe1uri);
-		PhysicalEntity pe2 = buffer.getPhysicalEntitybyURI(URI.create(pe2uri));
+		PhysicalEntity pe2 = null;
+		if (pe2uri!=null) {
+			 pe2 = buffer.getPhysicalEntitybyURI(URI.create(pe2uri));
+		}
 		dbc.setComponents(Pair.of(pe1, pe2));
 		
 		LinkedList<String> results = sparql.getMultModelProperty("model-qualifiers:isDerivedFrom", dbc.getURI());

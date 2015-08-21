@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://www.virtualrat.org/vprkb#"
-     xml:base="http://www.virtualrat.org/vprkb"
+<rdf:RDF xmlns="http://www.virtualrat.org/physkb#"
+     xml:base="http://www.virtualrat.org/physkb"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:webprotege="http://protege.stanford.edu/webprotege/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-    <owl:Ontology rdf:about="http://www.virtualrat.org/vprkb">
+    <owl:Ontology rdf:about="http://www.virtualrat.org/physkb">
         <webprotege:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</webprotege:revision>
         <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">Apr 9, 2014 2:31:16 PM</dc:date>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Base types for vpr kb</rdfs:comment>
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CThompson</dc:creator>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This ontology was generated from an ontology revision in WebProtégé http://webprotege.stanford.edu</rdfs:comment>
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">system</dc:creator>
-        <owl:versionIRI rdf:resource="http://www.virtualrat.org/vprkb/1.0.0"/>
+        <owl:versionIRI rdf:resource="http://www.virtualrat.org/physkb/1.0.0"/>
     </owl:Ontology>
     
 
@@ -452,43 +452,43 @@
     
 
 
-    <!-- http://www.virtualrat.org/vprkb#Computational_Biology_Model -->
+    <!-- http://www.virtualrat.org/physkb#Computational_Biology_Model -->
 
-    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#Computational_Biology_Model">
+    <owl:Class rdf:about="http://www.virtualrat.org/physkb#Computational_Biology_Model">
         <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#SemSim_component"/>
         <rdfs:comment>An entry in the knowledge base representing a unique computational model.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Entity -->
+    <!-- http://www.virtualrat.org/physkb#KB_Physical_Entity -->
 
-    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Entity">
-        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component"/>
-        <owl:disjointWith rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Process"/>
+    <owl:Class rdf:about="http://www.virtualrat.org/physkb#KB_Physical_Entity">
+        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/physkb#KB_Physical_Model_Component"/>
+        <owl:disjointWith rdf:resource="http://www.virtualrat.org/physkb#KB_Physical_Process"/>
     </owl:Class>
     
 
 
-    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Model_Component -->
+    <!-- http://www.virtualrat.org/physkb#KB_Physical_Model_Component -->
 
-    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component">
+    <owl:Class rdf:about="http://www.virtualrat.org/physkb#KB_Physical_Model_Component">
         <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_model_component"/>
     </owl:Class>
     
 
 
-    <!-- http://www.virtualrat.org/vprkb#KB_Physical_Process -->
+    <!-- http://www.virtualrat.org/physkb#KB_Physical_Process -->
 
-    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#KB_Physical_Process">
-        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/vprkb#KB_Physical_Model_Component"/>
+    <owl:Class rdf:about="http://www.virtualrat.org/physkb#KB_Physical_Process">
+        <rdfs:subClassOf rdf:resource="http://www.virtualrat.org/physkb#KB_Physical_Model_Component"/>
     </owl:Class>
     
 
 
-    <!-- http://www.virtualrat.org/vprkb#Knowledge_Base -->
+    <!-- http://www.virtualrat.org/physkb#Knowledge_Base -->
 
-    <owl:Class rdf:about="http://www.virtualrat.org/vprkb#Knowledge_Base">
+    <owl:Class rdf:about="http://www.virtualrat.org/physkb#Knowledge_Base">
         <rdfs:subClassOf rdf:resource="http://www.bhi.washington.edu/SemSim#SemSim_component"/>
         <rdfs:comment>A relational database for computational models and associated datasets annotated with semantic annotations.</rdfs:comment>
     </owl:Class>

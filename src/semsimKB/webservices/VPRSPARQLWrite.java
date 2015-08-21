@@ -5,6 +5,8 @@ import java.net.URI;
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.SemSimKBConstants;
+import semsimKB.annotation.CurationalMetadata;
+import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimObject;
 import semsimKB.model.physical.DBCompositeEntity;
@@ -26,8 +28,8 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	public final String inmodel = "INSERT  {<%i> model-qualifiers:isDerivedFrom <%m>} "
 			+ "WHERE { FILTER NOT EXISTS { <%i> model-qualifiers:isDerivedFrom <%m> }}";
 	//Insert axiom for property of individual
-	public final String sinsertax = "INSERT  { VPRKB:Ax%n a owl:Axiom. "
-			+ "VPRKB:Ax%n owl:annotatedSource <%s>. VPRKB:Ax%n owl:annotatedTarget <%t>}" 
+	public final String sinsertax = "INSERT  { physkb:Ax%n a owl:Axiom. "
+			+ "physkb:Ax%n owl:annotatedSource <%s>. physkb:Ax%n owl:annotatedTarget <%t>}" 
 			+ "WHERE { FILTER NOT EXISTS { ?a owl:annotatedSource <%s>. ?a owl:annotatedTarget <%t> }}";
 	//Update model/property mappings
 	public final String addppmod = "INSERT  {?Axiom model-qualifiers:isDescribedBy <%m>} "
@@ -56,7 +58,7 @@ public class VPRSPARQLWrite extends vprSPARQL {
 			buildEntry((DBPhysicalProcess)ind, data);
 		}
 		else if (type==SemSimKBConstants.KB_MODEL_URI) {
-			buildEntry((CompBioModel)ind, data);
+			data = buildEntry((CompBioModel)ind, data);
 		}
 		ui = ui.replace("%d", data);
 		
@@ -77,12 +79,11 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	String buildEntry(DBCompositeEntity obj, String data) {
 		String ouri = obj.getURI().toString() ;
 		Pair<URI, URI> compuris = obj.getComponentURIs();
-		data = data + "<" + ouri + "> " + "VPRKB:Has_Subcomponent <" +  compuris.getLeft().toString() + "> .\n";
-		data = data + "<" + ouri + "> ";
+		data = data + "<" + ouri + "> physkb:Has_Subcomponent <" +  compuris.getLeft().toString() + "> .\n";
 		if (compuris.getRight()!=null) {
-			data = data + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString();
+			data = data + "<" + ouri + "> ";
+			data = data + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString() + "> .\n";
 		}
-		data = data + "> .\n";
 
 		for (PhysicalProperty pp : obj.getPropertyList()) {
 			data = data + "<" + ouri + "> SemSim:hasPhysicalProperty <" + pp.getURI().toString() + "> .\n";
@@ -94,8 +95,16 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	void buildEntry(DBPhysicalProcess obj, String data) {
 		
 	}
-	void buildEntry(CompBioModel obj, String data) {
-		//String ouri = obj.getURI().toString() ; 
+	
+	private String buildEntry(CompBioModel obj, String data) {
+		String ouri = obj.getURI().toString();
+		CurationalMetadata cmd = obj.getCurationalMetadata();
+		for (Metadata m : Metadata.values()) {
+			if (cmd.hasAnnotationValue(m)) {
+				data = data + "<" + ouri + "> " + m.getSparqlCode() + " '" +  cmd.getAnnotationValue(m) + "' .\n";
+			}
+		}
+		return data;
 	}
 	
 	//Annotate individual with property map

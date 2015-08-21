@@ -206,6 +206,9 @@ public class KBBufferOperations {
 			}
 			//If singular
 			if (cpe.getArrayListOfStructuralRelations().isEmpty()) {
+				if (pes.get(0).getClassURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
+					addReferenceEntitytoBuffer((ReferencePhysicalEntity) pes.get(0));
+				}
 				kdce = createComposite(Pair.of(pes.get(0), null), null);
 			}
 			else {

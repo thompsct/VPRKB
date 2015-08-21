@@ -52,7 +52,7 @@ public class vprSPARQL {
 			 server = "http://141.214.24.101:80/physiomekb-admin/";
 		 }
 		 else {
-			 server = "http://localhost:3030/ds";
+			 server = "http://localhost:3030/physkb/";
 		 }
 
 		 host = server + "query";
@@ -320,7 +320,7 @@ public class vprSPARQL {
 	//Get all physical properties associated with composite
 	public LinkedList<String> getComponentPropertyList(URI cmpturi) {
 		host = server + "query";
-		String qs = makePrefixString("owl") + makePrefixString("VPRKB") + cons.axproplist;
+		String qs = makePrefixString("owl") + makePrefixString("physkb") + cons.axproplist;
 		qs = qs.replace("%s", "<" + cmpturi.toString() + ">");
 		
 		Query query = QueryFactory.create(qs);

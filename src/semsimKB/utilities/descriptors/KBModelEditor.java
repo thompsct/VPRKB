@@ -35,4 +35,8 @@ public class KBModelEditor {
 	public String getMetadataValue(Metadata meta) {
 		return metadata.getAnnotationValue(meta);
 	}
+	
+	public void setMetaDataValue(Metadata meta, String value) {
+		metadata.setAnnotationValue(meta, value);
+	}
 }

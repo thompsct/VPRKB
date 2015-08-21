@@ -67,24 +67,25 @@ public class CurationalMetadata {
 	}
 	
 	public enum Metadata {
-		fullname("Full Name", MODEL_NAME_RELATION),
-		description("Description", MODEL_DESCRIPTION_RELATION),
-		annotatorauthor("Annotator Name", ANNOTATOR_NAME_RELATION),
-		annotatorcontact("Annotator Contact", ANNOTATOR_CONTACT_RELATION),
-		modelauthor("Model Author", MODELER_NAME_RELATION),
-		modelcontact("Model Contact", MODELER_CONTACT_RELATION),
-		sourcemodelid("Source Model ID", MODEL_ID_RELATION),
-		cellmlurl("CellML URL",CELLML_URL_RELATION),
-		matlaburl("Matlab URL",MATLAB_URL_RELATION),
-		mmlurl("JSim URL",JSIM_URL_RELATION),
-		sbmlurl("SBML URL",SBML_URL_RELATION);
+		fullname("Full Name", MODEL_NAME_RELATION, "dc:title"),
+		description("Description", MODEL_DESCRIPTION_RELATION, "dc:description"),
+		annotatorauthor("Annotator Name", ANNOTATOR_NAME_RELATION, "SemSim:annotator"),
+		annotatorcontact("Annotator Contact", ANNOTATOR_CONTACT_RELATION, "SemSim:annotatoremail"),
+		modelauthor("Model Author", MODELER_NAME_RELATION, "dc:creator"),
+		modelcontact("Model Contact", MODELER_CONTACT_RELATION, "SemSim:creatoremail"),
+		sourcemodelid("Source Model ID", MODEL_ID_RELATION, "rdf:id"),
+		cellmlurl("CellML URL",CELLML_URL_RELATION, "SemSim:cellmlloc"),
+		matlaburl("Matlab URL",MATLAB_URL_RELATION, "SemSim:matlabloc"),
+		mmlurl("JSim URL",JSIM_URL_RELATION, "SemSim:jsimloc"),
+		sbmlurl("SBML URL",SBML_URL_RELATION, "SemSim:sbmlloc");
 		
 		private final String text;
 		private final SemSimRelation relation;
-	
-		private Metadata(final String text, SemSimRelation rel) {
+		private final String sparqlcode;
+		private Metadata(final String text, SemSimRelation rel, String spqlcode) {
 		   this.text = text;
 		   relation = rel;
+		   sparqlcode = spqlcode;
 		}
 	
 		@Override
@@ -96,8 +97,12 @@ public class CurationalMetadata {
 			 return relation;
 		 }
 		 
-		 private URI getURI() {
+		 public URI getURI() {
 			 return relation.getURI();
+		 }
+		 
+		 public String getSparqlCode() {
+			 return sparqlcode;
 		 }
 	}
 	
