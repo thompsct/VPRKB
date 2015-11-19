@@ -31,7 +31,7 @@ public class KBCompositeEditor {
 		cpntstats = componentstatuses;
 		status = kdbc.getStatus();
 				
-		components.add(new String[]{StructuralRelation.SUBCOMPONENT_RELATION.getShortDescription(), dbc.getComponentFullNames().getLeft()});
+		components.add(new String[]{StructuralRelation.INDEX_ENTITY_RELATION.getShortDescription(), dbc.getComponentFullNames().getLeft()});
 		compuris.add(dbc.getComponentURIs().getLeft().toString());
 		if (dbc.getComponentURIs().getRight()!=null) {
 			components.add(new String[]{dbc.getRelation().getShortDescription(), dbc.getComponentNames().getRight()});

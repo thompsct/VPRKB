@@ -7,9 +7,11 @@ public abstract class SemSimObject {
 	private String description = new String("");
 	private String metadataID = new String("");
 	protected URI referenceuri = URI.create(new String(""));
+	protected SemSimTypes type;
 	
-	public SemSimObject() {}
-	
+	public SemSimObject(SemSimTypes kbtype) {
+		type = kbtype;
+	}
 	public SemSimObject(SemSimObject objtocopy) {
 		name = new String(objtocopy.name);
 		if (objtocopy.description != null) {
@@ -90,7 +92,16 @@ public abstract class SemSimObject {
 		referenceuri = uri;
 	}
 	
-	public abstract URI getClassURI();
+	public String getTermID() {
+		return referenceuri.getFragment();
+	}
+		
+	public SemSimTypes getType() {
+		return type;
+	}
 	
+	public URI getClassURI() {
+		return type.getURI();
+	}
 }
 

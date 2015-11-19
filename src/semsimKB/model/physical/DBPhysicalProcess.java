@@ -1,15 +1,9 @@
 package semsimKB.model.physical;
 
-import java.net.URI;
-
-import semsimKB.SemSimKBConstants;
+import semsimKB.model.SemSimTypes;
 
 public class DBPhysicalProcess extends DBPhysicalComponent {
 	public DBPhysicalProcess() {
-	}
-	
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.KB_PROCESS_CLASS_URI;
+		super(SemSimTypes.KB_PHYSICAL_PROCESS);
 	}
 }

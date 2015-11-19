@@ -14,6 +14,7 @@ import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.ModelLite;
+import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.CompositePhysicalEntity;
@@ -35,7 +36,7 @@ public class KBBufferOperations {
 	private ArrayList<KBCompositeObject<DBCompositeEntity>> modifylist = new ArrayList<KBCompositeObject<DBCompositeEntity>>();
 	
 	protected ModelLite model;
-	CompBioModel localdbmodel;
+	private CompBioModel localdbmodel;
 	
 	private int dbcint = 0;
 	private Date date = new Date();
@@ -206,7 +207,7 @@ public class KBBufferOperations {
 			}
 			//If singular
 			if (cpe.getArrayListOfStructuralRelations().isEmpty()) {
-				if (pes.get(0).getClassURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
+				if (pes.get(0).getType()==SemSimTypes.REFERENCE_PHYSICAL_ENTITY) {
 					addReferenceEntitytoBuffer((ReferencePhysicalEntity) pes.get(0));
 				}
 				kdce = createComposite(Pair.of(pes.get(0), null), null);
@@ -222,7 +223,7 @@ public class KBBufferOperations {
 	private KBCompositeObject<DBCompositeEntity> parseComposite(ArrayList<PhysicalEntity> cpes, ArrayList<StructuralRelation> rels) {
 		//Verify Reference Entities exist in buffer
 		for (PhysicalEntity pe : cpes) {
-			if (pe.getClassURI()==SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI) {
+			if (pe.getType()==SemSimTypes.REFERENCE_PHYSICAL_ENTITY) {
 				addReferenceEntitytoBuffer((ReferencePhysicalEntity) pe);
 			}
 		}

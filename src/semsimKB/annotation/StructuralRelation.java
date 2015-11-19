@@ -18,8 +18,8 @@ public enum StructuralRelation  {
 			SemSimKBConstants.RO_NAMESPACE + "contains", "ro:contains"),
 	ADJACENT_RELATION("adjacent to", "physical entity is adjacent to another physical entity",
 			SemSimKBConstants.SEMSIM_NAMESPACE + "adjacentTo", "semsim:adjacent_to"),
-	SUBCOMPONENT_RELATION("index entity", "physical entity is index entity for another physical entity", 
-			SemSimKBConstants.VPR_NAMESPACE + "Has_Subcomponent", "physkb:Has_Subcomponent");
+	INDEX_ENTITY_RELATION("index entity", "physical entity is index entity for another physical entity", 
+			SemSimKBConstants.SEMSIM_NAMESPACE + "hasIndexEntity", "semsim:hasIndexEntity");
 	
 	String description;
 	String shortdesc;

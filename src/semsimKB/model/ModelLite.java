@@ -52,6 +52,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * Constructor without namespace
 	 */
 	public ModelLite(){
+		super(SemSimTypes.KB_MODEL);
 		setNamespace(generateNamespaceFromDateAndTime());
 	}
 	
@@ -60,6 +61,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * Constructor with namespace
 	 */
 	public ModelLite(String namespace){
+		super(SemSimTypes.KB_MODEL);
 		setNamespace(namespace);
 	}
 		
@@ -272,7 +274,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 */
 	public PhysicalModelComponent getPhysicalModelComponentByReferenceURI(URI uri){
 		for(PhysicalModelComponent pmcomp : getPhysicalModelComponents()){
-			for(ReferenceOntologyAnnotation ann : pmcomp.getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION)){
+			for(ReferenceOntologyAnnotation ann : pmcomp.getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
 				if(ann.getReferenceURI().compareTo(uri)==0) return pmcomp;
 			}
 		}
@@ -551,8 +553,8 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * that uses the SemSim:refersTo relation (SemSimConstants.REFERS_TO_RELATION).
 	 */
 	public ReferenceOntologyAnnotation getFirstRefersToReferenceOntologyAnnotation(){
-		if(!getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION).isEmpty())
-			return getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
+		if(!getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).isEmpty())
+			return getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
 		return null;
 	}
 	
@@ -566,7 +568,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * applied to this object.
 	 */
 	public ReferenceOntologyAnnotation getRefersToReferenceOntologyAnnotationByURI(URI uri){
-		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION)){
+		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
 			if(ann.getReferenceURI().compareTo(uri)==0) return ann;
 		}
 		return null;
@@ -637,10 +639,4 @@ public class ModelLite extends SemSimObject implements Annotatable {
 		this.semsimversion = Double.valueOf(semsimversion);
 	}
 
-
-	@Override
-	public URI getClassURI() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

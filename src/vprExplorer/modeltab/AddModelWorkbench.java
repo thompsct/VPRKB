@@ -22,7 +22,7 @@ import vprExplorer.Settings;
 import vprExplorer.buffer.ComponentStatus;
 import vprExplorer.buffer.KBBufferOperations;
 public class AddModelWorkbench extends Observable {
-	public enum WBEvent {modelloaded, bufferupdated, sscompslct, dbcompslct};
+	public enum WBEvent {modelloaded, bufferupdated, sscompslct, dbcompslct, MODELPUSHED};
 	
 	private Settings globals;
 	private KBBufferOperations kbbuffer;
@@ -51,7 +51,6 @@ public class AddModelWorkbench extends Observable {
 		}
 		loadModelComposites();
 		createBuffer();
-		kbmodeleditor = kbbuffer.createModelEditor();
 		setChanged();
 		notifyObservers(WBEvent.modelloaded);
 		return "Loaded: " + owlfile.getName();
@@ -60,6 +59,7 @@ public class AddModelWorkbench extends Observable {
 	private void createBuffer() {
 		kbbuffer = new KBBufferOperations(globals, curmodel);
 		kbbuffer.compareModeltoKB(modcomplist);
+		kbmodeleditor = kbbuffer.createModelEditor();
 	}
 	
 	private void loadModelComposites() {
@@ -101,7 +101,7 @@ public class AddModelWorkbench extends Observable {
 		kbbuffer.pushBuffertoDatabase();
 		createBuffer();
 		setChanged();
-		notifyObservers(WBEvent.bufferupdated);
+		notifyObservers(WBEvent.MODELPUSHED);
 	}
 	//**************************SELECTIONS********************************//
 	

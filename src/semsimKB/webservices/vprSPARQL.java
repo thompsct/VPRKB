@@ -48,6 +48,7 @@ public class vprSPARQL {
 	 public vprSPARQL(Settings global) {
 		 globals = global;
 		 if (global.getService()==service._REMOTE) {
+			 if (TestServerConnection()!=0) return;
 			 auth = new SimpleAuthenticator(global.getUser(), global.getPassword());
 			 server = "http://141.214.24.101:80/physiomekb-admin/";
 		 }
@@ -56,9 +57,8 @@ public class vprSPARQL {
 		 }
 
 		 host = server + "query";
-		 if (TestServerConnection()==0) {
-			 loadPrefixes();
-		 }
+		 loadPrefixes();
+		 
 	 }
 
 	 public int verifyCredentials() {
@@ -202,6 +202,39 @@ public class vprSPARQL {
 		ResultSet result = qef.execSelect();
 		
 		return parseResource("?s", result);
+	}
+	
+	public ArrayList<String> selectIndividualwithString(String property) {
+		host = server + "query";
+		String qs = hasPrefix("rdfs:label") + cons.selfil;
+		qs = qs.replace("%f", property);
+		qs = qs.replace("%g", "'i'");
+		qs = qs.replace("%p", "rdfs:label");
+		
+		Query query = QueryFactory.create(qs);
+		query.setPrefixMapping(pmap);
+		qef = QueryExecutionFactory.sparqlService(host, query);
+
+		ResultSet result = qef.execSelect();
+		
+		return parseResources("?s", result);
+	}
+	
+	public ArrayList<String> selectIndividualofTypewithString(String property, String type) {
+		host = server + "query";
+		String qs = hasPrefix("rdfs:label") + cons.selfil;
+		qs = qs.replace("%x", "?s a " + type);
+		qs = qs.replace("%f", property);
+		qs = qs.replace("%g", "'i'");
+		qs = qs.replace("%p", "rdfs:label");
+		
+		Query query = QueryFactory.create(qs);
+		query.setPrefixMapping(pmap);
+		qef = QueryExecutionFactory.sparqlService(host, query);
+
+		ResultSet result = qef.execSelect();
+		
+		return parseResources("?s", result);
 	}
 	
 	public int describeGraph(URI graph) {
@@ -406,6 +439,24 @@ public class vprSPARQL {
 		}
 		return request;
 	}
+	//Return resource URI as string
+	public ArrayList<String> parseResources(String var,ResultSet result) {
+		ArrayList<String> results = new ArrayList<String>();
+		String request;
+		while (result.hasNext()) {
+		    QuerySolution row= result.next();
+		    Resource thing= row.getResource(var);
+		    if (thing==null) continue;
+		    request = thing.toString();
+		    if ((request.matches("owl:NamedIndividual")) || (request.matches("http://www.w3.org/2002/07/owl#NamedIndividual"))) {
+		    	request=null;
+		    	continue;
+		    }
+		    results.add(request);
+		}
+		return results;
+	}
+	
 	//Return literal as string
 	public String parseLiteral(String predicate,ResultSet result) {
 		String request = null;

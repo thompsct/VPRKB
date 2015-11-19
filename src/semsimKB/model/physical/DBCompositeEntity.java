@@ -4,21 +4,22 @@ import java.net.URI;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
+import semsimKB.model.SemSimTypes;
 
 public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEntity{
 		private Pair<PhysicalEntity, PhysicalEntity> componententities = null;
 		protected StructuralRelation relation  = StructuralRelation.PART_OF_RELATION;
 		
 		public DBCompositeEntity(Pair<PhysicalEntity,PhysicalEntity> entitiestoadd, StructuralRelation rel) {
+			super(SemSimTypes.KB_COMPOSITE_ENTITY);
 			componententities = entitiestoadd;
 			relation = rel;
 			createName();
 		}
 
 		public DBCompositeEntity(URI uri, String label) {
-			super(uri, label);
+			super(SemSimTypes.KB_COMPOSITE_ENTITY, uri, label);
 		}
 		
 		private void createName() {
@@ -116,10 +117,4 @@ public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEn
 		public String getFullName() {
 			return getName();
 		}
-		
-		@Override
-		public  URI getClassURI() {
-			return SemSimKBConstants.KB_COMPOSITE_CLASS_URI;
-		}
-
 }

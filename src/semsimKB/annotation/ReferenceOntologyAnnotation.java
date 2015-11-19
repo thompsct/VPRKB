@@ -2,8 +2,9 @@ package semsimKB.annotation;
 
 import java.net.URI;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.owl.KBOWLFactory;
+import semsimKB.owl.ReferenceOntologies;
+import semsimKB.owl.ReferenceOntologies.ReferenceOntology;
 
 /**
  * A type of Annotation where the annotation value is a URI
@@ -11,10 +12,10 @@ import semsimKB.owl.KBOWLFactory;
  */
 public class ReferenceOntologyAnnotation extends Annotation{
 	
+	private ReferenceOntology ontology;
 	private String bioPortalOntologyID;
 	private String bioPortalOntologyVersionID;
-	private String ontologyName;
-	private String ontologyAbbreviation;
+
 	private URI referenceUri;
 	private String altNumericalID;
 	
@@ -27,7 +28,7 @@ public class ReferenceOntologyAnnotation extends Annotation{
 	public ReferenceOntologyAnnotation(SemSimRelation relation, URI uri, String valueDescription){
 		super(relation, uri);
 		setReferenceURI(uri);
-		setReferenceOntologyAbbreviation(uri);
+		setReferenceOntology(uri);
 		setValueDescription(valueDescription);
 	}
 
@@ -74,41 +75,27 @@ public class ReferenceOntologyAnnotation extends Annotation{
 		else return valueDescription;
 	}
 	
-
 	/**
-	 * Set the name of the knowledge base that contains the URI annotation value
-	 * @param ontologyName The knowledge base name
+	 * Set the abbreviation of the knowledge base containing a specified URI
+	 * @param uri A URI from a knowledge base
 	 */
-	public void setReferenceOntologyName(String ontologyName) {
-		this.ontologyName = ontologyName;
+	public void setReferenceOntology(URI uri) {
+		ontology = ReferenceOntologies.getReferenceOntologybyNamespace(getNamespaceFromIRI(uri.toString()));
 	}
 
 	/**
 	 * @return The name of the knowledge base that contains the URI used as the annotation value
 	 */
 	public String getReferenceOntologyName() {
-		return ontologyName;
+		return ontology.getFullName();
 	}
 
-	/**
-	 * Set the abbreviation of the knowledge base containing a specified URI
-	 * @param uri A URI from a knowledge base
-	 */
-	public void setReferenceOntologyAbbreviation(URI uri) {
-		if(SemSimKBConstants.ONTOLOGY_NAMESPACES_AND_FULL_NAMES_MAP.containsKey(getNamespaceFromIRI(uri.toString()))){
-			String fullname = SemSimKBConstants.ONTOLOGY_NAMESPACES_AND_FULL_NAMES_MAP.get(getNamespaceFromIRI(uri.toString()));
-			if(SemSimKBConstants.ONTOLOGY_FULL_NAMES_AND_NICKNAMES_MAP.containsKey(fullname)){
-				ontologyAbbreviation = SemSimKBConstants.ONTOLOGY_FULL_NAMES_AND_NICKNAMES_MAP.get(fullname);
-			}
-		}
-		else ontologyAbbreviation = "?";
-	}
 
 	/**
 	 * @return The abbreviation of the knowledge base containing the URI used for the annotation value
 	 */
 	public String getOntologyAbbreviation() {
-		return ontologyAbbreviation;
+		return ontology.getNickName();
 	}
 
 	/**

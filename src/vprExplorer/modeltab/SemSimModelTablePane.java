@@ -41,5 +41,8 @@ public class SemSimModelTablePane extends JPanel implements Observer  {
 			modelAnnTable.setModel(model);
 			kbmodAnnTable.setModel(new KBModelAnnotationTable(workbench.getKBModelEditor()));
 		}
+		if (arg1 == WBEvent.MODELPUSHED) {
+			kbmodAnnTable.setModel(new KBModelAnnotationTable(workbench.getKBModelEditor()));
+		}
 	}
 }

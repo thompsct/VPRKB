@@ -63,7 +63,7 @@ public class KBCompositeList extends JScrollPane implements Observer {
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 == WBEvent.modelloaded || arg1 == WBEvent.bufferupdated) {
+		if (arg1 == WBEvent.modelloaded || arg1 == WBEvent.bufferupdated || arg1 == WBEvent.MODELPUSHED) {
 			loadEntries();
 		}
 	}

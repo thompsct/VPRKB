@@ -40,4 +40,7 @@ public class KBTable extends JTable  {
 		tablemodel.setValueAt((String)tce.getCellEditorValue(), getEditingRow(), 1);
 	}
 
+	public KBTableModel getModel() {
+		return tablemodel;
+	}
 }

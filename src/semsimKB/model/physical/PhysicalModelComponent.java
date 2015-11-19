@@ -10,10 +10,15 @@ import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
 import semsimKB.annotation.SemSimRelation;
 import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimTypes;
 
 public abstract class PhysicalModelComponent extends SemSimComponent implements Annotatable {
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 	protected Set<PhysicalProperty> physicalProperties = new HashSet<PhysicalProperty>();
+	
+	protected PhysicalModelComponent(SemSimTypes kbtype) {
+		super(kbtype);
+	}
 	
 	// Required by annotable interface:
 	public Set<Annotation> getAnnotations() {
@@ -45,14 +50,14 @@ public abstract class PhysicalModelComponent extends SemSimComponent implements 
 	
 	
 	public ReferenceOntologyAnnotation getFirstRefersToReferenceOntologyAnnotation(){
-		if(!getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION).isEmpty()){
-			return getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
+		if(!getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).isEmpty()){
+			return getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
 		}
 		return null;
 	}
 	
 	public ReferenceOntologyAnnotation getRefersToReferenceOntologyAnnotationByURI(URI uri){
-		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.REFERS_TO_RELATION)){
+		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
 			if(ann.getReferenceURI().compareTo(uri)==0){
 				return ann;
 			}

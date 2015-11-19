@@ -6,11 +6,11 @@ import java.util.LinkedList;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
@@ -24,6 +24,7 @@ import vprExplorer.buffer.ComponentStatus;
 public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	Settings globals;
 	VPRSPARQLWrite sparql;
+	ArrayList<SemSimComponent> searchresults;
 	
 	public RemoteKnowledgeBaseInterface(Settings global, KnowledgeBase buff) {
 		super(buff);
@@ -62,16 +63,16 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
-		if (type.matches(SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI.toString())) {	 
+		if (type.matches(SemSimTypes.PHYSICAL_PROPERTY.getURIasString())) {	 
 			makeProperty(eleuri, label);
 		}
-		else if (type.matches(SemSimKBConstants.KB_PROCESS_CLASS_URI.toString())) {
+		else if (type.matches(SemSimTypes.KB_PHYSICAL_PROCESS.getURIasString())) {
 			makeProcess(eleuri, label);
 		}
-		else if (type.matches(SemSimKBConstants.KB_MODEL_URI.toString())) {
+		else if (type.matches(SemSimTypes.KB_MODEL.getURIasString())) {
 			makeModel(eleuri, label);
 		}			
-		else if (type.matches(SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI.toString())) {
+		else if (type.matches(SemSimTypes.REFERENCE_PHYSICAL_ENTITY.getURIasString())) {
 			makeReferenceEntity(eleuri, label);
 		}
 
@@ -107,7 +108,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 	public DBCompositeEntity retrieveComposite(Pair<URI, URI> comps, StructuralRelation rel) {
 		ArrayList<String> predicates = new ArrayList<String>();
 		ArrayList<String> objects = new ArrayList<String>();
-		predicates.add(StructuralRelation.SUBCOMPONENT_RELATION.getSparqlCode());
+		predicates.add(StructuralRelation.INDEX_ENTITY_RELATION.getSparqlCode());
 		if (rel!= null) {
 			predicates.add(rel.getSparqlCode());
 		}
@@ -146,11 +147,11 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		String label = sparql.getSingModelProperty("rdfs:label", eleuri, true);
 		
 		DBCompositeEntity dbc = new DBCompositeEntity(eleuri , label);
-		URI pe1uri = URI.create(sparql.getSingModelProperty("physkb:Has_Subcomponent", eleuri, false));
+		URI pe1uri = URI.create(sparql.getSingModelProperty(StructuralRelation.INDEX_ENTITY_RELATION.getSparqlCode(), eleuri, false));
 		
-		String pe2uri = sparql.getSingModelProperty("ro:part_of", eleuri, false);
+		String pe2uri = sparql.getSingModelProperty(StructuralRelation.PART_OF_RELATION.getSparqlCode(), eleuri, false);
 		if (pe2uri==null) {
-			pe2uri = sparql.getSingModelProperty("ro:contained_in", eleuri, false);
+			pe2uri = sparql.getSingModelProperty(StructuralRelation.CONTAINED_IN_RELATION.getSparqlCode(), eleuri, false);
 			dbc.setRelation(StructuralRelation.PART_OF_RELATION);
 		}
 		else {
@@ -240,5 +241,29 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 					sparql.addModeltoAxiom(dbcuri, dbc.getPhysicalProperty(i).getURI(), muri);
 			}
 		}
+	}
+	
+	public ArrayList<SemSimComponent> searchNames(String srchstring) {
+		ArrayList<String> results = sparql.selectIndividualwithString(srchstring);
+
+		searchresults = new ArrayList<SemSimComponent>();
+
+		for (String rslt : results) {
+			getElementwithURI(URI.create(rslt), false);
+		}
+		
+		return searchresults;
+	}
+	
+	public ArrayList<SemSimComponent> searchNames(String srchstring, URI type) {
+		ArrayList<String> results = sparql.selectIndividualofTypewithString(srchstring, type.toString());
+
+		searchresults = new ArrayList<SemSimComponent>();
+
+		for (String rslt : results) {
+			getElementwithURI(URI.create(rslt), false);
+		}
+		
+		return searchresults;
 	}
 }

@@ -1,12 +1,15 @@
 package semsimKB.model.physical;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import semsimKB.SemSimKBConstants;
+import semsimKB.model.SemSimTypes;
 
 public class PhysicalProcess extends PhysicalModelComponent {
+
+	protected PhysicalProcess(SemSimTypes kbtype) {
+		super(kbtype);
+	}
 
 	private Set<PhysicalEntity> sources = new HashSet<PhysicalEntity>();
 	private Set<PhysicalEntity> sinks = new HashSet<PhysicalEntity>();
@@ -89,11 +92,7 @@ public class PhysicalProcess extends PhysicalModelComponent {
 		allpents.addAll(getMediatorPhysicalEntities());
 		return allpents;
 	}
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.PHYSICAL_PROCESS_CLASS_URI;
-	}
-	
+
 	@Override
 	protected boolean isEquivalent(Object obj) {
 		PhysicalProcess proc = (PhysicalProcess)obj;

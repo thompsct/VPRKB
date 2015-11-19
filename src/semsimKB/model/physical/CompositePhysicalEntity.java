@@ -1,10 +1,9 @@
 package semsimKB.model.physical;
 
-import java.net.URI;
 import java.util.ArrayList;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
+import semsimKB.model.SemSimTypes;
 
 public class CompositePhysicalEntity extends PhysicalModelComponent implements Comparable<CompositePhysicalEntity>, PhysicalEntity{
 	
@@ -12,6 +11,7 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 	private ArrayList<StructuralRelation> arrayListOfStructuralRelations;
 
 	public CompositePhysicalEntity(ArrayList<ReferencePhysicalEntity> ents, ArrayList<StructuralRelation> rels){
+		super(SemSimTypes.COMPOSITE_PHYSICAL_ENTITY);
 		if(ents.size()-1 != rels.size()){
 			System.err.println("Error constructing composite physical entity: " +
 					"length of relations array (" + rels.size() + 
@@ -84,10 +84,5 @@ public class CompositePhysicalEntity extends PhysicalModelComponent implements C
 	@Override
 	protected boolean isEquivalent(Object obj) {
 		return compareTo((CompositePhysicalEntity)obj)==0;
-	}
-	
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI;
 	}
 }

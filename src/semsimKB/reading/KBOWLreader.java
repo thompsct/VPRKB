@@ -23,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
+import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
@@ -47,24 +48,24 @@ public class KBOWLreader {
 		ont = manager.loadOntologyFromOntologyDocument(file);
 		
 			//Get models
-			for (String modelind : KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimKBConstants.KB_MODEL_URI.toString())){
+			for (String modelind : KBOWLFactory.getIndividualsInTreeAsStrings(ont, SemSimTypes.KB_MODEL.getURIasString())){
 				String label = KBOWLFactory.getRDFLabels(ont, factory.getOWLNamedIndividual(IRI.create(modelind)))[0];
 				CompBioModel cbm= new CompBioModel(URI.create(modelind), label);
 				cbm.setURI(URI.create(modelind));
 				KBModel.addModel(cbm, ComponentStatus.EXACT_MATCH);
 			}
 			//Get Reference Physical Entities
-			for (String rpe : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI.toString())) {
+			for (String rpe : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimTypes.REFERENCE_PHYSICAL_ENTITY.getURIasString())) {
 				getPhysicalEntityFromURI(rpe);
 			}
 			
 			//Get Physical Properties
-			for (String pps : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI.toString())) {
+			for (String pps : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimTypes.PHYSICAL_PROPERTY.getURIasString())) {
 				getPhysicalPropertyfromURI(URI.create(pps));
 			}
 			
 			//Get Composite Physical Entities
-			for (String cpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.KB_COMPOSITE_CLASS_URI.toString())) {
+			for (String cpes : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimTypes.KB_COMPOSITE_ENTITY.getURIasString())) {
 				getCompositeEntityFromURI(URI.create(cpes));
 			}
 				
@@ -136,7 +137,7 @@ public class KBOWLreader {
 			}
 		}
 		
-		String firstent = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), StructuralRelation.SUBCOMPONENT_RELATION.getURIasString());		
+		String firstent = KBOWLFactory.getFunctionalIndObjectProperty(ont, compuri.toString(), StructuralRelation.INDEX_ENTITY_RELATION.getURIasString());		
 		
 		if (!peurimap.containsKey(firstent)) getCompositeEntityFromURI(URI.create(firstent));
 		if (!secondent.equals("")) {

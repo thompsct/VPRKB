@@ -81,6 +81,8 @@ public abstract class KBTableModel extends AbstractTableModel {
 	 
 	public void clear() {
 		data.clear();
+		tooltips.clear();
+		renderers.clear();
 	}
 	
 	public abstract void updateTable();

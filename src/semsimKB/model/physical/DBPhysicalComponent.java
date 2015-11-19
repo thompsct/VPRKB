@@ -5,15 +5,19 @@ import java.util.ArrayList;
 
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimTypes;
 
 public abstract class DBPhysicalComponent extends SemSimComponent {
 	protected ArrayList<CompBioModel> models = new ArrayList<CompBioModel>();
 	protected ArrayList<PhysicalProperty> proplist = new ArrayList<PhysicalProperty>();
 	protected ArrayList<ArrayList<CompBioModel>> propmodlist = new ArrayList<ArrayList<CompBioModel>>();
 	
-	public DBPhysicalComponent() {}
+	public DBPhysicalComponent(SemSimTypes sstype) {
+		super(sstype);
+	}
 	
-	public DBPhysicalComponent(URI uri, String label) {
+	public DBPhysicalComponent(SemSimTypes sstype, URI uri, String label) {
+		super(sstype);
 		setURI(uri);
 		setName(label);
 	}

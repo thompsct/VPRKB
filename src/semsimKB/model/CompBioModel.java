@@ -16,10 +16,12 @@ public class CompBioModel extends SemSimObject {
 	protected CurationalMetadata metadata = new CurationalMetadata();
 	
 	public CompBioModel(URI uri, String name) {
+		super(SemSimTypes.KB_MODEL);
 		setName(name);
 		setURI(uri);
 	}
 	public CompBioModel(ModelLite model) {
+		super(SemSimTypes.KB_MODEL);
 		setName(model.getName());
 		setDescription(model.getDescription());
 		setURI(URI.create(
@@ -54,11 +56,5 @@ public class CompBioModel extends SemSimObject {
 	
 	public CurationalMetadata getCurationalMetadata() {
 		return metadata;
-	}
-	
-	
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.KB_MODEL_URI;
 	}
 }

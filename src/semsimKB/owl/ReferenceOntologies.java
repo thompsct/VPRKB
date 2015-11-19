@@ -15,14 +15,14 @@ public class ReferenceOntologies {
 		for (ReferenceOntology ro : ReferenceOntology.values()) {
 			if (ro.getFullName().equals(name)) return ro; 
 		}
-		return null;
+		return ReferenceOntology.UNKNOWN;
 	}
 	
 	public static ReferenceOntology getReferenceOntologybyNamespace(String namespace) {
 		for (ReferenceOntology ro : ReferenceOntology.values()) {
 			if (ro.hasNamespace(namespace)) return ro;
 		}
-		return null;
+		return ReferenceOntology.UNKNOWN;
 	}
 	
 	public enum OntologyDomain {
@@ -94,7 +94,8 @@ public class ReferenceOntologies {
 		SNOMED("SNOMED - Clinical Terms", "SNOMEDCT", "1353",
 				new String[]{"http://purl.bioontology.org/ontology/SNOMEDCT/"}),
 		UNIPROT("Universal Protein Resource", "UNIPROPT", "",
-				new String[]{"http://purl.uniprot.org/uniprot/", "http://identifiers.org/uniprot/","http://www.uniprot.org/uniprot/"});
+				new String[]{"http://purl.uniprot.org/uniprot/", "http://identifiers.org/uniprot/","http://www.uniprot.org/uniprot/"}),
+		UNKNOWN("Unkown Ontology", "?", "", new String[]{});
 		
 		private String fullname;
 		private String nickname;

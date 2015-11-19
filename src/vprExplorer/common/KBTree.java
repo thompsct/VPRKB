@@ -2,10 +2,11 @@ package vprExplorer.common;
 
 import java.net.URI;
 import java.util.HashMap;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import semsimKB.SemSimKBConstants;
+import semsimKB.model.SemSimTypes;
 import vprExplorer.Settings;
 
 public class KBTree extends DefaultTreeModel {
@@ -44,12 +45,12 @@ public class KBTree extends DefaultTreeModel {
 	    ppNode = new DefaultMutableTreeNode("Physical Properties");
 	    top.add(ppNode);
 	    
-	    classmap.put(modelNode, SemSimKBConstants.KB_MODEL_URI);
-		classmap.put(dataSetNode, SemSimKBConstants.KB_DATASET_CLASS_URI);
-		classmap.put(processNode, SemSimKBConstants.KB_PROCESS_CLASS_URI);
-		classmap.put(compEntNode, SemSimKBConstants.KB_COMPOSITE_CLASS_URI);
-		classmap.put(refEntNode, SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI);
-		classmap.put(ppNode, SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI);
+	    classmap.put(modelNode, SemSimTypes.KB_MODEL.getURI());
+		classmap.put(dataSetNode, SemSimTypes.KB_DATASET.getURI());
+		classmap.put(processNode, SemSimTypes.KB_PHYSICAL_PROCESS.getURI());
+		classmap.put(compEntNode, SemSimTypes.KB_COMPOSITE_ENTITY.getURI());
+		classmap.put(refEntNode, SemSimTypes.REFERENCE_PHYSICAL_ENTITY.getURI());
+		classmap.put(ppNode, SemSimTypes.PHYSICAL_PROPERTY.getURI());
 	}
 	
 //	public void loadLeaves(DefaultMutableTreeNode sel) {

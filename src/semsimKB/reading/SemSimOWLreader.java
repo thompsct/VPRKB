@@ -22,6 +22,7 @@ import semsimKB.SemSimLibrary;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.ModelLite;
+import semsimKB.model.SemSimTypes;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
@@ -34,12 +35,15 @@ public class SemSimOWLreader {
 	private OWLDataFactory factory;
 	private HashMap<String, ReferencePhysicalEntity> rpeurimap = new HashMap<String, ReferencePhysicalEntity>();
 	private HashMap<String, PhysicalProperty> ppurimap = new HashMap<String, PhysicalProperty>();
+	private URI physicaldefinitionURI;
 	
 	public ModelLite readFromFile(File file) throws OWLException, CloneNotSupportedException{
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 		ont = manager.loadOntologyFromOntologyDocument(file);
 
+		setPhysicalDefinitionURI();
+		
 		model.setName(file.getName().substring(0, file.getName().lastIndexOf(".")));
 		model.setURI(URI.create(SemSimKBConstants.SEMSIM_NAMESPACE + model.getName()));
 		
@@ -55,6 +59,16 @@ public class SemSimOWLreader {
 		collectCompositeEntities();
 		
 		return model;
+	}
+	
+	private void setPhysicalDefinitionURI(){
+		
+		if(ont.containsDataPropertyInSignature(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "refersTo"))){
+			physicaldefinitionURI = URI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "refersTo");
+		}
+		else if(ont.containsDataPropertyInSignature(IRI.create(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_URI))){
+			physicaldefinitionURI = SemSimKBConstants.HAS_PHYSICAL_DEFINITION_URI;
+		}
 	}
 		
 	private void collectModelAnnotations() {
@@ -88,7 +102,7 @@ public class SemSimOWLreader {
 	}
 	
 	private void collectPhysicalProperties() throws OWLException {
-		for (String pps : KBOWLFactory.getAllSubclasses(ont,  SemSimKBConstants.PHYSICAL_PROPERTY_CLASS_URI.toString(),false)) {
+		for (String pps : KBOWLFactory.getAllSubclasses(ont,  SemSimTypes.PHYSICAL_PROPERTY.getURIasString(),false)) {
 			String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLClass(IRI.create(pps)))[0];
 			PhysicalProperty pp = new PhysicalProperty(label, URI.create(pps));
 			model.addPhysicalProperty(pp);
@@ -97,7 +111,7 @@ public class SemSimOWLreader {
 	}
 	
 	private void collectReferenceEntities() throws OWLException {
-		for (String rperef : KBOWLFactory.getAllSubclasses(ont,  SemSimKBConstants.REFERENCE_PHYSICAL_ENTITY_CLASS_URI.toString(), false)) {
+		for (String rperef : KBOWLFactory.getAllSubclasses(ont,  SemSimTypes.REFERENCE_PHYSICAL_ENTITY.getURIasString(), false)) {
 			String label = SemSimOWLFactory.getRDFLabels(ont, factory.getOWLClass(IRI.create(rperef)))[0];
 			ReferencePhysicalEntity rpe = new ReferencePhysicalEntity(URI.create(rperef), label);
 			rpeurimap.put(rperef, rpe);
@@ -106,8 +120,8 @@ public class SemSimOWLreader {
 	}
 	
 	private void collectCompositeEntities() throws OWLException {
-		for (String cperef : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimKBConstants.COMPOSITE_PHYSICAL_ENTITY_CLASS_URI.toString())) {		
-			String ind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, cperef.toString(), SemSimKBConstants.HAS_INDEX_ENTITY_URI.toString());
+		for (String cperef : KBOWLFactory.getIndividualsInTreeAsStrings(ont,  SemSimTypes.COMPOSITE_PHYSICAL_ENTITY.getURIasString())) {		
+			String ind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, cperef.toString(), StructuralRelation.INDEX_ENTITY_RELATION.getURIasString());
 			ArrayList<ReferencePhysicalEntity> rpes = new ArrayList<ReferencePhysicalEntity>();
 			ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
 			Set<String> pps = SemSimOWLFactory.getIndObjectProperty(ont, ind, SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
@@ -140,12 +154,12 @@ public class SemSimOWLreader {
 	}
 	
 	private ReferencePhysicalEntity getClassofIndividual(String ind) throws OWLException {
-		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
+		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, physicaldefinitionURI.toString());
 		return rpeurimap.get(indclass);
 	}
 	
 	private PhysicalProperty getClassofProperty(String ind) throws OWLException {
-		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, SemSimKBConstants.REFERS_TO_URI.toString());
+		String indclass = SemSimOWLFactory.getFunctionalIndDatatypeProperty(ont, ind, physicaldefinitionURI.toString());
 		return ppurimap.get(indclass);
 	}
 }

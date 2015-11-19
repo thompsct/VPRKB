@@ -9,9 +9,7 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:ro="http://www.obofoundry.org/ro/ro.owl#"
      xmlns:VPRKB="http://www.virtualrat.edu/VPRKB/">
-    <owl:Ontology rdf:about="http://www.virtualrat.edu/VPRKB">
-        <SemSim:modelName xml:lang="en">Virtual Physiological Rat Knowledge Base</SemSim:modelName>
-    </owl:Ontology>
+    <owl:Ontology rdf:about="http://www.virtualrat.edu/VPRKB"/>
     
 
 
@@ -526,20 +524,20 @@
     
 
 
+    <!-- http://bhi.washington.edu/OPB#OPB_00293 -->
+
+    <owl:NamedIndividual rdf:about="http://bhi.washington.edu/OPB#OPB_00293">
+        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
+        <rdfs:label xml:lang="en">Temperature</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://bhi.washington.edu/OPB#OPB_00340 -->
 
     <owl:NamedIndividual rdf:about="http://bhi.washington.edu/OPB#OPB_00340">
         <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Physical_property"/>
         <rdfs:label xml:lang="en">Chemical concentration</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://identifiers.org/uniprot/P02591 -->
-
-    <owl:NamedIndividual rdf:about="http://identifiers.org/uniprot/P02591">
-        <rdf:type rdf:resource="http://www.bhi.washington.edu/SemSim#Reference_physical_entity"/>
-        <rdfs:label xml:lang="en">	Troponin C, slow skeletal and cardiac muscles (TN-C)</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -571,80 +569,68 @@
     
 
 
-    <!-- http://www.virtualrat.edu/VPRKB/1429278165896 -->
+    <!-- http://www.virtualrat.edu/VPRKB/1439496472469 -->
 
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/1429278165896">
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/1439496472469">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Physical_Entity"/>
-        <rdfs:label xml:lang="en">calcium(2+) part of Portion of cytosol </rdfs:label>
+        <rdfs:label xml:lang="en">calcium(2+) part of Portion of cytosol</rdfs:label>
         <VPRKB:Has_Subcomponent rdf:resource="http://purl.obolibrary.org/obo/CHEBI_29108"/>
         <ro:part_of rdf:resource="http://purl.org/sig/ont/fma/fma66836"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.virtualrat.edu/VPRKB/1429278165897 -->
+    <!-- http://www.virtualrat.edu/VPRKB/14394964724690 -->
 
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/1429278165897">
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/14394964724690">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Physical_Entity"/>
-        <rdfs:label xml:lang="en">Portion of cytosol part of Cardiac myocyte </rdfs:label>
+        <rdfs:label xml:lang="en">Portion of cytosol part of Cardiac myocyte</rdfs:label>
         <ro:part_of rdf:resource="http://purl.org/sig/ont/fma/fma14067"/>
         <VPRKB:Has_Subcomponent rdf:resource="http://purl.org/sig/ont/fma/fma66836"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.virtualrat.edu/VPRKB/14292781658970 -->
+    <!-- http://www.virtualrat.edu/VPRKB/14394964724691 -->
 
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/14292781658970">
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/14394964724691">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Physical_Entity"/>
-        <rdfs:label xml:lang="en">calcium(2+) part of Portion of cytosol  part of Cardiac myocyte </rdfs:label>
+        <rdfs:label xml:lang="en">calcium(2+) part of Portion of cytosol part of Cardiac myocyte</rdfs:label>
         <SemSim:hasPhysicalProperty rdf:resource="http://bhi.washington.edu/OPB#OPB_00340"/>
-        <VPRKB:Has_Subcomponent rdf:resource="http://www.virtualrat.edu/VPRKB/1429278165896"/>
-        <ro:part_of rdf:resource="http://www.virtualrat.edu/VPRKB/1429278165897"/>
+        <VPRKB:Has_Subcomponent rdf:resource="http://www.virtualrat.edu/VPRKB/1439496472469"/>
+        <ro:part_of rdf:resource="http://www.virtualrat.edu/VPRKB/14394964724690"/>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedTarget rdf:resource="http://bhi.washington.edu/OPB#OPB_00340"/>
         <owl:annotatedProperty rdf:resource="http://www.bhi.washington.edu/SemSim#hasPhysicalProperty"/>
-        <owl:annotatedSource rdf:resource="http://www.virtualrat.edu/VPRKB/14292781658970"/>
-        <model-qualifiers:isDescribedBy rdf:resource="http://www.virtualrat.edu/VPRKB/pandit_hinch"/>
+        <owl:annotatedSource rdf:resource="http://www.virtualrat.edu/VPRKB/14394964724691"/>
+        <model-qualifiers:isDescribedBy rdf:resource="http://www.virtualrat.edu/VPRKB/pandit_PR"/>
     </owl:Axiom>
     
 
 
-    <!-- http://www.virtualrat.edu/VPRKB/1429278223994 -->
+    <!-- http://www.virtualrat.edu/VPRKB/1439496501659 -->
 
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/1429278223994">
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/1439496501659">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Physical_Entity"/>
-        <rdfs:label xml:lang="en">	Troponin C, slow skeletal and cardiac muscles (TN-C) part of Portion of cytosol </rdfs:label>
-        <VPRKB:Has_Subcomponent rdf:resource="http://identifiers.org/uniprot/P02591"/>
-        <ro:part_of rdf:resource="http://purl.org/sig/ont/fma/fma66836"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.virtualrat.edu/VPRKB/14292782239940 -->
-
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/14292782239940">
-        <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Physical_Entity"/>
-        <rdfs:label xml:lang="en">	Troponin C, slow skeletal and cardiac muscles (TN-C) part of Portion of cytosol  part of Cardiac myocyte </rdfs:label>
-        <SemSim:hasPhysicalProperty rdf:resource="http://bhi.washington.edu/OPB#OPB_00340"/>
-        <ro:part_of rdf:resource="http://www.virtualrat.edu/VPRKB/1429278165897"/>
-        <VPRKB:Has_Subcomponent rdf:resource="http://www.virtualrat.edu/VPRKB/1429278223994"/>
+        <rdfs:label xml:lang="en">Cardiac myocyte part of &lt;none&gt;</rdfs:label>
+        <SemSim:hasPhysicalProperty rdf:resource="http://bhi.washington.edu/OPB#OPB_00293"/>
+        <VPRKB:Has_Subcomponent rdf:resource="http://purl.org/sig/ont/fma/fma14067"/>
     </owl:NamedIndividual>
     <owl:Axiom>
-        <owl:annotatedTarget rdf:resource="http://bhi.washington.edu/OPB#OPB_00340"/>
+        <owl:annotatedTarget rdf:resource="http://bhi.washington.edu/OPB#OPB_00293"/>
         <owl:annotatedProperty rdf:resource="http://www.bhi.washington.edu/SemSim#hasPhysicalProperty"/>
-        <owl:annotatedSource rdf:resource="http://www.virtualrat.edu/VPRKB/14292782239940"/>
-        <model-qualifiers:isDescribedBy rdf:resource="http://www.virtualrat.edu/VPRKB/pandit_hinch"/>
+        <owl:annotatedSource rdf:resource="http://www.virtualrat.edu/VPRKB/1439496501659"/>
+        <model-qualifiers:isDescribedBy rdf:resource="http://www.virtualrat.edu/VPRKB/pandit_PR"/>
     </owl:Axiom>
     
 
 
-    <!-- http://www.virtualrat.edu/VPRKB/pandit_hinch -->
+    <!-- http://www.virtualrat.edu/VPRKB/pandit_PR -->
 
-    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/pandit_hinch">
+    <owl:NamedIndividual rdf:about="http://www.virtualrat.edu/VPRKB/pandit_PR">
         <rdf:type rdf:resource="http://www.virtualrat.edu/VPRKB/KB_Bio_Model"/>
-        <rdfs:label xml:lang="en">pandit_hinch</rdfs:label>
+        <rdfs:label xml:lang="en">pandit_PR</rdfs:label>
     </owl:NamedIndividual>
 </rdf:RDF>
 

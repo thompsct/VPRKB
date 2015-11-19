@@ -2,8 +2,8 @@ package semsimKB.annotation;
 
 import java.net.URI;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.model.SemSimComponent;
+import semsimKB.model.SemSimTypes;
 
 /** SemSimRelations describe the relationship that an annotated SemSimComponent
  * has with an annotation value. Examples include SemSimConstants.REFERS_TO_RELATION
@@ -17,6 +17,7 @@ public class SemSimRelation extends SemSimComponent{
 	 * @param description A free-text description of the relation
 	 * @param relationURI A URI for the relation */
 	public SemSimRelation(String description, URI relationURI) {
+		super(SemSimTypes.SEMSIM_RELATION);
 		String name = null;
 		if(relationURI.getFragment()==null){
 			name = relationURI.toString();
@@ -38,9 +39,5 @@ public class SemSimRelation extends SemSimComponent{
 	/** @return The URI of the relation */
 	public URI getURI() {
 		return uri;
-	}
-	@Override
-	public  URI getClassURI() {
-		return SemSimKBConstants.SEMSIM_RELATION_CLASS_URI;
 	}
 }

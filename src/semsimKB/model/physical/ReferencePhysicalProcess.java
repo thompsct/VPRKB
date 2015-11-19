@@ -3,15 +3,17 @@ package semsimKB.model.physical;
 import java.net.URI;
 
 import semsimKB.SemSimKBConstants;
+import semsimKB.model.SemSimTypes;
 
 public class ReferencePhysicalProcess extends PhysicalProcess {
 	
 	public ReferencePhysicalProcess(URI uri, String description){
-		addReferenceOntologyAnnotation(SemSimKBConstants.REFERS_TO_RELATION, uri, description);
+		super(SemSimTypes.REFERENCE_PHYSICAL_PROCESS);
+		addReferenceOntologyAnnotation(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION, uri, description);
 		setName(description);
 	}
 	@Override
 	public  URI getClassURI() {
-		return SemSimKBConstants.REFERENCE_PHYSICAL_PROCESS_CLASS_URI;
+		return SemSimTypes.REFERENCE_PHYSICAL_PROCESS.getURI();
 	}
 }

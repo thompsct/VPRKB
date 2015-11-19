@@ -4,15 +4,15 @@ import java.net.URI;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
+import semsimKB.annotation.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimObject;
+import semsimKB.model.SemSimTypes;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
-import semsimKB.model.physical.PhysicalProperty;
 import vprExplorer.Settings;
 
 import com.hp.hpl.jena.sparql.modify.UpdateProcessRemote;
@@ -42,29 +42,29 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	}
 	//Add a named individual with properties	
 	public int addIndividual(SemSimObject ind) {
-		URI type = ind.getClassURI();
+		SemSimTypes type = ind.getType();
 		String iuri = ind.getURI().toString();
 		
-		String typeid = SPARQLConstants.classmap.get(type);
 		String ui = sinsertind;
 		ui = ui.replace("%i", iuri);
-		String data = "<" + iuri + "> a " + typeid + " .\n";
+		String data = "<" + iuri + "> a " + type.getSparqlCode() + " .\n";
 		data = data + "<" + iuri + "> rdfs:label '" + ind.getName() + "' .\n";
 		
-		if (type==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) {
+		if (type==SemSimTypes.KB_COMPOSITE_ENTITY) {
 			data = buildEntry((DBCompositeEntity)ind, data);
 		}
-		else if (type==SemSimKBConstants.KB_PROCESS_CLASS_URI) {
+		else if (type==SemSimTypes.KB_PHYSICAL_PROCESS) {
 			buildEntry((DBPhysicalProcess)ind, data);
 		}
-		else if (type==SemSimKBConstants.KB_MODEL_URI) {
+		else if (type==SemSimTypes.KB_MODEL) {
 			data = buildEntry((CompBioModel)ind, data);
 		}
+		
 		ui = ui.replace("%d", data);
 		
 		updateRemote(ui);
 		
-		if ((type==SemSimKBConstants.KB_COMPOSITE_CLASS_URI) || (type==SemSimKBConstants.KB_PROCESS_CLASS_URI)) {
+		if ((type==SemSimTypes.KB_COMPOSITE_ENTITY) || (type==SemSimTypes.KB_PHYSICAL_PROCESS)) {
 			DBPhysicalComponent dbc = (DBPhysicalComponent)ind;
 			if (!dbc.getPropertyList().isEmpty()) {
 				for (int i=0; i<dbc.getPropertyCount(); i++) {
@@ -79,14 +79,10 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	String buildEntry(DBCompositeEntity obj, String data) {
 		String ouri = obj.getURI().toString() ;
 		Pair<URI, URI> compuris = obj.getComponentURIs();
-		data = data + "<" + ouri + "> physkb:Has_Subcomponent <" +  compuris.getLeft().toString() + "> .\n";
+		data = data + "<" + ouri + "> " + StructuralRelation.INDEX_ENTITY_RELATION.getSparqlCode() + " <" +  compuris.getLeft().toString() + "> .\n";
 		if (compuris.getRight()!=null) {
 			data = data + "<" + ouri + "> ";
 			data = data + obj.getRelation().getSparqlCode() + " <" + compuris.getRight().toString() + "> .\n";
-		}
-
-		for (PhysicalProperty pp : obj.getPropertyList()) {
-			data = data + "<" + ouri + "> SemSim:hasPhysicalProperty <" + pp.getURI().toString() + "> .\n";
 		}
 
 		return data;

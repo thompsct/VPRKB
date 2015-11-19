@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLLiteral;
+
 import semsimKB.SemSimKBConstants;
 
 
@@ -17,6 +18,7 @@ public class CurationalMetadata {
 	
 	public static final URI MODEL_NAME_URI = URI.create(SEMSIM_NAMESPACE + "modelName");
 	public static final URI MODEL_DESCRIPTION_URI = URI.create(SEMSIM_NAMESPACE + "ModelDescription");
+	public static final URI KEYWORDS_URI = URI.create(SEMSIM_NAMESPACE + "Keywords");
 	public static final URI MODEL_ID_URI = URI.create(SEMSIM_NAMESPACE + "modelId");
 	public static final URI ANNOTATOR_NAME_URI = URI.create(SEMSIM_NAMESPACE + "AnnotatorName");
 	public static final URI ANNOTATOR_CONTACT_INFO_URI = URI.create(SEMSIM_NAMESPACE + "AnnotatorContactInfo");
@@ -49,7 +51,8 @@ public class CurationalMetadata {
 	public static final SemSimRelation CELLML_URL_RELATION = new SemSimRelation("the URL for the CellML version of the model", CELLML_URL_URI);
 	public static final SemSimRelation SBML_URL_RELATION = new SemSimRelation("the URL for the SBML version of the model", SBML_URL_URI);
 	public static final SemSimRelation JSIM_URL_RELATION = new SemSimRelation("the URL for the JSim version of the model", JSIM_URL_URI);
-	
+	public static final SemSimRelation KEYWORDS_RELATION = new SemSimRelation("keywords", KEYWORDS_URI);	
+
 	private LinkedHashMap<Metadata, String> curationmap = new LinkedHashMap<Metadata, String>();
 	
 	public CurationalMetadata() {
@@ -69,6 +72,7 @@ public class CurationalMetadata {
 	public enum Metadata {
 		fullname("Full Name", MODEL_NAME_RELATION, "dc:title"),
 		description("Description", MODEL_DESCRIPTION_RELATION, "dc:description"),
+		keywords("Keywords", KEYWORDS_RELATION, "SemSim:keyords"),
 		annotatorauthor("Annotator Name", ANNOTATOR_NAME_RELATION, "SemSim:annotator"),
 		annotatorcontact("Annotator Contact", ANNOTATOR_CONTACT_RELATION, "SemSim:annotatoremail"),
 		modelauthor("Model Author", MODELER_NAME_RELATION, "dc:creator"),

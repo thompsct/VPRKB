@@ -24,6 +24,7 @@ import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.model.CompBioModel;
+import semsimKB.model.SemSimTypes;
 import semsimKB.owl.KBOWLFactory;
 
 public class KBOWLwriter {
@@ -54,7 +55,7 @@ public class KBOWLwriter {
 		for (CompBioModel cbm : kb.getModels()) {
 			String modeluri = cbm.getURI().toString();
 			KBOWLFactory.createSemSimIndividual(ont, modeluri, 
-					factory.getOWLClass(IRI.create(SemSimKBConstants.KB_MODEL_URI.toString())), "", manager);
+					factory.getOWLClass(IRI.create(SemSimTypes.KB_MODEL.getURI())), "", manager);
 			KBOWLFactory.setRDFLabel(ont, factory.getOWLNamedIndividual(IRI.create(modeluri)), cbm.getName(), manager);	
 		}
 		//Get information for reference physical entities
@@ -95,7 +96,7 @@ public class KBOWLwriter {
 		String label = cpe.getName();
 
 		KBOWLFactory.createSemSimIndividual(ont, compuri.toString(), 
-				factory.getOWLClass(IRI.create(SemSimKBConstants.KB_COMPOSITE_CLASS_URI)), "", manager);		
+				factory.getOWLClass(IRI.create(SemSimTypes.KB_COMPOSITE_ENTITY.getURI())), "", manager);		
 
 		KBOWLFactory.setRDFLabel(ont, factory.getOWLNamedIndividual(IRI.create(compuri)), label, manager); 
 		StructuralRelation rel = cpe.getRelation();
@@ -104,7 +105,7 @@ public class KBOWLwriter {
 		Pair<URI, URI> ents = cpe.getComponentURIs();
 		
 		KBOWLFactory.setIndObjectProperty(ont, compuri.toString(), ents.getLeft().toString(),
-				StructuralRelation.SUBCOMPONENT_RELATION.getURIasString(), manager);
+				StructuralRelation.INDEX_ENTITY_RELATION.getURIasString(), manager);
 		// Establish structural relationship between parts of composite annotation
 		if (ents.getRight()!=null) {
 			KBOWLFactory.setIndObjectProperty(ont, compuri.toString(), ents.getRight().toString(),
