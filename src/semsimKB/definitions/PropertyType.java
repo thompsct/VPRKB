@@ -1,4 +1,4 @@
-package semsimKB.model.physical;
+package semsimKB.definitions;
 
 public enum PropertyType {
 	Unknown (0, "Constitutive"),

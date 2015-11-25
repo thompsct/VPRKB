@@ -17,12 +17,14 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.SemSimLibrary;
 import semsimKB.annotation.Annotation;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.RDFNamespace;
+import semsimKB.definitions.SemSimRelation;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 import semsimKB.model.ModelLite;
-import semsimKB.model.SemSimTypes;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
@@ -45,9 +47,9 @@ public class SemSimOWLreader {
 		setPhysicalDefinitionURI();
 		
 		model.setName(file.getName().substring(0, file.getName().lastIndexOf(".")));
-		model.setURI(URI.create(SemSimKBConstants.SEMSIM_NAMESPACE + model.getName()));
+		model.setURI(URI.create(RDFNamespace.SEMSIM_NAMESPACE.getNamespace() + model.getName()));
 		
-		OWLClass topclass = factory.getOWLClass(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "SemSim_component"));
+		OWLClass topclass = factory.getOWLClass(IRI.create(RDFNamespace.SEMSIM_NAMESPACE.getNamespace() + "SemSim_component"));
 		if(!ont.getClassesInSignature().contains(topclass)){
 			model.addError("Source file does not appear to be a valid KB model");
 			return model;
@@ -63,11 +65,11 @@ public class SemSimOWLreader {
 	
 	private void setPhysicalDefinitionURI(){
 		
-		if(ont.containsDataPropertyInSignature(IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "refersTo"))){
-			physicaldefinitionURI = URI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "refersTo");
+		if(ont.containsDataPropertyInSignature(IRI.create(RDFNamespace.SEMSIM_NAMESPACE.getNamespace() + "refersTo"))){
+			physicaldefinitionURI = URI.create(RDFNamespace.SEMSIM_NAMESPACE.getNamespace() + "refersTo");
 		}
-		else if(ont.containsDataPropertyInSignature(IRI.create(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_URI))){
-			physicaldefinitionURI = SemSimKBConstants.HAS_PHYSICAL_DEFINITION_URI;
+		else if(ont.containsDataPropertyInSignature(KBRelations.HAS_PHYSICAL_DEFINITION.getIRI())){
+			physicaldefinitionURI = KBRelations.HAS_PHYSICAL_DEFINITION.getURI();
 		}
 	}
 		
@@ -91,11 +93,12 @@ public class SemSimOWLreader {
 		//Add remaining annotations
 		for(OWLAnnotation ann : anns){
 			URI propertyuri = ann.getProperty().getIRI().toURI();
-			if(SemSimKBConstants.URIS_AND_SEMSIM_RELATIONS.containsKey(propertyuri)){
+			KBRelations rel = SemSimRelation.getRelationFromURI(propertyuri);
+			if(rel != KBRelations.UNKNOWN){
 				if(ann.getValue() instanceof OWLLiteral){
 					OWLLiteral val = (OWLLiteral) ann.getValue();
 					
-					model.addAnnotation(new Annotation(SemSimKBConstants.getRelationFromURI(propertyuri), val.getLiteral()));
+					model.addAnnotation(new Annotation(rel, val.getLiteral()));
 				}
 			}
 		}
@@ -124,7 +127,7 @@ public class SemSimOWLreader {
 			String ind = SemSimOWLFactory.getFunctionalIndObjectProperty(ont, cperef.toString(), StructuralRelation.INDEX_ENTITY_RELATION.getURIasString());
 			ArrayList<ReferencePhysicalEntity> rpes = new ArrayList<ReferencePhysicalEntity>();
 			ArrayList<StructuralRelation> rels = new ArrayList<StructuralRelation>();
-			Set<String> pps = SemSimOWLFactory.getIndObjectProperty(ont, ind, SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
+			Set<String> pps = SemSimOWLFactory.getIndObjectProperty(ont, ind, KBRelations.HAS_PHYSICAL_PROPERTY.getURIasString());
 			
 			ReferencePhysicalEntity rpe = getClassofIndividual(ind);
 			if (rpe == null) continue;

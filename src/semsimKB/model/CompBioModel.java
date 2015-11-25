@@ -5,10 +5,11 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
+import semsimKB.definitions.RDFNamespace;
+import semsimKB.definitions.SemSimTypes;
 import semsimKB.model.data.KBDataComponent;
 
 public class CompBioModel extends SemSimObject {
@@ -25,7 +26,7 @@ public class CompBioModel extends SemSimObject {
 		setName(model.getName());
 		setDescription(model.getDescription());
 		setURI(URI.create(
-				SemSimKBConstants.VPR_NAMESPACE + getName()));
+				RDFNamespace.VPR_NAMESPACE + getName()));
 		metadata.importMetadata(model.getCurationalMetadata(), true);
 	}
 	

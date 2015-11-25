@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.tuple.Pair;
-import semsimKB.annotation.StructuralRelation;
+
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
 import semsimKB.model.kbbuffer.KBCompositeObject;

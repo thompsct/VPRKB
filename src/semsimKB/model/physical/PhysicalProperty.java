@@ -2,8 +2,8 @@ package semsimKB.model.physical;
 
 import java.net.URI;
 
-import semsimKB.SemSimKBConstants;
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 
 public class PhysicalProperty extends PhysicalModelComponent{
 
@@ -13,7 +13,7 @@ public class PhysicalProperty extends PhysicalModelComponent{
 	public PhysicalProperty(String name, URI uri) {
 		super(SemSimTypes.PHYSICAL_PROPERTY);
 		setURI(uri);
-		addReferenceOntologyAnnotation(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION, uri, uri.toString());
+		addReferenceOntologyAnnotation(KBRelations.HAS_PHYSICAL_DEFINITION, uri, uri.toString());
 		setName(name);
 	}
 	

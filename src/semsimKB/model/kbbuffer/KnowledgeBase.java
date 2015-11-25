@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalProcess;

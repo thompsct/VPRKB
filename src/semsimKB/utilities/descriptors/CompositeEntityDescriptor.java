@@ -3,7 +3,7 @@ package semsimKB.utilities.descriptors;
 import java.util.ArrayList;
 import java.util.Set;
 
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.PhysicalEntity;
 import semsimKB.model.physical.PhysicalProperty;

@@ -10,11 +10,11 @@ import java.net.URI;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
-import semsimKB.SemSimKBConstants;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.RDFNamespace;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.ModelLite;
-import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.CompositePhysicalEntity;
@@ -52,7 +52,7 @@ public class KBBufferOperations {
 	//Load all reference components from the model
 	public void compareModeltoKB(ArrayList<CompositePhysicalEntity> cpes) {
 		//Check if model already in KB
-		URI moduri = URI.create(SemSimKBConstants.VPR_NAMESPACE + model.getName());
+		URI moduri = URI.create(RDFNamespace.VPR_NAMESPACE.getNamespace() + model.getName());
 		if (!kbinterface.getElementwithURI(moduri, false)) {
 			localdbmodel = new CompBioModel(model);
 			localdbmodel.setURI(moduri);
@@ -297,7 +297,7 @@ public class KBBufferOperations {
 	
 	private URI createURIforComponent() {
 		Date newdate = new Date();
-		String name = SemSimKBConstants.VPR_NAMESPACE + newdate.getTime();
+		String name = RDFNamespace.VPR_NAMESPACE.getNamespace() + newdate.getTime();
 		if (!newdate.after(date)) {
 			name = name + String.valueOf(dbcint);
 			dbcint++;

@@ -2,6 +2,8 @@ package semsimKB.model;
 
 import java.net.URI;
 
+import semsimKB.definitions.SemSimTypes;
+
 public abstract class SemSimObject {
 	private String name = new String("");
 	private String description = new String("");

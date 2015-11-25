@@ -2,8 +2,8 @@ package semsimKB.model.physical;
 
 import java.util.ArrayList;
 
-import semsimKB.annotation.StructuralRelation;
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
 
 public class CompositePhysicalEntity extends PhysicalModelComponent implements Comparable<CompositePhysicalEntity>, PhysicalEntity{
 	

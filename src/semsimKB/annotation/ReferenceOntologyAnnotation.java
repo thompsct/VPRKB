@@ -2,9 +2,10 @@ package semsimKB.annotation;
 
 import java.net.URI;
 
+import semsimKB.definitions.ReferenceOntologies;
+import semsimKB.definitions.SemSimRelation;
+import semsimKB.definitions.ReferenceOntologies.ReferenceOntology;
 import semsimKB.owl.KBOWLFactory;
-import semsimKB.owl.ReferenceOntologies;
-import semsimKB.owl.ReferenceOntologies.ReferenceOntology;
 
 /**
  * A type of Annotation where the annotation value is a URI
@@ -25,7 +26,7 @@ public class ReferenceOntologyAnnotation extends Annotation{
 	 * @param uri The URI annotation value
 	 * @param description A free-text description of the resource corresponding to the URI
 	 */
-	public ReferenceOntologyAnnotation(SemSimRelation relation, URI uri, String valueDescription){
+	public ReferenceOntologyAnnotation(SemSimRelation.KBRelations relation, URI uri, String valueDescription){
 		super(relation, uri);
 		setReferenceURI(uri);
 		setReferenceOntology(uri);

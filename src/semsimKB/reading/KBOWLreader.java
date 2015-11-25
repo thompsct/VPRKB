@@ -20,10 +20,10 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import semsimKB.SemSimKBConstants;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 import semsimKB.model.CompBioModel;
-import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
@@ -97,16 +97,16 @@ public class KBOWLreader {
 		
 		setCompositeComponents(dpe);
 		
-		Set<String> pps = KBOWLFactory.getIndObjectProperty(ont, compind.toString(), SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString());
+		Set<String> pps = KBOWLFactory.getIndObjectProperty(ont, compind.toString(), KBRelations.HAS_PHYSICAL_PROPERTY.getURIasString());
 		for (String pp : pps) {
 			PhysicalProperty pptoadd = KBModel.getPropertybyURI(URI.create(pp));
 			OWLIndividual ppind = factory.getOWLNamedIndividual(IRI.create(pp));
 			OWLIndividual entind = factory.getOWLNamedIndividual(IRI.create(compind.toString()));
-			OWLObjectProperty owlprop = factory.getOWLObjectProperty(IRI.create(SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString()));
+			OWLObjectProperty owlprop = factory.getOWLObjectProperty(KBRelations.HAS_PHYSICAL_PROPERTY.getIRI());
 			
 			OWLIndividualAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(owlprop, entind, ppind);
 			
-			OWLAnnotationProperty annprop = factory.getOWLAnnotationProperty(IRI.create(SemSimKBConstants.BQM_IS_DESCRIBED_BY_URI));
+			OWLAnnotationProperty annprop = factory.getOWLAnnotationProperty(KBRelations.BQM_IS_DESCRIBED_BY.getIRI());
 			for(OWLAxiom ax : ont.getAxioms(entind)){
 				if(ax.equalsIgnoreAnnotations(axiom)){
 					if(!ax.getAnnotations(annprop).isEmpty()){

@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.annotation.CurationalMetadata.Metadata;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
-import semsimKB.model.SemSimTypes;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
@@ -165,7 +165,7 @@ public class RemoteKnowledgeBaseInterface extends KnowledgeBaseInterface {
 		}
 		dbc.setComponents(Pair.of(pe1, pe2));
 		
-		LinkedList<String> results = sparql.getMultModelProperty("model-qualifiers:isDerivedFrom", dbc.getURI());
+		LinkedList<String> results = sparql.getMultModelProperty("bqm:isDerivedFrom", dbc.getURI());
 		
 		for (String rslt : results) {
 			URI muri = URI.create(rslt);

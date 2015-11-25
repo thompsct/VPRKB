@@ -1,20 +1,19 @@
 package semsimKB.annotation;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import semsimKB.SemSimKBConstants;
+import semsimKB.definitions.RDFNamespace;
 
 
 public class CurationalMetadata {
 	public static final String DCTERMS_NAMESPACE = "http://purl.org/dc/terms/";
 	public static final String DCTERMS_NAMESPACE_11 = "http://purl.org/dc/elements/1.1/";
-	private static String SEMSIM_NAMESPACE = SemSimKBConstants.SEMSIM_NAMESPACE;
+	private static String SEMSIM_NAMESPACE = RDFNamespace.SEMSIM_NAMESPACE.getNamespace();
 	
 	public static final URI MODEL_NAME_URI = URI.create(SEMSIM_NAMESPACE + "modelName");
 	public static final URI MODEL_DESCRIPTION_URI = URI.create(SEMSIM_NAMESPACE + "ModelDescription");
@@ -35,23 +34,9 @@ public class CurationalMetadata {
 	public static final URI JSIM_URL_URI = URI.create(SEMSIM_NAMESPACE + "jsimURL");
 	
 	// Model-level relations
-	public static final SemSimRelation MODEL_ID_RELATION = new SemSimRelation("the ID of the model from which the SemSim model was generated", MODEL_ID_URI);
-	public static final SemSimRelation MODEL_NAME_RELATION = new SemSimRelation("a human-readable name for the model", MODEL_NAME_URI);
-	public static final SemSimRelation MODEL_DESCRIPTION_RELATION = new SemSimRelation("a free-text description of the model", MODEL_DESCRIPTION_URI);	
-	public static final SemSimRelation ANNOTATOR_NAME_RELATION = new SemSimRelation("who to contact about the annotations in the model", ANNOTATOR_NAME_URI);	
-	public static final SemSimRelation ANNOTATOR_CONTACT_RELATION = new SemSimRelation("email address of annotator", ANNOTATOR_CONTACT_INFO_URI);
-	public static final SemSimRelation MODELER_NAME_RELATION = new SemSimRelation("who to contact about the model", MODELER_NAME_URI);	
-	public static final SemSimRelation MODELER_CONTACT_RELATION = new SemSimRelation("email address of modeler", MODELER_CONTACT_INFO_URI);	
-	
-	public static final SemSimRelation REFERENCE_PUBLICATION_PUBMED_ID_RELATION = new SemSimRelation("the PubMed ID of the model's reference publication", REFERENCE_PUBLICATION_PUBMED_ID_URI);
-	public static final SemSimRelation REFERENCE_PUBLICATION_ABSTRACT_TEXT_RELATION = new SemSimRelation("the abstract text of the model's reference publication", REFERENCE_PUBLICATION_ABSTRACT_TEXT_URI);
-	public static final SemSimRelation REFERENCE_PUBLICATION_CITATION_RELATION = new SemSimRelation("the citation for the reference publication", REFERENCE_PUBLICATION_CITATION_URI);
-	
-	public static final SemSimRelation MATLAB_URL_RELATION = new SemSimRelation("the URL for the Matlab version of the model", MATLAB_URL_URI);
-	public static final SemSimRelation CELLML_URL_RELATION = new SemSimRelation("the URL for the CellML version of the model", CELLML_URL_URI);
-	public static final SemSimRelation SBML_URL_RELATION = new SemSimRelation("the URL for the SBML version of the model", SBML_URL_URI);
-	public static final SemSimRelation JSIM_URL_RELATION = new SemSimRelation("the URL for the JSim version of the model", JSIM_URL_URI);
-	public static final SemSimRelation KEYWORDS_RELATION = new SemSimRelation("keywords", KEYWORDS_URI);	
+	//REFERENCE_PUBLICATION_PUBMED_ID_RELATION = new SemSimRelation("the PubMed ID of the model's reference publication", REFERENCE_PUBLICATION_PUBMED_ID_URI);
+	//REFERENCE_PUBLICATION_ABSTRACT_TEXT_RELATION = new SemSimRelation("the abstract text of the model's reference publication", REFERENCE_PUBLICATION_ABSTRACT_TEXT_URI);
+	//REFERENCE_PUBLICATION_CITATION_RELATION = new SemSimRelation("the citation for the reference publication", REFERENCE_PUBLICATION_CITATION_URI);
 
 	private LinkedHashMap<Metadata, String> curationmap = new LinkedHashMap<Metadata, String>();
 	
@@ -70,25 +55,29 @@ public class CurationalMetadata {
 	}
 	
 	public enum Metadata {
-		fullname("Full Name", MODEL_NAME_RELATION, "dc:title"),
-		description("Description", MODEL_DESCRIPTION_RELATION, "dc:description"),
-		keywords("Keywords", KEYWORDS_RELATION, "SemSim:keyords"),
-		annotatorauthor("Annotator Name", ANNOTATOR_NAME_RELATION, "SemSim:annotator"),
-		annotatorcontact("Annotator Contact", ANNOTATOR_CONTACT_RELATION, "SemSim:annotatoremail"),
-		modelauthor("Model Author", MODELER_NAME_RELATION, "dc:creator"),
-		modelcontact("Model Contact", MODELER_CONTACT_RELATION, "SemSim:creatoremail"),
-		sourcemodelid("Source Model ID", MODEL_ID_RELATION, "rdf:id"),
-		cellmlurl("CellML URL",CELLML_URL_RELATION, "SemSim:cellmlloc"),
-		matlaburl("Matlab URL",MATLAB_URL_RELATION, "SemSim:matlabloc"),
-		mmlurl("JSim URL",JSIM_URL_RELATION, "SemSim:jsimloc"),
-		sbmlurl("SBML URL",SBML_URL_RELATION, "SemSim:sbmlloc");
+		fullname("Full Name", "a human-readable name for the model", MODEL_NAME_URI, "dc:title"),
+		description("Description", "a free-text description of the model", MODEL_DESCRIPTION_URI, "dc:description"),
+		keywords("Keywords", "keywords", KEYWORDS_URI, "SemSim:keyords"),
+		annotatorauthor("Annotator Name", "who to contact about the annotations in the model", ANNOTATOR_NAME_URI, "SemSim:annotator"),
+		annotatorcontact("Annotator Contact", "email address of annotator", ANNOTATOR_CONTACT_INFO_URI, "SemSim:annotatoremail"),
+		modelauthor("Model Author", "who to contact about the model", MODELER_NAME_URI, "dc:creator"),
+		modelcontact("Model Contact", "email address of modeler", MODELER_CONTACT_INFO_URI, "SemSim:creatoremail"),
+		sourcemodelid("Source Model ID", "the ID of the model from which the SemSim model was generated", MODEL_ID_URI, "rdf:id"),
+		cellmlurl("CellML URL","the URL for the CellML version of the model", CELLML_URL_URI, "SemSim:cellmlloc"),
+		matlaburl("Matlab URL","the URL for the Matlab version of the model", MATLAB_URL_URI, "SemSim:matlabloc"),
+		mmlurl("JSim URL","the URL for the JSim version of the model", JSIM_URL_URI, "SemSim:jsimloc"),
+		sbmlurl("SBML URL","the URL for the SBML version of the model", SBML_URL_URI, "SemSim:sbmlloc");
 		
 		private final String text;
-		private final SemSimRelation relation;
+		private final URI uri;
+		private final String metadatadescription;
 		private final String sparqlcode;
-		private Metadata(final String text, SemSimRelation rel, String spqlcode) {
+		
+		
+		private Metadata(final String text, String desc, URI uri, String spqlcode) {
 		   this.text = text;
-		   relation = rel;
+		   this.uri = uri;
+		   this.metadatadescription = desc;
 		   sparqlcode = spqlcode;
 		}
 	
@@ -97,12 +86,12 @@ public class CurationalMetadata {
 		   return text;
 		}
 			 
-		 protected SemSimRelation getRelation() {
-			 return relation;
-		 }
-		 
+		public String getDescription() {
+			return metadatadescription;
+		}
+		
 		 public URI getURI() {
-			 return relation.getURI();
+			 return uri;
 		 }
 		 
 		 public String getSparqlCode() {
@@ -126,19 +115,6 @@ public class CurationalMetadata {
 		return !curationmap.get(item).isEmpty();
 	}
 	
-	 public Annotation getAsAnnotation(Metadata item) {
-		 return new Annotation(item.getRelation(), curationmap.get(item));
-	 }
-	
-	public ArrayList<Annotation> getAnnotationList() {
-		ArrayList<Annotation> list = new  ArrayList<Annotation>();
-		for (Metadata m : Metadata.values()) {
-			if (hasAnnotationValue(m)) {
-				list.add(getAsAnnotation(m));
-			}
-		}
-		return list;
-	}
 	
 	public boolean isItemValueEqualto(Metadata item, String value) {
 		return curationmap.get(item).equals(value);

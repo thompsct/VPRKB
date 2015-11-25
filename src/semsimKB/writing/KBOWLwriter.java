@@ -16,15 +16,16 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import semsimKB.SemSimKBConstants;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.RDFNamespace;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 import semsimKB.model.kbbuffer.KnowledgeBase;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.PhysicalModelComponent;
 import semsimKB.model.physical.PhysicalProperty;
 import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.model.CompBioModel;
-import semsimKB.model.SemSimTypes;
 import semsimKB.owl.KBOWLFactory;
 
 public class KBOWLwriter {
@@ -34,8 +35,8 @@ public class KBOWLwriter {
 	private OWLOntologyManager manager;
 	protected OWLOntology ont;
 	public OWLDataFactory factory;
-	public String vprbase = SemSimKBConstants.VPR_NAMESPACE;
-	public String SemSimbase = SemSimKBConstants.SEMSIM_NAMESPACE;
+	public String vprbase = RDFNamespace.VPR_NAMESPACE.getNamespace();
+	public String SemSimbase = RDFNamespace.SEMSIM_NAMESPACE.getNamespace();
 	
 	public KBOWLwriter(KnowledgeBase masterKB, File localkb) {
 		kb = masterKB; 
@@ -119,10 +120,10 @@ public class KBOWLwriter {
 			anns.clear();
 			for (CompBioModel mod :cpe.getPropertyModelList(cpepp)) {
 				String moduri =	mod.getURI().toString();		
-				ann = factory.getOWLAnnotation(factory.getOWLAnnotationProperty(IRI.create(SemSimKBConstants.BQM_IS_DESCRIBED_BY_URI)), IRI.create(moduri));
+				ann = factory.getOWLAnnotation(factory.getOWLAnnotationProperty(KBRelations.BQM_IS_DESCRIBED_BY.getIRI()), IRI.create(moduri));
 				anns.add(ann);
 			}
-			KBOWLFactory.setIndObjectPropertyWithAnnotations(ont, compuri.toString(), cpepp.getURI().toString(), SemSimKBConstants.HAS_PHYSICAL_PROPERTY_URI.toString(), anns, manager);
+			KBOWLFactory.setIndObjectPropertyWithAnnotations(ont, compuri.toString(), cpepp.getURI().toString(), KBRelations.HAS_PHYSICAL_PROPERTY.getURIasString(), anns, manager);
 		}
 				
 		return compuri;

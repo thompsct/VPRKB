@@ -337,7 +337,7 @@ public class vprSPARQL {
 	//Count number of instance
 	public int countObj(String type) {
 		host = server + "query";
-		String qs = makePrefixString("owl") + cons.ocount;
+		String qs = makePrefixString("owl") + hasPrefix(type) + cons.ocount;
 		qs = qs.replace("%t", type);
 		
 		Query query = QueryFactory.create(qs);
@@ -353,7 +353,8 @@ public class vprSPARQL {
 	//Get all physical properties associated with composite
 	public LinkedList<String> getComponentPropertyList(URI cmpturi) {
 		host = server + "query";
-		String qs = makePrefixString("owl") + makePrefixString("physkb") + cons.axproplist;
+		String qs = makePrefixString("owl") + makePrefixString("physkb") + makePrefixString("bqm") 
+				+ makePrefixString("semsim") + cons.axproplist;
 		qs = qs.replace("%s", "<" + cmpturi.toString() + ">");
 		
 		Query query = QueryFactory.create(qs);
@@ -368,7 +369,7 @@ public class vprSPARQL {
 	//Get all property/model relations associated with composite
 	public LinkedList<String> getComponentPropModelMap(URI cmpturi, URI property) {
 		host = server + "query";
-		String qs = makePrefixString("owl") + makePrefixString("model-qualifiers") + cons.axpropmodlist;
+		String qs = makePrefixString("owl") + makePrefixString("bqm") + makePrefixString("semsim") + cons.axpropmodlist;
 		qs = qs.replace("%s", "<" + cmpturi.toString() + ">");
 		qs = qs.replace("%p", "<" + property.toString() + ">");
 		

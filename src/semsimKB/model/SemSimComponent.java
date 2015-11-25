@@ -1,5 +1,7 @@
 package semsimKB.model;
 
+import semsimKB.definitions.SemSimTypes;
+
 /**
  * A SemSim model element. A {@link SemSimModel} extends this class as well.
  */

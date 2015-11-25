@@ -3,9 +3,9 @@ package semsimKB.model.physical;
 import java.net.URI;
 import java.util.ArrayList;
 
+import semsimKB.definitions.SemSimTypes;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimComponent;
-import semsimKB.model.SemSimTypes;
 
 public abstract class DBPhysicalComponent extends SemSimComponent {
 	protected ArrayList<CompBioModel> models = new ArrayList<CompBioModel>();

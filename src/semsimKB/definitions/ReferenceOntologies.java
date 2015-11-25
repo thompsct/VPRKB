@@ -1,4 +1,4 @@
-package semsimKB.owl;
+package semsimKB.definitions;
 
 import java.util.ArrayList;
 

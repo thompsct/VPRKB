@@ -1,5 +1,7 @@
 package semsimKB.annotation;
 
+import semsimKB.definitions.SemSimRelation.KBRelations;
+
 /**
  * A SemSim annotation provides additional information about
  * a SemSim model or one of its components. Annotations can be used
@@ -9,7 +11,7 @@ package semsimKB.annotation;
 public class Annotation implements Cloneable{
 	
 	protected String valueDescription;
-	protected SemSimRelation relation;
+	protected KBRelations relation;
 	protected Object value;
 	
 	
@@ -19,7 +21,7 @@ public class Annotation implements Cloneable{
 	 * and the annotation value
 	 * @param value The annotation value
 	 */
-	public Annotation(SemSimRelation relation, Object value){
+	public Annotation(KBRelations relation, Object value){
 		this.relation = relation;
 		this.setValue(value);
 	}
@@ -31,7 +33,7 @@ public class Annotation implements Cloneable{
 	 * @param value The annotation value
 	 * @param valueDescription A free-text description of the annotation value
 	 */
-	public Annotation(SemSimRelation relation, Object value, String valueDescription){
+	public Annotation(KBRelations relation, Object value, String valueDescription){
 		this.relation = relation;
 		setValue(value);
 		setValueDescription(valueDescription);
@@ -56,14 +58,14 @@ public class Annotation implements Cloneable{
 	 * Set the relationship between the object being annotated and the annotation value
 	 * @param relation
 	 */
-	public void setRelation(SemSimRelation relation) {
+	public void setRelation(KBRelations relation) {
 		this.relation = relation;
 	}
 
 	/**
 	 * @return The relationship between the object being annotated and the annotation value
 	 */
-	public SemSimRelation getRelation() {
+	public KBRelations getRelation() {
 		return relation;
 	}
 	

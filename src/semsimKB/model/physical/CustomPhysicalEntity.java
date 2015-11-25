@@ -1,6 +1,6 @@
 package semsimKB.model.physical;
 
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
 
 
 public class CustomPhysicalEntity extends PhysicalModelComponent implements PhysicalEntity{

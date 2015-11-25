@@ -5,12 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import semsimKB.Annotatable;
-import semsimKB.SemSimKBConstants;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
-import semsimKB.annotation.SemSimRelation;
+import semsimKB.definitions.SemSimRelation;
+import semsimKB.definitions.SemSimTypes;
 import semsimKB.model.SemSimComponent;
-import semsimKB.model.SemSimTypes;
 
 public abstract class PhysicalModelComponent extends SemSimComponent implements Annotatable {
 	private Set<Annotation> annotations = new HashSet<Annotation>();
@@ -34,11 +33,11 @@ public abstract class PhysicalModelComponent extends SemSimComponent implements 
 		annotations.add(ann);
 	}
 	
-	public void addReferenceOntologyAnnotation(SemSimRelation relation, URI uri, String description){
+	public void addReferenceOntologyAnnotation(SemSimRelation.KBRelations relation, URI uri, String description){
 		addAnnotation(new ReferenceOntologyAnnotation(relation, uri, description));
 	}
 
-	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(SemSimRelation relation) {
+	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(SemSimRelation.KBRelations relation) {
 		Set<ReferenceOntologyAnnotation> raos = new HashSet<ReferenceOntologyAnnotation>();
 		for(Annotation ann : getAnnotations()){
 			if(ann instanceof ReferenceOntologyAnnotation && ann.getRelation()==relation){
@@ -50,14 +49,14 @@ public abstract class PhysicalModelComponent extends SemSimComponent implements 
 	
 	
 	public ReferenceOntologyAnnotation getFirstRefersToReferenceOntologyAnnotation(){
-		if(!getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).isEmpty()){
-			return getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
+		if(!getReferenceOntologyAnnotations(SemSimRelation.KBRelations.HAS_PHYSICAL_DEFINITION).isEmpty()){
+			return getReferenceOntologyAnnotations(SemSimRelation.KBRelations.HAS_PHYSICAL_DEFINITION).toArray(new ReferenceOntologyAnnotation[]{})[0];
 		}
 		return null;
 	}
 	
 	public ReferenceOntologyAnnotation getRefersToReferenceOntologyAnnotationByURI(URI uri){
-		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
+		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimRelation.KBRelations.HAS_PHYSICAL_DEFINITION)){
 			if(ann.getReferenceURI().compareTo(uri)==0){
 				return ann;
 			}

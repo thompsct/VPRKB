@@ -6,10 +6,11 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.SemSimObject;
-import semsimKB.model.SemSimTypes;
 import semsimKB.model.physical.DBCompositeEntity;
 import semsimKB.model.physical.DBPhysicalComponent;
 import semsimKB.model.physical.DBPhysicalProcess;
@@ -25,16 +26,16 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	public final String sinsertind = "INSERT  {<%i> a owl:NamedIndividual .\n  %d} "
 			+ "WHERE { FILTER NOT EXISTS { <%i> a owl:NamedIndividual }}";
 	//Add model to individual
-	public final String inmodel = "INSERT  {<%i> model-qualifiers:isDerivedFrom <%m>} "
-			+ "WHERE { FILTER NOT EXISTS { <%i> model-qualifiers:isDerivedFrom <%m> }}";
+	public final String inmodel = "INSERT  {<%i> " + KBRelations.BQB_IS_VERSION_OF.getSPARQLCode() + " <%m>} "
+			+ "WHERE { FILTER NOT EXISTS { <%i> " + KBRelations.BQB_IS_VERSION_OF.getSPARQLCode() + " <%m> }}";
 	//Insert axiom for property of individual
-	public final String sinsertax = "INSERT  { physkb:Ax%n a owl:Axiom. "
-			+ "physkb:Ax%n owl:annotatedSource <%s>. physkb:Ax%n owl:annotatedTarget <%t>}" 
-			+ "WHERE { FILTER NOT EXISTS { ?a owl:annotatedSource <%s>. ?a owl:annotatedTarget <%t> }}";
+	public final String sinsertax = "INSERT  { physkb:Propertyof%n a " + SemSimTypes.PROPERTYOF_INSTANCE.getSparqlCode() + ". "
+			+ "physkb:Propertyof%n " + KBRelations.BQM_IS.getSPARQLCode() + " <%s>. physkb:Propertyof%n " + KBRelations.PHYSICAL_PROPERTY_OF.getSPARQLCode() + " <%t>}" 
+			+ "WHERE { FILTER NOT EXISTS { ?a " + KBRelations.BQM_IS.getSPARQLCode() + " <%s>. ?a " + KBRelations.PHYSICAL_PROPERTY_OF.getSPARQLCode() + " <%t> }}";
 	//Update model/property mappings
-	public final String addppmod = "INSERT  {?Axiom model-qualifiers:isDescribedBy <%m>} "
-			+ "WHERE {?Axiom owl:annotatedSource <%s>. ?Axiom owl:annotatedTarget <%t>."
-			+ "FILTER NOT EXISTS {?Axiom model-qualifiers:isDescribedBy <%m>}}";
+	public final String addppmod = "INSERT  {?Axiom " + KBRelations.BQM_IS_DESCRIBED_BY.getSPARQLCode() + " <%m>} "
+			+ "WHERE {?Axiom " + KBRelations.BQM_IS.getSPARQLCode() + " <%s>. ?Axiom " + KBRelations.PHYSICAL_PROPERTY_OF.getSPARQLCode() + " <%t>."
+			+ "FILTER NOT EXISTS {?Axiom " + KBRelations.BQM_IS_DESCRIBED_BY.getSPARQLCode() + " <%m>}}";
 	
 	
 	public VPRSPARQLWrite(Settings global) {
@@ -115,9 +116,9 @@ public class VPRSPARQLWrite extends vprSPARQL {
 	
 	//Annotate individual with property map
 	protected void addPropertyAxiom(URI dpc, URI puri) {
-		int n = countObj("owl:Axiom")+1;
+		int n = countObj(SemSimTypes.PROPERTYOF_INSTANCE.getSparqlCode())+1;
 		
-		String ui = makePrefixString("owl") + sinsertax;
+		String ui = makePrefixString("owl") + makePrefixString("physkb") + sinsertax;
 		
 		ui = ui.replace("%n", String.valueOf(n));
 		ui = ui.replace("%s", dpc.toString());

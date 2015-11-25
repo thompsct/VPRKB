@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.StructuralRelation;
 import semsimKB.model.CompBioModel;
 import semsimKB.model.kbbuffer.KBCompositeObject;
 import semsimKB.model.physical.DBCompositeEntity;

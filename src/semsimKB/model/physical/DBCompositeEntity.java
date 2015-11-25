@@ -4,8 +4,8 @@ import java.net.URI;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import semsimKB.annotation.StructuralRelation;
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
 
 public class DBCompositeEntity extends DBPhysicalComponent implements PhysicalEntity{
 		private Pair<PhysicalEntity, PhysicalEntity> componententities = null;

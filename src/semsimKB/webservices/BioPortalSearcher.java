@@ -17,8 +17,8 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import semsimKB.SemSimKBConstants;
 import semsimKB.owl.KBOWLFactory;
 
 
@@ -26,6 +26,8 @@ public class BioPortalSearcher {
 	public String currentonturistring;
 	public Hashtable<String,String> rdflabelsanduris = new Hashtable<String,String>();
 	public Hashtable<String,String> classnamesandshortconceptids = new Hashtable<String,String>();
+	public static final String BIOPORTAL_API_KEY = "c4192e4b-88a8-4002-ad08-b4636c88df1a";
+	private final static ObjectMapper JSON_OBJECT_MAPPER = new ObjectMapper();
 	
 	public void search(String text, String bioportalID, int exactmatch) throws IOException, JDOMException{
 		SAXBuilder builder = new SAXBuilder();
@@ -39,7 +41,7 @@ public class BioPortalSearcher {
 				"http://data.bioontology.org/search?q="
 						+ text + "&ontologies="
 						+ bioportalID + "&format=xml" + "&exact_match=" + exactmatchbool
-						+ "&apikey=" + SemSimKBConstants.BIOPORTAL_API_KEY);
+						+ "&apikey=" + BIOPORTAL_API_KEY);
 		
 		System.out.println(url);
 		URLConnection yc = url.openConnection();
@@ -86,7 +88,7 @@ public class BioPortalSearcher {
 	        String result = "";
 	        conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("GET");
-	        conn.setRequestProperty("Authorization", "apikey token=" + SemSimKBConstants.BIOPORTAL_API_KEY);
+	        conn.setRequestProperty("Authorization", "apikey token=" + BIOPORTAL_API_KEY);
 	        conn.setRequestProperty("Accept", "application/json");
 			conn.setReadTimeout(60000); // Timeout after a minute
 
@@ -99,7 +101,7 @@ public class BioPortalSearcher {
 	        
 	        // process resulting input stream
 	        JsonNode root = null;
-            root = SemSimKBConstants.JSON_OBJECT_MAPPER.readTree(result);
+            root = JSON_OBJECT_MAPPER.readTree(result);
             JsonNode labelnode = root.get("prefLabel");
             if(labelnode!=null)
             	label = labelnode.textValue();

@@ -2,7 +2,7 @@ package semsimKB.model.physical;
 
 import java.net.URI;
 
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
 
 public interface PhysicalEntity {
 	

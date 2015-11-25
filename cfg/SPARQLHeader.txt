@@ -10,3 +10,5 @@ semsim http://www.bhi.washington.edu/SemSim#
 model-qualifiers http://biomodels.net/model-qualifiers/
 dc http://purl.org/dc/elements/1.1/
 dcterms http://purl.org/dc/terms/
+bqb http://biomodels.net/biology-qualifiers/
+bqm http://biomodels.net/model-qualifiers/

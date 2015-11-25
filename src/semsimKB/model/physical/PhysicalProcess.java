@@ -3,7 +3,7 @@ package semsimKB.model.physical;
 import java.util.HashSet;
 import java.util.Set;
 
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
 
 public class PhysicalProcess extends PhysicalModelComponent {
 

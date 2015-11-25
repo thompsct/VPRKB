@@ -11,13 +11,16 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.IRI;
 
 import semsimKB.Annotatable;
-import semsimKB.SemSimKBConstants;
+import semsimKB.SemSimLibrary;
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.CurationalMetadata;
 import semsimKB.annotation.CurationalMetadata.Metadata;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
-import semsimKB.annotation.SemSimRelation;
-import semsimKB.annotation.StructuralRelation;
+import semsimKB.definitions.RDFNamespace;
+import semsimKB.definitions.SemSimRelation;
+import semsimKB.definitions.SemSimTypes;
+import semsimKB.definitions.StructuralRelation;
+import semsimKB.definitions.SemSimRelation.KBRelations;
 import semsimKB.model.physical.CompositePhysicalEntity;
 import semsimKB.model.physical.CustomPhysicalProcess;
 import semsimKB.model.physical.PhysicalEntity;
@@ -28,7 +31,7 @@ import semsimKB.model.physical.ReferencePhysicalEntity;
 import semsimKB.model.physical.ReferencePhysicalProcess;
 
 public class ModelLite extends SemSimObject implements Annotatable {	
-	public static final IRI LEGACY_CODE_LOCATION_IRI = IRI.create(SemSimKBConstants.SEMSIM_NAMESPACE + "legacyCodeURI");
+	public static final IRI LEGACY_CODE_LOCATION_IRI = IRI.create(RDFNamespace.SEMSIM_NAMESPACE + "legacyCodeURI");
 	private double semsimversion;
 	//Physical Model Components
 	private CurationalMetadata metadata = new CurationalMetadata();
@@ -44,7 +47,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	protected String namespace;
 	
 	protected static SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmssSSSZ");
-	protected double semSimVersion = SemSimKBConstants.SEMSIM_VERSION;
+	protected double semSimVersion = SemSimLibrary.SEMSIM_VERSION;
 	protected int sourceModelType;
 	private String sourcefilelocation;
 	
@@ -274,7 +277,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 */
 	public PhysicalModelComponent getPhysicalModelComponentByReferenceURI(URI uri){
 		for(PhysicalModelComponent pmcomp : getPhysicalModelComponents()){
-			for(ReferenceOntologyAnnotation ann : pmcomp.getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
+			for(ReferenceOntologyAnnotation ann : pmcomp.getReferenceOntologyAnnotations(KBRelations.HAS_PHYSICAL_DEFINITION)){
 				if(ann.getReferenceURI().compareTo(uri)==0) return pmcomp;
 			}
 		}
@@ -363,7 +366,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * @return A new SemSim model namespace from the current date and time
 	 */
 	public String generateNamespaceFromDateAndTime(){
-		namespace = SemSimKBConstants.SEMSIM_NAMESPACE.replace("#", "/" + sdf.format(new Date()).replace("-", "m").replace("+", "p") + "#");
+		namespace = RDFNamespace.SEMSIM_NAMESPACE.getNamespace().replace("#", "/" + sdf.format(new Date()).replace("-", "m").replace("+", "p") + "#");
 		return namespace;
 	}
 
@@ -514,23 +517,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	public void addAnnotation(Annotation ann) {
 		annotations.add(ann);
 	}
-	
-	
-	/**
-	 * Add a SemSim {@link ReferenceOntologyAnnotation} to an object
-	 * 
-	 * @param relation The {@link SemSimRelation} that qualifies the
-	 * relationship between the object and what it's annotated against
-	 * @param uri The URI of the reference ontology term used for
-	 * annotation
-	 * @param description A free-text description of the reference
-	 * ontology term (obtained from the ontology itself whenever possible). 
-	 */
-	public void addReferenceOntologyAnnotation(SemSimRelation relation, URI uri, String description){
-		addAnnotation(new ReferenceOntologyAnnotation(relation, uri, description));
-	}
 
-	
 	/**
 	 * Get all SemSim {@link ReferenceOntologyAnnotation}s applied to an object
 	 * that have a specific {@link SemSimRelation}.
@@ -538,7 +525,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * @param relation The {@link SemSimRelation} that filters the annotations 
 	 * to return  
 	 */
-	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(SemSimRelation relation) {
+	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(KBRelations relation) {
 		Set<ReferenceOntologyAnnotation> raos = new HashSet<ReferenceOntologyAnnotation>();
 		for(Annotation ann : getAnnotations()){
 			if(ann instanceof ReferenceOntologyAnnotation && ann.getRelation()==relation)
@@ -553,8 +540,8 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * that uses the SemSim:refersTo relation (SemSimConstants.REFERS_TO_RELATION).
 	 */
 	public ReferenceOntologyAnnotation getFirstRefersToReferenceOntologyAnnotation(){
-		if(!getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).isEmpty())
-			return getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION).toArray(new ReferenceOntologyAnnotation[]{})[0];
+		if(!getReferenceOntologyAnnotations(KBRelations.HAS_PHYSICAL_DEFINITION).isEmpty())
+			return getReferenceOntologyAnnotations(KBRelations.HAS_PHYSICAL_DEFINITION).toArray(new ReferenceOntologyAnnotation[]{})[0];
 		return null;
 	}
 	
@@ -568,7 +555,7 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	 * applied to this object.
 	 */
 	public ReferenceOntologyAnnotation getRefersToReferenceOntologyAnnotationByURI(URI uri){
-		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(SemSimKBConstants.HAS_PHYSICAL_DEFINITION_RELATION)){
+		for(ReferenceOntologyAnnotation ann : getReferenceOntologyAnnotations(KBRelations.HAS_PHYSICAL_DEFINITION)){
 			if(ann.getReferenceURI().compareTo(uri)==0) return ann;
 		}
 		return null;
@@ -582,13 +569,6 @@ public class ModelLite extends SemSimObject implements Annotatable {
 		return !getAnnotations().isEmpty();
 	}
 	
-	
-	/**
-	 * @return True if an object has at least one {@link ReferenceOntologyAnnotation}, otherwise false;
-	 */
-	public Boolean hasRefersToAnnotation(){
-		return getFirstRefersToReferenceOntologyAnnotation()!=null;
-	}
 
 	public PhysicalProperty getPhysicalPropertybyURI(URI uri) {
 		for ( PhysicalProperty pp : getPhysicalProperties()) {
@@ -637,6 +617,13 @@ public class ModelLite extends SemSimObject implements Annotatable {
 	
 	public void setSemsimversion(String semsimversion) {
 		this.semsimversion = Double.valueOf(semsimversion);
+	}
+
+
+	@Override
+	public void addReferenceOntologyAnnotation(KBRelations relation, URI uri,
+			String description) {
+		addAnnotation(new ReferenceOntologyAnnotation(relation, uri, description));
 	}
 
 }

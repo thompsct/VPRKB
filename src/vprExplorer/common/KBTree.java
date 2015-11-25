@@ -6,7 +6,7 @@ import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import semsimKB.model.SemSimTypes;
+import semsimKB.definitions.SemSimTypes;
 import vprExplorer.Settings;
 
 public class KBTree extends DefaultTreeModel {

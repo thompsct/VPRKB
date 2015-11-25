@@ -5,7 +5,7 @@ import java.util.Set;
 
 import semsimKB.annotation.Annotation;
 import semsimKB.annotation.ReferenceOntologyAnnotation;
-import semsimKB.annotation.SemSimRelation;
+import semsimKB.definitions.SemSimRelation;
 
 /**
  * Interface providing methods for annotating
@@ -44,7 +44,7 @@ public interface Annotatable {
 	 * @param description A free-text description of the reference
 	 * ontology term (obtained from the ontology itself whenever possible). 
 	 */
-	public void addReferenceOntologyAnnotation(SemSimRelation relation, URI uri, String description);
+	public void addReferenceOntologyAnnotation(SemSimRelation.KBRelations relation, URI uri, String description);
 
 	
 	/**
@@ -54,7 +54,7 @@ public interface Annotatable {
 	 * @param relation The {@link SemSimRelation} that filters the annotations 
 	 * to return  
 	 */
-	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(SemSimRelation relation);
+	public Set<ReferenceOntologyAnnotation> getReferenceOntologyAnnotations(SemSimRelation.KBRelations relation);
 	
 	
 	/**
